@@ -1,4 +1,4 @@
-import { Album } from "../page";
+import { Album } from "./types";
 
 export const fakeResults: Album[] = [
   {

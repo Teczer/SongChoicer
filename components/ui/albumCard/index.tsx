@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React from "react";
 import { CardBody, CardContainer, CardItem } from "../3d-card";
-import { Album } from "@/app/page";
+import { Album } from "@/app/lib/types";
 
 export function AlbumCard({ result }: { result: Album }) {
   return (

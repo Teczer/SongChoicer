@@ -11,42 +11,36 @@ import { AuroraBackground } from "@/components/ui/aurora-background";
 import { getAlbums } from "./api/musicbrainz/method";
 import { useQuery } from "@tanstack/react-query";
 import { AlbumCard } from "@/components/ui/albumCard";
-import { SpinnerLoader } from "@/components/ui/loader/SpinnerLoader";
-
-export interface Album {
-  id: string;
-  title: string;
-  "artist-credit": { name: string }[];
-  date: string;
-  coverInfo: {
-    images: { front: boolean; image: string }[];
-  };
-  "track-count": number;
-}
+import { Album } from "./lib/types";
+import { AlbumCardSkeleton } from "@/components/ui/loader/AlbumCardSkeleton";
 
 export default function Home() {
   const [artist, setArtist] = useState<string>("");
   const [album, setAlbum] = useState<string>("");
-
-  const {
-    data: results,
-    isLoading,
-    isError,
-    refetch,
-  } = useQuery<Album[]>({
-    queryKey: ["albums", artist, album],
-    queryFn: async () => {
-      if (artist && album) {
-        return await getAlbums(artist, album);
-      }
-      return [];
-    },
-  });
+  const [results, setResults] = useState<Album[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await refetch();
+    if (!artist || !album) {
+      setIsError(true);
+      return;
+    }
+
+    setIsLoading(true);
+    setIsError(false);
+
+    try {
+      const response = await getAlbums(artist, album);
+      setResults(response);
+    } catch (error) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
+  console.log("results", results);
 
   return (
     <AuroraBackground>
@@ -88,17 +82,21 @@ export default function Home() {
           </div>
           <Button type="submit">Submit</Button>
         </form>
-        {isLoading && <SpinnerLoader />}
+        <div className="w-full flex flex-wrap justify-center items-center gap-6">
+          {isLoading &&
+            Array.from({ length: 4 }).map((_, index) => (
+              <AlbumCardSkeleton key={index} />
+            ))}
+        </div>
         {isError && (
           <p className="text-red-600 font-bold">Error fetching data</p>
         )}
         <div className="w-full flex flex-wrap justify-center items-center gap-6">
-          {results &&
-            results.map((result) => (
-              <Link key={result.id} href={`/album/${result.id}`}>
-                <AlbumCard result={result} />
-              </Link>
-            ))}
+          {results.map((result) => (
+            <Link key={result.id} href={`/album/${result.id}`}>
+              <AlbumCard result={result} />
+            </Link>
+          ))}
         </div>
       </motion.div>
     </AuroraBackground>
