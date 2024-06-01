@@ -11,7 +11,7 @@ export const fakeResults: Album[] = [
         {
           front: true,
           image:
-            "https://images.genius.com/a31b9fc6c419004767a1889eeb8d1e59.1000x1000x1.jpg",
+            "https://musicbrainz.org/release/7fc50d05-4d6b-4f78-91c1-28f8751c1a79/24626714653.jpg",
         },
       ],
     },

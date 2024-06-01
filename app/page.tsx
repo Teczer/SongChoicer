@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AlbumCard } from "@/components/ui/albumCard";
 import { Album } from "./lib/types";
 import { AlbumCardSkeleton } from "@/components/ui/loader/AlbumCardSkeleton";
+import { fakeResults } from "./lib/constant";
 
 export default function Home() {
   const [artist, setArtist] = useState<string>("");
@@ -23,11 +24,11 @@ export default function Home() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!artist || !album) {
+    if (!artist && !album) {
       setIsError(true);
       return;
     }
-
+    setResults([]);
     setIsLoading(true);
     setIsError(false);
 
@@ -93,16 +94,19 @@ export default function Home() {
             ))}
         </div>
         {isError && (
-          <p className="text-red-600 font-bold">Error fetching data</p>
+          <p className="text-red-600 font-bold">
+            No album found. Please check if the artist name or album title is
+            correct.
+          </p>
         )}
-        <div className="w-full flex flex-wrap justify-center items-center gap-6">
+        <ul className="w-full flex flex-wrap justify-center items-center gap-6">
           {results &&
             results.map((result) => (
-              <Link key={result.id} href={`/album/${result.id}`}>
+              <li key={result.id}>
                 <AlbumCard result={result} />
-              </Link>
+              </li>
             ))}
-        </div>
+        </ul>
       </motion.div>
     </AuroraBackground>
   );

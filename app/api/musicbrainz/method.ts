@@ -5,6 +5,6 @@ export async function getAlbums(artistName: string, albumName: string) {
     `/api/musicbrainz?artistName=${artistName}&albumName=${albumName}`
   );
   const data = await response.json();
-  console.log("data.results", data.results);
+
   return data.results;
 }

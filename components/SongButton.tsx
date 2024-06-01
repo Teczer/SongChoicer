@@ -1,6 +1,6 @@
 import React from "react";
-import { Song } from "../lib/types";
 import { Button } from "@/components/ui/button";
+import { Song } from "@/app/lib/types";
 
 interface SongButtonProps {
   song: Song;

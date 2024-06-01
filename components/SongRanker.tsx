@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import SongButton from "./SongButton";
-import { Song, SongRankerProps } from "../lib/types";
 import { Button } from "@/components/ui/button";
+import { Song, SongRankerProps } from "@/app/lib/types";
 
 const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
   const [currentPairIndex, setCurrentPairIndex] = useState(0);

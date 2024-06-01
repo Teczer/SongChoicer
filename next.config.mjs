@@ -5,6 +5,9 @@ const hosts = [
   "via.placeholder.com",
   "images.genius.com",
   "images.unsplash.com",
+  "musicbrainz.org",
+  "ia802204.us.archive.org",
+  "placehold.co",
 ];
 
 const nextConfig = {
