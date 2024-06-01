@@ -12,22 +12,21 @@ import { AlbumCard } from "@/components/ui/albumCard";
 import { Album } from "./lib/types";
 import { AlbumCardSkeleton } from "@/components/ui/loader/AlbumCardSkeleton";
 import { searchFromApi } from "./api/search/methods";
+import useDebounce from "@/hooks/useDebounce";
 
 export default function Home() {
   const [artist, setArtist] = useState<string>("");
   const [album, setAlbum] = useState<string>("");
+  const debouncedQuery = useDebounce([artist, album], 500);
 
   const {
     data: results,
     isLoading,
     isError,
   } = useQuery<Album[] | undefined>({
-    queryKey: ["albums", artist, album],
-    queryFn: async () => {
-      const query = `${artist} ${album}`;
-      return await searchFromApi(query);
-    },
-    enabled: Boolean(artist) || Boolean(album),
+    queryKey: ["albums", ...debouncedQuery],
+    queryFn: () => searchFromApi(`${debouncedQuery[0]} ${debouncedQuery[1]}`),
+    enabled: Boolean(debouncedQuery[0]) || Boolean(debouncedQuery[1]),
   });
 
   return (

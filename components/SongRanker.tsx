@@ -8,6 +8,7 @@ import { AuroraBackground } from "./ui/aurora-background";
 import { motion } from "framer-motion";
 import { RxTrackPrevious } from "react-icons/rx";
 import Link from "next/link";
+import { ModeToggle } from "./theme-toggle-button";
 
 const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
   const [currentPairIndex, setCurrentPairIndex] = useState(0);
@@ -124,6 +125,7 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
 
   return (
     <AuroraBackground>
+      <ModeToggle />
       {/* BUTTON LEAVE */}
       <Link className="absolute top-6 left-6 sm:top-10 sm:left-20" href={"/"}>
         <Button variant="outline" size="icon">
