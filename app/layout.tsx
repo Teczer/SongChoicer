@@ -11,7 +11,7 @@ import QueryProvider from "@/components/QueryProvider";
 export const metadata: Metadata = {
   title: "Song Choicer • Rank your albums",
   description:
-    "Song Choicer vous permet de voter pour vos albums préférés et de voir le classement final. Basé à Paris.",
+    "Song Choicer allows you to vote for your favorite albums and see the final ranking.",
   icons: {
     icon: ["/favicon.ico"],
     apple: ["/apple-touch-icon.png"],
@@ -20,36 +20,36 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   appleWebApp: {
     capable: true,
-    title: "MusicRanker • Classement des Chansons",
+    title: "Song Choicer • Song Ranking",
     statusBarStyle: "black-translucent",
   },
   keywords: [
     "music",
     "ranker",
     "musique",
-    "classement",
-    "chansons",
+    "ranking",
+    "songs",
     "vote",
     "MusicRanker",
-    "Paris",
+    "Song Choicer",
   ],
   openGraph: {
     type: "website",
     url: "https://musicranker.com",
-    title: "MusicRanker • Classement des Chansons",
+    title: "MusicRanker • Song Ranking",
     description:
-      "MusicRanker vous permet de voter pour vos chansons préférées et de voir le classement final. Basé à Paris.",
-    siteName: "MusicRanker • Classement des Chansons",
+      "MusicRanker allows you to vote for your favorite songs and see the final ranking.",
+    siteName: "MusicRanker • Song Ranking",
     images: ["https://musicranker.com/musicranker.jpg"],
   },
   twitter: {
     card: "summary_large_image",
-    site: "https://musicranker.com",
-    creator: "@MusicRanker",
-    images: "https://musicranker.com/musicranker.jpg",
-    title: "MusicRanker • Classement des Chansons",
+    site: "https://song-choicer.vercel.app/",
+    creator: "@SongChoicer",
+    images: "https://song-choicer.vercel.app/musicranker.jpg",
+    title: "MusicRanker • Song Ranking",
     description:
-      "MusicRanker vous permet de voter pour vos chansons préférées et de voir le classement final. Basé à Paris.",
+      "MusicRanker allows you to vote for your favorite songs and see the final ranking.",
   },
 };
 
