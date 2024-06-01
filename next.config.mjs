@@ -8,6 +8,7 @@ const hosts = [
   "musicbrainz.org",
   "ia802204.us.archive.org",
   "placehold.co",
+  "i.scdn.co",
 ];
 
 const nextConfig = {
