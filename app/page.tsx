@@ -1,18 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import useDebounce from "@/hooks/useDebounce";
+
+import { searchFromApi } from "./api/search/methods";
+
+import Link from "next/link";
+
 import { motion } from "framer-motion";
+
+import { Album } from "./lib/types";
+
 import { ModeToggle } from "@/components/theme-toggle-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
 import { AuroraBackground } from "@/components/ui/aurora-background";
-import { useQuery } from "@tanstack/react-query";
 import { AlbumCard } from "@/components/ui/albumCard";
-import { Album } from "./lib/types";
 import { AlbumCardSkeleton } from "@/components/ui/loader/AlbumCardSkeleton";
-import { searchFromApi } from "./api/search/methods";
-import useDebounce from "@/hooks/useDebounce";
 
 export default function Home() {
   const [artist, setArtist] = useState<string>("");
