@@ -4,6 +4,10 @@ import React, { useState, useEffect } from "react";
 import SongButton from "./SongButton";
 import { Button } from "@/components/ui/button";
 import { Song, SongRankerProps } from "@/app/lib/types";
+import { AuroraBackground } from "./ui/aurora-background";
+import { motion } from "framer-motion";
+import { RxTrackPrevious } from "react-icons/rx";
+import Link from "next/link";
 
 const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
   const [currentPairIndex, setCurrentPairIndex] = useState(0);
@@ -119,59 +123,76 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
   const completionPercentage = (currentPairIndex / pairs.length) * 100;
 
   return (
-    <div className="min-h-screen max-w-screen-2xl mx-auto flex flex-col items-center justify-center gap-28 border border-gray-200 rounded-md p-4">
-      <h1 className="text-2xl font-bold">Votez pour votre chanson préférée</h1>
-      <p className="text-lg">
-        Progression : {completionPercentage.toFixed(2)}%
-      </p>
-      {currentPairIndex < pairs.length ? (
-        <div className="flex flex-col items-center gap-4">
-          <div className="flex justify-center items-center gap-2">
-            {pairs[currentPairIndex].map((song) => (
-              <SongButton
-                key={song.id}
-                song={song}
-                onVote={() => handleVote(song.id)}
-              />
-            ))}
-            {!isTieBreaking && (
-              <>
-                <Button
-                  variant={"secondary"}
-                  onClick={() => handleSpecialVote("both")}
-                >
-                  J&apos;aime les deux
-                </Button>
-                <Button
-                  variant={"secondary"}
-                  onClick={() => handleSpecialVote("none")}
-                >
-                  Sans opinion
-                </Button>
-              </>
-            )}
+    <AuroraBackground>
+      {/* BUTTON LEAVE */}
+      <Link className="absolute top-6 left-6 sm:top-10 sm:left-20" href={"/"}>
+        <Button variant="outline" size="icon">
+          <RxTrackPrevious className="h-4 w-4" />
+        </Button>
+      </Link>
+      <motion.div
+        initial={{ opacity: 0.0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.3,
+          duration: 0.8,
+          ease: "easeInOut",
+        }}
+        className="w-full text-primary relative flex flex-col gap-8 items-center justify-center px-4"
+      >
+        <h1 className="text-2xl font-bold">Vote for your favorite song</h1>
+        <p className="text-lg">
+          Progression : {completionPercentage.toFixed(2)}%
+        </p>
+        {currentPairIndex < pairs.length ? (
+          <div className="w-full flex flex-col items-center gap-4">
+            <div className="w-4/5 flex justify-around items-center">
+              {pairs[currentPairIndex].map((song) => (
+                <SongButton
+                  key={song.id}
+                  song={song}
+                  onVote={() => handleVote(song.id)}
+                />
+              ))}
+              {!isTieBreaking && (
+                <div className="absolute flex gap-2">
+                  <Button
+                    variant={"secondary"}
+                    onClick={() => handleSpecialVote("both")}
+                  >
+                    I like both
+                  </Button>
+                  <Button
+                    variant={"secondary"}
+                    onClick={() => handleSpecialVote("none")}
+                  >
+                    No opinion
+                  </Button>
+                </div>
+              )}
+            </div>
+            <Button variant={"destructive"} onClick={handleUndo}>
+              Back
+            </Button>
           </div>
-          <Button variant={"destructive"} onClick={handleUndo}>
-            Retour
-          </Button>
-        </div>
-      ) : (
-        <div>
-          <h2 className="text-xl mt-4">Classement</h2>
-          <ul>
-            {getRankings().map((song) => (
-              <li key={song.id} className="list-disc">
-                {song.title} : {songPoints[song.id]}
-              </li>
-            ))}
-          </ul>
-          <h1>YOOOO</h1>
-          <Button variant={"outline"} onClick={checkForTies}>
-            Vérifier les égalités
-          </Button>
-        </div>
-      )}
-    </div>
+        ) : (
+          <div>
+            <h2 className="text-xl mt-4">Classement</h2>
+            <ul>
+              {getRankings().map((song) => (
+                <li key={song.id} className="list-disc">
+                  {song.title} : {songPoints[song.id]}
+                </li>
+              ))}
+            </ul>
+            <h1>YOOOO</h1>
+            <Button variant={"outline"} onClick={checkForTies}>
+              Vérifier les égalités
+            </Button>
+          </div>
+        )}
+      </motion.div>
+    </AuroraBackground>
   );
 };
 
