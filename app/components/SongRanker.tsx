@@ -96,7 +96,7 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
 
     if (uniqueScores.size !== rankings.length) {
       // Il y a des égalités
-      const tiedSongs = [];
+      const tiedSongs: Song[][] = [];
       uniqueScores.forEach((score) => {
         const songsWithSameScore = rankings.filter(
           (song) => songPoints[song.id] === score
