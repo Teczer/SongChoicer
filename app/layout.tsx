@@ -6,18 +6,18 @@ import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "@/components/theme-provider";
 
 import "./globals.css";
+import QueryProvider from "@/components/QueryProvider";
 
 export const metadata: Metadata = {
-  title: "MusicRanker • Classement des Chansons",
+  title: "Song Choicer • Rank your albums",
   description:
-    "MusicRanker vous permet de voter pour vos chansons préférées et de voir le classement final. Basé à Paris.",
+    "Song Choicer vous permet de voter pour vos albums préférés et de voir le classement final. Basé à Paris.",
   icons: {
     icon: ["/favicon.ico"],
     apple: ["/apple-touch-icon.png"],
     shortcut: ["/apple-touch-icon.png"],
   },
   robots: { index: true, follow: true },
-  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     title: "MusicRanker • Classement des Chansons",
@@ -61,14 +61,16 @@ export default function RootLayout({
   return (
     <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
       <body className="min-h-screen max-w-screen mx-auto">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <QueryProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   );
