@@ -70,6 +70,7 @@ export default function Home() {
           <div className="text-primary flex flex-col justify-center items-start gap-2">
             <Label htmlFor="artist">Artist</Label>
             <Input
+              id="artist"
               placeholder="Artist"
               type="text"
               value={artist}
@@ -79,6 +80,7 @@ export default function Home() {
           <div className="text-primary flex flex-col justify-center items-start gap-2">
             <Label htmlFor="album">Album</Label>
             <Input
+              id="album"
               placeholder="Album"
               type="text"
               value={album}
@@ -103,7 +105,9 @@ export default function Home() {
           {results &&
             results.map((result) => (
               <li key={result.id}>
-                <AlbumCard result={result} />
+                <Link href={`/versus`}>
+                  <AlbumCard result={result} />
+                </Link>
               </li>
             ))}
         </ul>
