@@ -33,6 +33,10 @@ export default function Home() {
 
     try {
       const response = await getAlbums(artist, album);
+      if (response.length === 0) {
+        setIsError(true);
+      }
+      console.log("response", response);
       setResults(response);
     } catch (error) {
       setIsError(true);
@@ -92,11 +96,12 @@ export default function Home() {
           <p className="text-red-600 font-bold">Error fetching data</p>
         )}
         <div className="w-full flex flex-wrap justify-center items-center gap-6">
-          {results.map((result) => (
-            <Link key={result.id} href={`/album/${result.id}`}>
-              <AlbumCard result={result} />
-            </Link>
-          ))}
+          {results &&
+            results.map((result) => (
+              <Link key={result.id} href={`/album/${result.id}`}>
+                <AlbumCard result={result} />
+              </Link>
+            ))}
         </div>
       </motion.div>
     </AuroraBackground>

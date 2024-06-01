@@ -20,7 +20,7 @@ export function AlbumCard({ result }: { result: Album }) {
           <CardItem
             as="p"
             translateZ="50"
-            className="text-white h-fit text-lg mt-2 bg-black p-2 rounded-sm bg-opacity-30 font-bold"
+            className="text-white h-fit text-sm mt-2 bg-black p-2 rounded-sm bg-opacity-30 font-bold text-clip border max-w-[130px] sm:text-lg sm:max-w-[250px]"
           >
             {result.title}
           </CardItem>
