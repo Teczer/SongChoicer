@@ -155,7 +155,7 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
             <div className="w-4/5 flex justify-around items-center">
               {pairs[currentPairIndex].map((song) => (
                 <SongButton
-                  key={song.id}
+                  key={song.title}
                   song={song}
                   onVote={() => handleVote(song.id)}
                 />
@@ -186,7 +186,7 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
             <h2 className="text-xl mt-4">Classement</h2>
             <ul>
               {getRankings().map((song) => (
-                <li key={song.id} className="list-disc">
+                <li key={song.title} className="list-disc">
                   {song.title} : {songPoints[song.id]}
                 </li>
               ))}

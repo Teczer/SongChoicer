@@ -1,9 +1,12 @@
 "use client";
 
-import { songs } from "@/app/lib/constant";
-import SongRanker from "@/components/SongRanker";
 import { useQuery } from "@tanstack/react-query";
-import { getAlbum } from "@/app/api/album/methods";
+
+import { AlbumResponse, getAlbum } from "@/app/api/album/methods";
+import { Song } from "@/app/lib/types";
+
+import SongRanker from "@/components/SongRanker";
+import { useMemo } from "react";
 
 interface Props {
   params: {
@@ -12,14 +15,13 @@ interface Props {
 }
 
 export default function Home({ params }: Props) {
-  const staticSongs = songs;
-  console.log("staticSongs", params.albumId);
+  // const staticSongs = songs;
 
   const {
     data: results,
     isLoading,
     isError,
-  } = useQuery({
+  } = useQuery<AlbumResponse>({
     queryKey: ["album", params.albumId],
     queryFn: async () => {
       const res = await getAlbum(params.albumId);
@@ -27,7 +29,21 @@ export default function Home({ params }: Props) {
     },
   });
 
-  console.log("res", results); // album from spotify
+  console.log("Album from spotify", results);
 
-  return <SongRanker songs={staticSongs} />;
+  const data: Song[] | undefined = useMemo(
+    () =>
+      results?.tracks.items.map((track) => ({
+        id: Number(track.id),
+        title: track.name,
+        image: results.images[0],
+      })),
+    [results?.tracks.items.length]
+  );
+
+  if (isLoading || !results) return <div>Loading...</div>;
+
+  if (isError) return <div>An error occured</div>;
+
+  return <SongRanker songs={data ?? []} />;
 }
