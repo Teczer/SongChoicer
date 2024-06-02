@@ -1,17 +1,17 @@
-import { NextResponse } from "next/server";
 import { spotifyApi } from "@/lib/spotify";
+import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
-  const query = searchParams.get("query");
+  const albumId = searchParams.get("albumId");
 
-  if (!query) throw new Error("search: query param not provided");
+  if (!albumId) throw new Error("search: albumId param not provided");
 
   const clientCredentials = await spotifyApi.clientCredentialsGrant();
   spotifyApi.setAccessToken(clientCredentials.body.access_token);
 
-  const search = await spotifyApi.search(query, ["album"]);
+  const album = await spotifyApi.getAlbum(albumId);
+  const response = album.body;
 
-  const response = search.body.albums?.items;
   return NextResponse.json(response);
 }

@@ -3,12 +3,16 @@
 import React, { useState, useEffect } from "react";
 import SongButton from "./SongButton";
 import { Button } from "@/components/ui/button";
-import { Song, SongRankerProps } from "@/app/lib/types";
+import { Song } from "@/app/lib/types";
 import { AuroraBackground } from "./ui/aurora-background";
 import { motion } from "framer-motion";
 import { RxTrackPrevious } from "react-icons/rx";
 import Link from "next/link";
 import { ModeToggle } from "./theme-toggle-button";
+
+interface SongRankerProps {
+  songs: Song[];
+}
 
 const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
   const [currentPairIndex, setCurrentPairIndex] = useState(0);

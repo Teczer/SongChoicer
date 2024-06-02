@@ -5,8 +5,4 @@ export interface Song {
   views: number;
 }
 
-export interface SongRankerProps {
-  songs: Song[];
-}
-
 export type Album = SpotifyApi.AlbumObjectSimplified;
