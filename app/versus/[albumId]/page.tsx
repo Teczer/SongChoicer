@@ -15,8 +15,6 @@ interface Props {
 }
 
 export default function Home({ params }: Props) {
-  // const staticSongs = songs;
-
   const {
     data: results,
     isLoading,
