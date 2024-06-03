@@ -2,11 +2,11 @@
 export interface Song {
   id: number;
   title: string;
-  views: number;
-}
-
-export interface SongRankerProps {
-  songs: Song[];
+  image: {
+    height?: number;
+    url: string;
+    width?: number;
+  };
 }
 
 export type Album = SpotifyApi.AlbumObjectSimplified;

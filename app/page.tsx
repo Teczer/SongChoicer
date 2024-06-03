@@ -91,7 +91,7 @@ export default function Home() {
           {results &&
             results.map((result) => (
               <li key={result.id}>
-                <Link href={`/versus`}>
+                <Link href={`/versus/${result.id}`}>
                   <AlbumCard result={result} />
                 </Link>
               </li>

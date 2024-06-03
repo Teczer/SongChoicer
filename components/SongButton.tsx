@@ -15,12 +15,10 @@ const SongButton: React.FC<SongButtonProps> = ({ song, onVote }) => {
     >
       <Image
         className="rounded-sm"
-        src={
-          "https://images.genius.com/9bbc999c233ae1793aab2167c0202ae7.1000x1000x1.png"
-        }
+        src={song.image.url}
         alt={song.title}
-        width={400}
-        height={400}
+        width={song.image.width}
+        height={song.image.height}
       />
       <p className="font-bold text-lg">{song.title}</p>
     </div>
