@@ -40,7 +40,7 @@ export default function Home() {
 
   return (
     <AuroraBackground>
-      <div className="z-50 absolute top-4 left-4 sm:top-10 sm:right-10">
+      <div className="z-50 absolute top-4 left-4 sm:top-10 sm:right-10 sm:left-auto">
         <ModeToggle />
       </div>
       <motion.div
