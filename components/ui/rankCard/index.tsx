@@ -46,7 +46,7 @@ export function RankCard({
             alt={`Cover`}
             width={500}
             height={500}
-            className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+            className="h-32 w-full object-cover rounded-xl group-hover/card:shadow-xl sm:h-60"
           />
         </CardItem>
 
@@ -56,7 +56,7 @@ export function RankCard({
               <CardItem
                 as="li"
                 key={song.title}
-                className="text-white flex items-center w-3/4 justify-start gap-2 rounded-lg shadow-lg bg-black bg-opacity-65  border border-white/[0.2] py-1 px-6"
+                className="w-full text-white flex items-center justify-start gap-2 rounded-lg shadow-lg bg-black bg-opacity-65  border border-white/[0.2] py-1 px-2 sm:px-6 sm:w-3/4"
                 translateZ="50"
               >
                 <span>{index + 1}. </span>
