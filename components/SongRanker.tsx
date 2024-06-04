@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import html2canvas from "html2canvas";
+import * as htmlToImage from "html-to-image";
 
 import Link from "next/link";
 
@@ -37,6 +39,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
   const [songPoints, setSongPoints] = useState<Record<number, number>>({});
   const [pairs, setPairs] = useState<Song[][]>([]);
   const [voteHistory, setVoteHistory] = useState<number[]>([]);
+  const rankCardRef = useRef<HTMLDivElement>(null);
 
   console.log("songPoints", songPoints);
 
@@ -99,6 +102,23 @@ const SongRanker: React.FC<SongRankerProps> = ({
     );
   }
 
+  const downloadRankCardAsPNG = () => {
+    console.log("rankCardRef.current", rankCardRef.current);
+    if (rankCardRef.current) {
+      htmlToImage
+        .toPng(rankCardRef.current)
+        .then((dataUrl) => {
+          const link = document.createElement("a");
+          link.download = `${albumArtist}_${albumName}_Card.png`;
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch((error) => {
+          console.error("Erreur lors de la création de l'image PNG:", error);
+        });
+    }
+  };
+
   const completionPercentage = (currentPairIndex / pairs.length) * 100;
 
   return (
@@ -106,14 +126,11 @@ const SongRanker: React.FC<SongRankerProps> = ({
       <div className="hidden sm:block z-50 absolute top-4 right-4 sm:top-10 sm:right-10">
         <ModeToggle />
       </div>
-      <Link
-        className="z-50 absolute top-4 left-4 sm:top-10 sm:left-20"
-        href={"/"}
-      >
+      <a className="z-50 absolute top-4 left-4 sm:top-10 sm:left-20" href={"/"}>
         <Button variant="outline" size="icon">
           <RxTrackPrevious className="h-4 w-4" />
         </Button>
-      </Link>
+      </a>
       <motion.div
         initial={{ opacity: 0.0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -171,15 +188,19 @@ const SongRanker: React.FC<SongRankerProps> = ({
           </>
         ) : (
           <div className="w-full min-h-screen flex flex-col items-center justify-center gap-4 p-10">
-            <RankCard
-              albumName={albumName}
-              albumArtist={albumArtist}
-              songPoints={songPoints}
-              ranking={getRankings()}
-              albumCover={albumCover}
-            />
-            <div className="flex items-center justify-center gap-2">
-              <Button variant={"outline"}>Download Card</Button>
+            <div key={albumName} ref={rankCardRef}>
+              <RankCard
+                albumName={albumName}
+                albumArtist={albumArtist}
+                songPoints={songPoints}
+                ranking={getRankings()}
+                albumCover={`${albumCover}?v=${new Date().getTime()}`}
+              />
+            </div>
+            <div className="hidden sm:flex items-center justify-center gap-2">
+              <Button variant={"outline"} onClick={downloadRankCardAsPNG}>
+                Download Card
+              </Button>
               <Button size={"icon"} variant={"outline"}>
                 <FaShareAlt />
               </Button>

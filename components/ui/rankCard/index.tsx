@@ -56,7 +56,7 @@ export function RankCard({
               <CardItem
                 as="li"
                 key={song.title}
-                className="text-white flex items-center w-3/4 justify-start gap-2 rounded-lg shadow-lg backdrop-blur-3xl border border-white/[0.2] py-1 px-6"
+                className="text-white flex items-center w-3/4 justify-start gap-2 rounded-lg shadow-lg bg-black bg-opacity-65  border border-white/[0.2] py-1 px-6"
                 translateZ="50"
               >
                 <span>{index + 1}. </span>
