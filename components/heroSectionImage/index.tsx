@@ -3,7 +3,7 @@ import { FaArrowDownLong, FaArrowRightLong } from "react-icons/fa6";
 
 const HeroSectionImage: React.FC = () => {
   return (
-    <div className="w-full flex flex-col items-center justify-center gap-5 md:px-10 md:gap-20 md:flex-row md:absolute md:bottom-16">
+    <div className="w-full flex flex-col items-center justify-center gap-5 md:px-10 md:gap-20 md:flex-row">
       {/* DARK THEME */}
       <div className="hidden items-center justify-center flex-col gap-5 md:gap-20 dark:flex md:flex-row">
         <div className="hero-video">

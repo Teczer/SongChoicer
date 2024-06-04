@@ -52,11 +52,14 @@ export function RankCard({
 
         <ul className="flex flex-col items-start justify-center w-full h-auto gap-2">
           {ranking.map((song, index) => {
+            const widthPercentage = `${100 - index * 10}%`; // Calcule la largeur en pourcentage
+
             return (
               <CardItem
+                className="text-white flex items-center justify-start gap-2 rounded-lg shadow-lg bg-black bg-opacity-50 border border-white/[0.2] py-1 px-2 sm:px-6"
                 as="li"
                 key={song.title}
-                className="w-full text-white flex items-center justify-start gap-2 rounded-lg shadow-lg bg-black bg-opacity-65  border border-white/[0.2] py-1 px-2 sm:px-6 sm:w-3/4"
+                style={{ width: widthPercentage }} // Utilise la propriété style pour appliquer les styles
                 translateZ="50"
               >
                 <span>{index + 1}. </span>

@@ -18,9 +18,7 @@ import { Label } from "@/components/ui/label";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { AlbumCard } from "@/components/ui/albumCard";
 import { AlbumCardSkeleton } from "@/components/ui/loader/AlbumCardSkeleton";
-import { FaArrowRightLong } from "react-icons/fa6";
 import FooterCopyrights from "@/components/footercopyrights";
-import Image from "next/image";
 import HeroSectionImage from "@/components/heroSectionImage";
 
 export default function Home() {
@@ -51,7 +49,7 @@ export default function Home() {
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className="relative w-full min-h-screen flex flex-col gap-8 items-center justify-start py-16 px-4"
+        className="relative w-full min-h-screen flex flex-col gap-4 items-center justify-start py-16 px-4"
       >
         <h1 className="text-3xl md:text-7xl font-bold dark:text-white text-center">
           Welcome to Song Choicer!
@@ -74,19 +72,20 @@ export default function Home() {
             <Label htmlFor="album">Album</Label>
             <Input
               id="album"
-              placeholder="Lover, Scorpions, etc..."
+              placeholder="Lover, Scorpion, etc..."
               type="text"
               value={album}
               onChange={(e) => setAlbum(e.target.value)}
             />
           </div>
         </form>
-        <div className="w-full flex flex-wrap justify-center items-center gap-6">
-          {isLoading &&
-            Array.from({ length: 4 }).map((_, index) => (
+        {isLoading && (
+          <div className="w-full flex flex-wrap justify-center items-center gap-6">
+            {Array.from({ length: 4 }).map((_, index) => (
               <AlbumCardSkeleton key={index} />
             ))}
-        </div>
+          </div>
+        )}
         {isError && (
           <p className="text-red-600 font-bold">
             No album found. Please check if the artist name or album title is

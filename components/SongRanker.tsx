@@ -196,7 +196,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
                 albumCover={`${albumCover}?v=${new Date().getTime()}`}
               />
             </div>
-            <div className="flex items-center justify-center gap-2">
+            <div className="hidden sm:flex items-center justify-center gap-2">
               <Button variant={"outline"} onClick={downloadRankCardAsPNG}>
                 Download Card
               </Button>
