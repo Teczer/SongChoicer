@@ -52,7 +52,9 @@ export function RankCard({
 
         <ul className="flex flex-col items-start justify-center w-full h-auto gap-2">
           {ranking.map((song, index) => {
-            const widthPercentage = `${100 - index * 10}%`; // Calcule la largeur en pourcentage
+            // Définit la largeur à 10% pour les indices supérieurs à 8
+            const widthPercentage =
+              index > 4 ? "60%" : `${Math.max(100 - (index % 10) * 10, 10)}%`;
 
             return (
               <CardItem
@@ -68,6 +70,9 @@ export function RankCard({
             );
           })}
         </ul>
+        <p className="font-mono text-sm absolute bottom-14 right-5  text-white text-opacity-70 text-wrap">
+          song-choicer.vercel.app
+        </p>
       </CardBody>
     </CardContainer>
   );
