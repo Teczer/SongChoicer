@@ -1,27 +1,47 @@
 import React from "react";
 import { Song } from "@/app/lib/types";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface SongButtonProps {
   song: Song;
   onVote: (id: number) => void;
+  animationProps: any;
 }
 
-const SongButton: React.FC<SongButtonProps> = ({ song, onVote }) => {
+const SongButton: React.FC<SongButtonProps> = ({
+  song,
+  onVote,
+  animationProps,
+}) => {
+  const hoverAnimation = {
+    y: -50,
+    transition: { duration: 0.2 }, // Animation plus rapide
+  };
+
+  const initialAnimation = {
+    y: 0,
+    transition: { duration: 0.02 }, // Retour plus rapide
+  };
+
   return (
-    <div
-      className="w-1/4 flex flex-col items-center justify-center border rounded-lg p-10 gap-5 transition-all cursor-pointer hover:scale-105 dark:border-white/[0.1]"
+    <motion.div
+      className="w-2/3 sm:w-1/4 flex select-none flex-col items-center justify-center border rounded-lg p-10 gap-5 cursor-pointer grayscale hover:grayscale-0 hover:scale-105 dark:border-white/[0.1]"
       onClick={() => onVote(song.id)}
+      whileHover={hoverAnimation}
+      initial={initialAnimation}
+      animate={initialAnimation}
+      {...animationProps}
     >
       <Image
-        className="rounded-sm"
+        className="rounded-sm filter"
         src={song.image.url}
         alt={song.title}
         width={song.image.width}
         height={song.image.height}
       />
       <p className="font-bold text-lg">{song.title}</p>
-    </div>
+    </motion.div>
   );
 };
 

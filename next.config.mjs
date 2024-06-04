@@ -9,6 +9,7 @@ const hosts = [
   "ia802204.us.archive.org",
   "placehold.co",
   "i.scdn.co",
+  "reflect.app",
 ];
 
 const nextConfig = {

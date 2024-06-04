@@ -10,7 +10,7 @@ export async function GET(req: Request) {
   const clientCredentials = await spotifyApi.clientCredentialsGrant();
   spotifyApi.setAccessToken(clientCredentials.body.access_token);
 
-  const search = await spotifyApi.search(query, ["album"]);
+  const search = await spotifyApi.search(query, ["album"], { limit: 8 });
 
   const response = search.body.albums?.items;
   return NextResponse.json(response);

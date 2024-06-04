@@ -1,31 +1,48 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import SongButton from "./SongButton";
-import { Button } from "@/components/ui/button";
-import { Song } from "@/app/lib/types";
-import { AuroraBackground } from "./ui/aurora-background";
-import { motion } from "framer-motion";
-import { RxTrackPrevious } from "react-icons/rx";
+import { useState, useEffect } from "react";
+
 import Link from "next/link";
+
+import { Song } from "@/app/lib/types";
+
+import { motion } from "framer-motion";
+
 import { ModeToggle } from "./theme-toggle-button";
+
+import SongButton from "./SongButton";
+
+import { AuroraBackground } from "./ui/aurora-background";
+import { Button } from "@/components/ui/button";
+import { RankCard } from "./ui/rankCard";
+
+import { FaShareAlt } from "react-icons/fa";
+import { RxTrackPrevious } from "react-icons/rx";
+import { GrFormPreviousLink } from "react-icons/gr";
 
 interface SongRankerProps {
   songs: Song[];
+  albumCover: string;
+  albumName: string;
+  albumArtist: string;
 }
 
-const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
+const SongRanker: React.FC<SongRankerProps> = ({
+  songs,
+  albumCover,
+  albumName,
+  albumArtist,
+}) => {
   const [currentPairIndex, setCurrentPairIndex] = useState(0);
   const [songPoints, setSongPoints] = useState<Record<number, number>>({});
   const [pairs, setPairs] = useState<Song[][]>([]);
-  const [voteHistory, setVoteHistory] = useState<(number | "both" | "none")[]>(
-    []
-  ); // Historique des votes pour permettre le retour en arrière
-  const [isTieBreaking, setIsTieBreaking] = useState(false);
+  const [voteHistory, setVoteHistory] = useState<number[]>([]);
+
+  console.log("songPoints", songPoints);
 
   useEffect(() => {
     const allPairs = generateAllPairs(songs);
-    setPairs(allPairs);
+    setPairs(shuffleArray(allPairs));
     initializePoints(songs);
   }, [songs]);
 
@@ -37,6 +54,14 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
       }
     }
     return pairs;
+  }
+
+  function shuffleArray(array: any[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   }
 
   function initializePoints(songs: Song[]) {
@@ -56,38 +81,14 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
     setVoteHistory((prevHistory) => [...prevHistory, winnerId]);
   }
 
-  function handleSpecialVote(type: "both" | "none") {
-    if (type === "both") {
-      const currentSongs = pairs[currentPairIndex];
-      setSongPoints((prevPoints) => ({
-        ...prevPoints,
-        [currentSongs[0].id]: (prevPoints[currentSongs[0].id] || 0) + 1,
-        [currentSongs[1].id]: (prevPoints[currentSongs[1].id] || 0) + 1,
-      }));
-    }
-    // 'none' ne change pas les points
-    setCurrentPairIndex((prevIndex) => prevIndex + 1);
-    setVoteHistory((prevHistory) => [...prevHistory, type]);
-  }
-
   function handleUndo() {
     if (currentPairIndex > 0) {
       const lastVote = voteHistory[voteHistory.length - 1];
       setVoteHistory((prevHistory) => prevHistory.slice(0, -1));
-
-      if (lastVote !== "none" && lastVote !== "both") {
-        setSongPoints((prevPoints) => ({
-          ...prevPoints,
-          [lastVote]: (prevPoints[lastVote] || 0) - 1,
-        }));
-      } else if (lastVote === "both") {
-        const currentSongs = pairs[currentPairIndex - 1];
-        setSongPoints((prevPoints) => ({
-          ...prevPoints,
-          [currentSongs[0].id]: (prevPoints[currentSongs[0].id] || 0) - 1,
-          [currentSongs[1].id]: (prevPoints[currentSongs[1].id] || 0) - 1,
-        }));
-      }
+      setSongPoints((prevPoints) => ({
+        ...prevPoints,
+        [lastVote]: (prevPoints[lastVote] || 0) - 1,
+      }));
       setCurrentPairIndex((prevIndex) => prevIndex - 1);
     }
   }
@@ -98,40 +99,17 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
     );
   }
 
-  function checkForTies() {
-    const rankings = getRankings();
-    const scores = rankings.map((song) => songPoints[song.id]);
-    const uniqueScores = new Set(scores);
-
-    if (uniqueScores.size !== rankings.length) {
-      // Il y a des égalités
-      const tiedSongs: Song[][] = [];
-      uniqueScores.forEach((score) => {
-        const songsWithSameScore = rankings.filter(
-          (song) => songPoints[song.id] === score
-        );
-        if (songsWithSameScore.length > 1) {
-          // Créer toutes les paires possibles pour les chansons à égalité
-          for (let i = 0; i < songsWithSameScore.length; i++) {
-            for (let j = i + 1; j < songsWithSameScore.length; j++) {
-              tiedSongs.push([songsWithSameScore[i], songsWithSameScore[j]]);
-            }
-          }
-        }
-      });
-      setPairs(tiedSongs);
-      setCurrentPairIndex(0); // Réinitialiser l'index pour le vote de départage
-      setIsTieBreaking(true);
-    }
-  }
-
   const completionPercentage = (currentPairIndex / pairs.length) * 100;
 
   return (
-    <AuroraBackground>
-      <ModeToggle />
-      {/* BUTTON LEAVE */}
-      <Link className="absolute top-6 left-6 sm:top-10 sm:left-20" href={"/"}>
+    <AuroraBackground className="overflow-hidden">
+      <div className="z-50 absolute top-4 right-4 sm:top-10 sm:right-10">
+        <ModeToggle />
+      </div>
+      <Link
+        className="z-50 absolute top-4 left-4 sm:top-10 sm:left-20"
+        href={"/"}
+      >
         <Button variant="outline" size="icon">
           <RxTrackPrevious className="h-4 w-4" />
         </Button>
@@ -144,57 +122,64 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs }) => {
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className="w-full text-primary relative flex flex-col gap-8 items-center justify-center px-4"
+        className={`w-full min-h-screen text-primary relative flex flex-col gap-4 sm:gap-20 items-center ${
+          currentPairIndex < pairs.length ? "justify-center" : "justify-start"
+        }`}
       >
-        <h1 className="text-2xl font-bold">Vote for your favorite song</h1>
-        <p className="text-lg">
-          Progression : {completionPercentage.toFixed(2)}%
-        </p>
         {currentPairIndex < pairs.length ? (
-          <div className="w-full flex flex-col items-center gap-4">
-            <div className="w-4/5 flex justify-around items-center">
-              {pairs[currentPairIndex].map((song) => (
-                <SongButton
-                  key={song.title}
-                  song={song}
-                  onVote={() => handleVote(song.id)}
-                />
-              ))}
-              {!isTieBreaking && (
-                <div className="absolute flex gap-2">
-                  <Button
-                    variant={"secondary"}
-                    onClick={() => handleSpecialVote("both")}
-                  >
-                    I like both
-                  </Button>
-                  <Button
-                    variant={"secondary"}
-                    onClick={() => handleSpecialVote("none")}
-                  >
-                    No opinion
-                  </Button>
-                </div>
-              )}
+          <>
+            <h1 className="text-2xl font-mono font-bold">
+              {albumArtist} • {albumName}
+            </h1>
+            <div className="w-full flex flex-col items-center gap-4">
+              <p className="text-lg font-mono font-bold select-none">
+                {completionPercentage.toFixed(0)} %
+              </p>
+              <div className="w-4/5 flex flex-col justify-around items-center gap-20 sm:flex-row">
+                {pairs[currentPairIndex].map((song, index) => {
+                  console.log("index", index);
+                  return (
+                    <SongButton
+                      key={song.id}
+                      song={song}
+                      onVote={() => handleVote(song.id)}
+                      animationProps={{
+                        initial: {
+                          opacity: 0,
+                          y: index % 2 === 0 ? 500 : -500,
+                        },
+                        animate: { opacity: 1, y: 0 },
+                        transition: { duration: 0.5, ease: "easeInOut" },
+                      }}
+                    />
+                  );
+                })}
+                <Button
+                  size={"icon"}
+                  className="absolute"
+                  variant={"outline"}
+                  onClick={handleUndo}
+                >
+                  <GrFormPreviousLink />
+                </Button>
+              </div>
             </div>
-            <Button variant={"destructive"} onClick={handleUndo}>
-              Back
-            </Button>
-          </div>
+          </>
         ) : (
-          <div>
-            <h2 className="text-xl mt-4">Classement</h2>
-            <ul>
-              {getRankings().map((song) => (
-                <li key={song.title} className="list-disc">
-                  {song.title} : {songPoints[song.id]}
-                </li>
-              ))}
-            </ul>
-            <h1>YOOOO</h1>
-            <Button variant={"outline"} onClick={checkForTies}>
-              Vérifier les égalités
-            </Button>
+          <div className="w-full min-h-screen flex flex-col items-center justify-center gap-4 p-10">
+            <RankCard
+              albumName={albumName}
+              albumArtist={albumArtist}
+              songPoints={songPoints}
+              ranking={getRankings()}
+              albumCover={albumCover}
+            />
+            <div className="flex items-center justify-center gap-2">
+              <Button variant={"outline"}>Download Card</Button>
+              <Button size={"icon"} variant={"outline"}>
+                <FaShareAlt />
+              </Button>
+            </div>
           </div>
         )}
       </motion.div>
