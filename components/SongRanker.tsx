@@ -103,7 +103,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
 
   return (
     <AuroraBackground className="overflow-hidden">
-      <div className="z-50 absolute top-4 right-4 sm:top-10 sm:right-10">
+      <div className="hidden sm:block z-50 absolute top-4 right-4 sm:top-10 sm:right-10">
         <ModeToggle />
       </div>
       <Link
@@ -122,20 +122,22 @@ const SongRanker: React.FC<SongRankerProps> = ({
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className={`w-full min-h-screen text-primary relative flex flex-col gap-4 sm:gap-20 items-center ${
-          currentPairIndex < pairs.length ? "justify-center" : "justify-start"
+        className={`w-full min-h-screen text-primary relative flex flex-col gap-4 sm:gap-20 items-center pt-6 ${
+          currentPairIndex < pairs.length
+            ? "justify-start sm:justify-center"
+            : "justify-start"
         }`}
       >
         {currentPairIndex < pairs.length ? (
           <>
-            <h1 className="text-2xl font-mono font-bold">
+            <h1 className="text-lg w-4/6 font-mono font-bold max-h-[40px] text-nowrap overflow-hidden text-ellipsis sm:text-2xl sm:w-auto">
               {albumArtist} • {albumName}
             </h1>
             <div className="w-full flex flex-col items-center gap-4">
               <p className="text-lg font-mono font-bold select-none">
                 {completionPercentage.toFixed(0)} %
               </p>
-              <div className="w-4/5 flex flex-col justify-around items-center gap-20 sm:flex-row">
+              <div className="w-4/5 flex flex-col justify-around items-center gap-16 sm:gap-20 sm:flex-row">
                 {pairs[currentPairIndex].map((song, index) => {
                   console.log("index", index);
                   return (
@@ -146,9 +148,11 @@ const SongRanker: React.FC<SongRankerProps> = ({
                       animationProps={{
                         initial: {
                           opacity: 0,
-                          y: index % 2 === 0 ? 500 : -500,
+                          ...(window.innerWidth < 640
+                            ? { x: index % 2 === 0 ? 300 : -300 }
+                            : { y: index % 2 === 0 ? 500 : -500 }),
                         },
-                        animate: { opacity: 1, y: 0 },
+                        animate: { opacity: 1, x: 0, y: 0 },
                         transition: { duration: 0.5, ease: "easeInOut" },
                       }}
                     />

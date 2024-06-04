@@ -26,7 +26,7 @@ const SongButton: React.FC<SongButtonProps> = ({
 
   return (
     <motion.div
-      className="w-2/3 sm:w-1/4 flex select-none flex-col items-center justify-center border rounded-lg p-10 gap-5 cursor-pointer grayscale hover:grayscale-0 hover:scale-105 dark:border-white/[0.1]"
+      className="w-full sm:w-1/4 flex select-none flex-col items-center justify-center border rounded-lg p-2 sm:p-10 gap-5 cursor-pointer grayscale hover:grayscale-0 hover:scale-105 dark:border-white/[0.1]"
       onClick={() => onVote(song.id)}
       whileHover={hoverAnimation}
       initial={initialAnimation}
@@ -34,7 +34,7 @@ const SongButton: React.FC<SongButtonProps> = ({
       {...animationProps}
     >
       <Image
-        className="rounded-sm filter"
+        className="rounded-sm filter w-full h-[150px] object-cover sm:w-full sm:h-auto"
         src={song.image.url}
         alt={song.title}
         width={song.image.width}
