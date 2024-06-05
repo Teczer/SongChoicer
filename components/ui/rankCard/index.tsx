@@ -1,23 +1,21 @@
 // Dans AlbumCard.js
 
-import Image from "next/image";
-import React from "react";
-import { CardBody, CardContainer, CardItem } from "../3d-card";
-import { Song } from "@/app/lib/types";
-import { cn } from "@/lib/utils";
+import Image from "next/image"
+import React from "react"
+import { CardBody, CardContainer, CardItem } from "../3d-card"
+import { Song } from "@/app/lib/types"
+import { cn } from "@/lib/utils"
 
 interface RankCardProps {
-  ranking: Song[];
-  albumCover: string;
-  songPoints: Record<string, number>;
-  albumName: string;
-  albumArtist: string;
+  songRanked: Song[]
+  albumCover: string
+  albumName: string
+  albumArtist: string
 }
 
 export function RankCard({
-  ranking,
+  songRanked,
   albumCover,
-  songPoints,
   albumName,
   albumArtist,
 }: RankCardProps) {
@@ -51,10 +49,10 @@ export function RankCard({
         </CardItem>
 
         <ul className="flex flex-col items-start justify-center w-full h-auto gap-2">
-          {ranking.map((song, index) => {
+          {songRanked.map((song, index) => {
             // Définit la largeur à 10% pour les indices supérieurs à 8
             const widthPercentage =
-              index > 4 ? "60%" : `${Math.max(100 - (index % 10) * 10, 10)}%`;
+              index > 4 ? "60%" : `${Math.max(100 - (index % 10) * 10, 10)}%`
 
             return (
               <CardItem
@@ -67,7 +65,7 @@ export function RankCard({
                 <span>{index + 1}. </span>
                 <p>{song.title}</p>
               </CardItem>
-            );
+            )
           })}
         </ul>
         <p className="rounded-sm p-1 bg-black bg-opacity-30 font-mono text-sm absolute bottom-14 right-5  text-white text-opacity-70 text-wrap">
@@ -75,5 +73,5 @@ export function RankCard({
         </p>
       </CardBody>
     </CardContainer>
-  );
+  )
 }
