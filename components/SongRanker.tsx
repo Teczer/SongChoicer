@@ -1,31 +1,31 @@
-"use client";
+"use client"
 
-import { useState, useEffect, useRef } from "react";
-import * as htmlToImage from "html-to-image";
+import { useState, useEffect, useRef } from "react"
+import * as htmlToImage from "html-to-image"
 
-import Link from "next/link";
+import Link from "next/link"
 
-import { Song } from "@/app/lib/types";
+import { Song } from "@/app/lib/types"
 
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 
-import { ModeToggle } from "./theme-toggle-button";
+import { ModeToggle } from "./theme-toggle-button"
 
-import SongButton from "./SongButton";
+import SongButton from "./SongButton"
 
-import { AuroraBackground } from "./ui/aurora-background";
-import { Button } from "@/components/ui/button";
-import { RankCard } from "./ui/rankCard";
+import { AuroraBackground } from "./ui/aurora-background"
+import { Button } from "@/components/ui/button"
+import { RankCard } from "./ui/rankCard"
 
-import { FaShareAlt } from "react-icons/fa";
-import { RxTrackPrevious } from "react-icons/rx";
-import { GrFormPreviousLink } from "react-icons/gr";
+import { FaShareAlt } from "react-icons/fa"
+import { RxTrackPrevious } from "react-icons/rx"
+import { GrFormPreviousLink } from "react-icons/gr"
 
 interface SongRankerProps {
-  songs: Song[];
-  albumCover: string;
-  albumName: string;
-  albumArtist: string;
+  songs: Song[]
+  albumCover: string
+  albumName: string
+  albumArtist: string
 }
 
 const SongRanker: React.FC<SongRankerProps> = ({
@@ -34,91 +34,88 @@ const SongRanker: React.FC<SongRankerProps> = ({
   albumName,
   albumArtist,
 }) => {
-  const [currentPairIndex, setCurrentPairIndex] = useState(0);
-  const [songPoints, setSongPoints] = useState<Record<number, number>>({});
-  const [pairs, setPairs] = useState<Song[][]>([]);
-  const [voteHistory, setVoteHistory] = useState<number[]>([]);
-  const rankCardRef = useRef<HTMLDivElement>(null);
-
-  console.log("songPoints", songPoints);
+  const [currentPairIndex, setCurrentPairIndex] = useState(0)
+  const [songPoints, setSongPoints] = useState<Record<number, number>>({})
+  const [pairs, setPairs] = useState<Song[][]>([])
+  const [voteHistory, setVoteHistory] = useState<number[]>([])
+  const rankCardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const allPairs = generateAllPairs(songs);
-    setPairs(shuffleArray(allPairs));
-    initializePoints(songs);
-  }, [songs]);
+    const allPairs = generateAllPairs(songs)
+    setPairs(shuffleArray(allPairs))
+    initializePoints(songs)
+  }, [songs])
 
   function generateAllPairs(songs: Song[]): Song[][] {
-    let pairs = [];
+    let pairs = []
     for (let i = 0; i < songs.length; i++) {
       for (let j = i + 1; j < songs.length; j++) {
-        pairs.push([songs[i], songs[j]]);
+        pairs.push([songs[i], songs[j]])
       }
     }
-    return pairs;
+    return pairs
   }
 
   function shuffleArray(array: any[]) {
     for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[array[i], array[j]] = [array[j], array[i]]
     }
-    return array;
+    return array
   }
 
   function initializePoints(songs: Song[]) {
-    const points: Record<number, number> = {};
+    const points: Record<number, number> = {}
     songs.forEach((song) => {
-      points[song.id] = 0;
-    });
-    setSongPoints(points);
+      points[song.id] = 0
+    })
+    setSongPoints(points)
   }
 
   function handleVote(winnerId: number) {
     setSongPoints((prevPoints) => ({
       ...prevPoints,
       [winnerId]: (prevPoints[winnerId] || 0) + 1,
-    }));
-    setCurrentPairIndex((prevIndex) => prevIndex + 1);
-    setVoteHistory((prevHistory) => [...prevHistory, winnerId]);
+    }))
+    setCurrentPairIndex((prevIndex) => prevIndex + 1)
+    setVoteHistory((prevHistory) => [...prevHistory, winnerId])
   }
 
   function handleUndo() {
     if (currentPairIndex > 0) {
-      const lastVote = voteHistory[voteHistory.length - 1];
-      setVoteHistory((prevHistory) => prevHistory.slice(0, -1));
+      const lastVote = voteHistory[voteHistory.length - 1]
+      setVoteHistory((prevHistory) => prevHistory.slice(0, -1))
       setSongPoints((prevPoints) => ({
         ...prevPoints,
         [lastVote]: (prevPoints[lastVote] || 0) - 1,
-      }));
-      setCurrentPairIndex((prevIndex) => prevIndex - 1);
+      }))
+      setCurrentPairIndex((prevIndex) => prevIndex - 1)
     }
   }
 
   function getRankings() {
     return songs.sort(
       (a, b) => (songPoints[b.id] || 0) - (songPoints[a.id] || 0)
-    );
+    )
   }
 
   const downloadRankCardAsPNG = () => {
-    console.log("rankCardRef.current", rankCardRef.current);
     if (rankCardRef.current) {
       htmlToImage
         .toPng(rankCardRef.current)
         .then((dataUrl) => {
-          const link = document.createElement("a");
-          link.download = `${albumArtist}_${albumName}_Card.png`;
-          link.href = dataUrl;
-          link.click();
+          const link = document.createElement("a")
+          link.download = `${albumArtist}_${albumName}_Card.png`
+          link.href = dataUrl
+          link.click()
         })
         .catch((error) => {
-          console.error("Erreur lors de la création de l'image PNG:", error);
-        });
+          console.error("Erreur lors de la création de l'image PNG:", error)
+        })
     }
-  };
+  }
 
-  const completionPercentage = (currentPairIndex / pairs.length) * 100;
+  const completionPercentage = (currentPairIndex / pairs.length) * 100
 
   return (
     <AuroraBackground className="overflow-hidden">
@@ -155,7 +152,6 @@ const SongRanker: React.FC<SongRankerProps> = ({
               </p>
               <div className="w-4/5 flex flex-col justify-around items-center gap-16 sm:gap-20 sm:flex-row">
                 {pairs[currentPairIndex].map((song, index) => {
-                  console.log("index", index);
                   return (
                     <SongButton
                       key={song.id}
@@ -172,7 +168,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
                         transition: { duration: 0.5, ease: "easeInOut" },
                       }}
                     />
-                  );
+                  )
                 })}
                 <Button
                   size={"icon"}
@@ -208,7 +204,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
         )}
       </motion.div>
     </AuroraBackground>
-  );
-};
+  )
+}
 
-export default SongRanker;
+export default SongRanker
