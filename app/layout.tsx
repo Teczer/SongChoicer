@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     icon: ["/favicon.ico"],
     apple: ["/apple-touch-icon.png"],
     shortcut: ["/apple-touch-icon.png"],
+    host: "songchoicer.com",
   },
   robots: { index: true, follow: true },
   appleWebApp: {
@@ -36,21 +37,21 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: "website",
-    url: "https://musicranker.com",
-    title: "MusicRanker • Song Ranking",
+    url: "https://songchoicer.com",
+    title: "Song Choicer • Song Ranking",
     description:
-      "MusicRanker allows you to vote for your favorite songs and see the final ranking.",
-    siteName: "MusicRanker • Song Ranking",
-    images: ["https://musicranker.com/musicranker.jpg"],
+      "Song Choicer allows you to vote for your favorite albums and see the final ranking.",
+    siteName: "Song Choicer • Rank your albums",
+    images: ["https://songchoicer.com/android-chrome-512x512.png"],
   },
   twitter: {
     card: "summary_large_image",
-    site: "https://song-choicer.vercel.app/",
-    creator: "@SongChoicer",
-    images: "https://song-choicer.vercel.app/musicranker.jpg",
-    title: "MusicRanker • Song Ranking",
+    site: "https://songchoicer.com/",
+    creator: "@Teczer_",
+    images: "https://songchoicer.com/android-chrome-512x512.png",
+    title: "Song Choicer • Rank your albums",
     description:
-      "MusicRanker allows you to vote for your favorite songs and see the final ranking.",
+      "Song Choicer allows you to vote for your favorite albums and see the final ranking.",
   },
 };
 
