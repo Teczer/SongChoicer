@@ -59,7 +59,7 @@ export default function Home() {
           height={512}
           className="absolute top-4 right-4 sm:top-10 sm:left-10 w-10 border border-black border-opacity-10 drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] rounded-sm dark:border-white dark:border-opacity-10 dark:drop-shadow-[0_1px_4px_rgba(255,255,255,0.1)]"
         />
-        <h1 className="text-3xl md:text-7xl font-bold dark:text-white text-center">
+        <h1 className="text-3xl md:text-7xl font-bold dark:text-white text-center mb-2">
           Welcome to Song Choicer!
         </h1>
         <p className="text-md md:text-lg text-center dark:text-white">

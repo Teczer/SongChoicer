@@ -71,7 +71,7 @@ export function RankCard({
           })}
         </ul>
         <p className="rounded-sm p-1 bg-black bg-opacity-30 font-mono text-sm absolute bottom-14 right-5  text-white text-opacity-70 text-wrap">
-          song-choicer.vercel.app
+          songchoicer.com
         </p>
       </CardBody>
     </CardContainer>
