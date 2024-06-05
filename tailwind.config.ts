@@ -37,6 +37,10 @@ const config = {
         sans: ["var(--font-geist-sans)"],
         mono: ["var(--font-geist-mono)"],
       },
+      filter: {
+        dropShadowDark: "drop-shadow(0 1px 1px rgb(255 255 255 / 1))",
+        dropShadowLight: "drop-shadow(0 1px 1px rgb(0 0 0 / 1))",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

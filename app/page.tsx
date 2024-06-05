@@ -20,6 +20,7 @@ import { AlbumCard } from "@/components/ui/albumCard";
 import { AlbumCardSkeleton } from "@/components/ui/loader/AlbumCardSkeleton";
 import FooterCopyrights from "@/components/footercopyrights";
 import HeroSectionImage from "@/components/heroSectionImage";
+import Image from "next/image";
 
 export default function Home() {
   const [artist, setArtist] = useState<string>("");
@@ -51,6 +52,13 @@ export default function Home() {
         }}
         className="relative w-full min-h-screen flex flex-col gap-4 items-center justify-start py-16 px-4"
       >
+        <Image
+          src="/android-chrome-512x512.png"
+          alt="Song Choicer"
+          width={512}
+          height={512}
+          className="absolute top-4 right-4 sm:top-10 sm:left-10 w-10 border border-black border-opacity-10 drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] rounded-sm dark:border-white dark:border-opacity-10 dark:drop-shadow-[0_1px_4px_rgba(255,255,255,0.1)]"
+        />
         <h1 className="text-3xl md:text-7xl font-bold dark:text-white text-center">
           Welcome to Song Choicer!
         </h1>
