@@ -18,10 +18,6 @@ export default function Home() {
       },
     }))
 
-  const duels = generateDuels(songs)
-
-  console.log(duels)
-
   return (
     <SongRanker
       songs={songs}

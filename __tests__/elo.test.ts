@@ -3,10 +3,6 @@ import { MAX_DUEL } from '@/config'
 import { countHowMuchTimeThisSoungAppear, generateDuels } from '@/lib/duels'
 import '@testing-library/jest-dom'
 
-jest.mock('@/config', () => ({
-  MAX_DUEL: (length: number) => Math.min(10, (length * (length - 1)) / 2),
-}))
-
 describe('generateDuels', () => {
   const songs: Song[] = Array.from({ length: 10 })
     .fill(null)
@@ -24,7 +20,7 @@ describe('generateDuels', () => {
     expect(songs.length).toBe(10)
   })
 
-  it(`should generate less than ${MAX_DUEL(songs.length)}`, () => {
+  it(`should generate less/equal than ${MAX_DUEL(songs.length)} duels`, () => {
     const duels = generateDuels(songs)
     expect(duels.length).toBeLessThanOrEqual(MAX_DUEL(songs.length))
   })
@@ -49,10 +45,8 @@ describe('generateDuels', () => {
     const appearanceCount: { [key: number]: number } =
       countHowMuchTimeThisSoungAppear(duels)
 
-    console.log(appearanceCount)
-    const counts = Object.values(appearanceCount)
-    const maxCount = Math.max(...counts)
-    const minCount = Math.min(...counts)
+    const minCount = Math.min(...Object.values(appearanceCount))
+    const maxCount = Math.max(...Object.values(appearanceCount))
 
     expect(maxCount - minCount).toBeLessThanOrEqual(1)
   })
