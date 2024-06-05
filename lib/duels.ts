@@ -2,43 +2,149 @@ import { Song } from '@/app/lib/types'
 import { MAX_DUEL } from '@/config'
 import { shuffleArray } from './utils'
 
+export const countHowMuchTimeThisSoungAppear = (songs: [Song, Song][]) => {
+  let idCount: Record<number, number> = {}
+  songs.forEach((subArr) => {
+    subArr.forEach((obj) => {
+      if (idCount[obj.id]) {
+        idCount[obj.id]++
+      } else {
+        idCount[obj.id] = 1
+      }
+    })
+  })
+  return idCount
+}
 // Must generate duels with at least all song
 export function generateDuels(songs: Song[]): [Song, Song][] {
-  const allPairs: [Song, Song][] = []
   const songCount = songs.length
 
-  // Générer toutes les paires uniques possibles
-  for (let i = 0; i < songCount; i++) {
-    for (let j = i + 1; j < songCount; j++) {
-      allPairs.push([songs[i], songs[j]])
-    }
-  }
+  // Tout les duels possibles.
+  // [QLF, Naha, Bene] ->
+  // [QLF, Naha]
+  // [QLF, Bene]
+  // [Bene, Naha]
+  const allDuelsPossible: [Song, Song][] = Array.from({
+    length: songCount,
+  }).flatMap((_, i) =>
+    Array.from({ length: songCount - i - 1 }, (_, j) => [
+      songs[i],
+      songs[i + j + 1],
+    ])
+  ) as [Song, Song][]
+  shuffleArray(allDuelsPossible)
 
-  // Mélanger les paires pour une sélection aléatoire
-  shuffleArray(allPairs)
-
-  // Utiliser un Set pour suivre les chansons qui apparaissent déjà
-  const usedSongs = new Set<Song>()
+  // On veux retourner MAX_N duel.
+  // Avec au moin chaque son dans duels
   const duels: [Song, Song][] = []
 
-  // Sélectionner les duels pour garantir que chaque chanson apparaisse au moins une fois
-  for (let i = 0; i < allPairs.length && usedSongs.size < songCount; i++) {
-    const [song1, song2] = allPairs[i]
-    if (!usedSongs.has(song1) || !usedSongs.has(song2)) {
-      duels.push(allPairs[i])
-      usedSongs.add(song1)
-      usedSongs.add(song2)
-    }
+  const findFirstDuelsOfASong = (songIdToFind: number): [Song, Song] =>
+    allDuelsPossible.find(
+      ([songA, songB]) => songA.id === songIdToFind || songB.id === songIdToFind
+    ) as [Song, Song]
+
+  // Trouve la première paire de chansons contenant au moins un ID désiré et aucun ID à éviter
+  function findPairWithDesiredIdsAndNoAvoidIds(
+    desiredIds: number[],
+    avoidIds: number[],
+    allDuels: [Song, Song][]
+  ): [Song, Song] | undefined {
+    return allDuels.find(([songA, songB]) => {
+      const includesDesiredId =
+        desiredIds.includes(songA.id) || desiredIds.includes(songB.id)
+      const noAvoidId =
+        !avoidIds.includes(songA.id) && !avoidIds.includes(songB.id)
+      return includesDesiredId && noAvoidId
+    })
   }
 
-  // Ajouter des duels supplémentaires jusqu'à atteindre le maximum
-  for (
-    let i = 0;
-    i < allPairs.length && duels.length < MAX_DUEL(songs.length);
-    i++
-  ) {
-    if (!duels.includes(allPairs[i])) {
-      duels.push(allPairs[i])
+  // Trouve la première paire de chansons contenant uniquement des IDs désirés
+  function findPairWithOnlyDesiredIds(
+    desiredIds: number[],
+    allDuels: [Song, Song][]
+  ): [Song, Song] | undefined {
+    return allDuels.find(([songA, songB]) => {
+      const bothDesiredIds =
+        desiredIds.includes(songA.id) && desiredIds.includes(songB.id)
+      return bothDesiredIds
+    })
+  }
+
+  // Trouve la première paire de chansons contenant uniquement des IDs non désirés
+  function findPairWithNoAvoidIds(
+    avoidIds: number[],
+    allDuels: [Song, Song][]
+  ): [Song, Song] | undefined {
+    return allDuels.find(([songA, songB]) => {
+      const noAvoidId =
+        !avoidIds.includes(songA.id) && !avoidIds.includes(songB.id)
+      return noAvoidId
+    })
+  }
+
+  // Fonction principale pour trouver une paire de chansons en fonction des critères donnés
+  function findFirstDuelsOfASongWithoutAnotherSongId(
+    desiredIds: number[],
+    avoidIds: number[],
+    allDuels: [Song, Song][]
+  ): [Song, Song] {
+    let pair = findPairWithDesiredIdsAndNoAvoidIds(
+      desiredIds,
+      avoidIds,
+      allDuels
+    )
+    if (pair) return pair
+
+    pair = findPairWithOnlyDesiredIds(desiredIds, allDuels)
+    if (pair) return pair
+
+    pair = findPairWithNoAvoidIds(avoidIds, allDuels)
+    if (pair) return pair
+
+    // Si aucune paire n'est trouvée, renvoie simplement la première paire disponible
+    return allDuels[0]
+  }
+
+  songs.map((song) => {
+    duels.push(findFirstDuelsOfASong(song.id))
+    shuffleArray(allDuelsPossible)
+  })
+
+  // At this stade we have songs.length as possible duel
+  // So we need to fill maximumDuel - songs.length
+  let trackSongUsed = countHowMuchTimeThisSoungAppear(duels)
+
+  while (duels.length < MAX_DUEL(songCount)) {
+    const minCount = Math.min(...Object.values(trackSongUsed))
+    const maxCount = Math.max(...Object.values(trackSongUsed))
+    const songIdsThatAppearTheLeast: number[] = Object.keys(trackSongUsed)
+      .filter(
+        (key) =>
+          trackSongUsed[key as unknown as keyof typeof trackSongUsed] ===
+          minCount
+      )
+      .map(Number)
+
+    const songIdsThatAppearTheMost: number[] = Object.keys(trackSongUsed)
+      .filter(
+        (key) =>
+          trackSongUsed[key as unknown as keyof typeof trackSongUsed] ===
+          maxCount
+      )
+      .map(Number)
+
+    const possiblePairToAdd = findFirstDuelsOfASongWithoutAnotherSongId(
+      songIdsThatAppearTheLeast,
+      songIdsThatAppearTheMost,
+      allDuelsPossible
+    )
+
+    duels.push(possiblePairToAdd)
+    shuffleArray(allDuelsPossible)
+    trackSongUsed = countHowMuchTimeThisSoungAppear(duels)
+
+    if (duels.length >= MAX_DUEL(songCount)) {
+      break
     }
   }
 
