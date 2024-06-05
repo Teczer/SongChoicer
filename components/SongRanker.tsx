@@ -117,7 +117,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
         });
     }
   };
-
+  console.log("currentPairIndex", currentPairIndex);
   const completionPercentage = (currentPairIndex / pairs.length) * 100;
 
   return (
@@ -155,7 +155,6 @@ const SongRanker: React.FC<SongRankerProps> = ({
               </p>
               <div className="w-4/5 flex flex-col justify-around items-center gap-16 sm:gap-20 sm:flex-row">
                 {pairs[currentPairIndex].map((song, index) => {
-                  console.log("index", index);
                   return (
                     <SongButton
                       key={song.id}
@@ -175,6 +174,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
                   );
                 })}
                 <Button
+                  disabled={currentPairIndex === 0}
                   className="absolute flex gap-4 items-center justify-start"
                   variant={"outline"}
                   onClick={handleUndo}
