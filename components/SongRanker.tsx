@@ -17,6 +17,7 @@ import { calculateNewEloScore } from "@/lib/calculate-elo-score"
 import { cn } from "@/lib/utils"
 import { RxTrackPrevious } from "react-icons/rx"
 import SongResultCard from "./SongResultCard"
+import { MAX_DUEL } from "@/config"
 
 interface SongRankerProps {
   songs: Song[]
@@ -31,12 +32,21 @@ const SongRanker: React.FC<SongRankerProps> = ({
   albumName,
   albumArtist,
 }) => {
-  const [currentDuelIndex, setCurrentDuelIndex] = useState(0)
+  const [currentDuelIndex, setCurrentDuelIndex] = useState<number | null>(0)
   const [songsEloScores, setSongsEloScores] = useState(
     Object.fromEntries(songs.map((song) => [song.id, 1000]))
   )
+  const maxDuels = MAX_DUEL(songs.length)
 
   const handleVote = (winnerId: number, loserId: number) => {
+    if (currentDuelIndex === null) {
+      return
+    }
+
+    if (currentDuelIndex + 1 === maxDuels) {
+      return setCurrentDuelIndex(null)
+    }
+
     const winnerElo = songsEloScores[winnerId]
     const loserElo = songsEloScores[loserId]
     const { newWinnerElo, newLoserElo } = calculateNewEloScore(
@@ -48,13 +58,18 @@ const SongRanker: React.FC<SongRankerProps> = ({
       [winnerId]: newWinnerElo,
       [loserId]: newLoserElo,
     }))
-    setCurrentDuelIndex((prevIndex) => prevIndex + 1)
+
+    if (currentDuelIndex + 1 < maxDuels) {
+      setCurrentDuelIndex((prevIndex) => (prevIndex || 0) + 1)
+    }
   }
 
   const duels = songs.flatMap((songA, index) =>
     songs.slice(index + 1).map((songB) => [songA, songB])
   )
-  const [songA, songB] = duels[currentDuelIndex] || []
+
+  const [songA, songB] =
+    currentDuelIndex === null ? [] : duels[currentDuelIndex]
 
   const getRankings = (): Song[] => {
     return songs.sort(
@@ -62,7 +77,9 @@ const SongRanker: React.FC<SongRankerProps> = ({
     )
   }
 
-  const isRankingFinished: boolean = !Boolean(songA && songB)
+  const completionPercentage =
+    currentDuelIndex === null ? 100 : (currentDuelIndex / maxDuels) * 100
+  const isRankingFinished: boolean = currentDuelIndex === null
 
   return (
     <AuroraBackground className="overflow-hidden">
@@ -95,7 +112,9 @@ const SongRanker: React.FC<SongRankerProps> = ({
               {albumArtist} • {albumName}
             </h1>
             <div className="w-full flex flex-col items-center gap-4">
-              <p className="text-lg font-mono font-bold select-none">??</p>
+              <p className="text-lg font-mono font-bold select-none">
+                {completionPercentage.toFixed(2)} %
+              </p>
               <div className="w-4/5 flex flex-col justify-around items-center gap-16 sm:gap-20 sm:flex-row">
                 <SongButton
                   key={songA.id}
