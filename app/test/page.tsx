@@ -3,6 +3,7 @@
 import { Song } from '@/app/lib/types'
 
 import SongRanker from '@/components/SongRanker'
+import { generateDuels } from '@/lib/duels'
 
 export default function Home() {
   const songs: Song[] = Array.from({ length: 10 })
@@ -16,6 +17,10 @@ export default function Home() {
         height: 640,
       },
     }))
+
+  const duels = generateDuels(songs)
+
+  console.log(duels)
 
   return (
     <SongRanker

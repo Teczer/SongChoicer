@@ -1,6 +1,6 @@
 import { Song } from '@/app/lib/types'
 import { MAX_DUEL } from '@/config'
-import { generateDuels } from '@/lib/duels'
+import { countHowMuchTimeThisSoungAppear, generateDuels } from '@/lib/duels'
 import '@testing-library/jest-dom'
 
 jest.mock('@/config', () => ({
@@ -8,13 +8,23 @@ jest.mock('@/config', () => ({
 }))
 
 describe('generateDuels', () => {
-  const songs: Song[] = [
-    { id: 1, title: 'Song 1', image: { url: 'url1' } },
-    { id: 2, title: 'Song 2', image: { url: 'url2' } },
-    { id: 3, title: 'Song 3', image: { url: 'url3' } },
-  ]
+  const songs: Song[] = Array.from({ length: 10 })
+    .fill(null)
+    .map((_, index) => ({
+      id: index,
+      title: `Titre ${index}`,
+      image: {
+        url: 'https://i.scdn.co/image/ab67616d0000b2732ac57e231c742bda1ef89d3c',
+        width: 640,
+        height: 640,
+      },
+    }))
 
-  it('should generate the correct number of duels', () => {
+  it(`should have 10 songs`, () => {
+    expect(songs.length).toBe(10)
+  })
+
+  it(`should generate less than ${MAX_DUEL(songs.length)}`, () => {
     const duels = generateDuels(songs)
     expect(duels.length).toBeLessThanOrEqual(MAX_DUEL(songs.length))
   })
@@ -30,22 +40,16 @@ describe('generateDuels', () => {
     })
 
     expect(appearedSongs.size).toBe(allSongs.size)
+    // @ts-ignore
     expect([...appearedSongs].sort()).toEqual([...allSongs].sort())
   })
 
   it('should distribute song appearances approximately equally', () => {
     const duels = generateDuels(songs)
-    const appearanceCount: { [key: number]: number } = {}
+    const appearanceCount: { [key: number]: number } =
+      countHowMuchTimeThisSoungAppear(duels)
 
-    songs.forEach((song) => {
-      appearanceCount[song.id] = 0
-    })
-
-    duels.forEach(([song1, song2]) => {
-      appearanceCount[song1.id]++
-      appearanceCount[song2.id]++
-    })
-
+    console.log(appearanceCount)
     const counts = Object.values(appearanceCount)
     const maxCount = Math.max(...counts)
     const minCount = Math.min(...counts)
