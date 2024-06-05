@@ -17,7 +17,7 @@ import { AuroraBackground } from "./ui/aurora-background";
 import { Button } from "@/components/ui/button";
 import { RankCard } from "./ui/rankCard";
 
-import { FaShareAlt } from "react-icons/fa";
+import { FaShareAlt, FaUndoAlt } from "react-icons/fa";
 import { RxTrackPrevious } from "react-icons/rx";
 import { GrFormPreviousLink } from "react-icons/gr";
 
@@ -175,12 +175,12 @@ const SongRanker: React.FC<SongRankerProps> = ({
                   );
                 })}
                 <Button
-                  size={"icon"}
-                  className="absolute"
+                  className="absolute flex gap-4 items-center justify-start"
                   variant={"outline"}
                   onClick={handleUndo}
                 >
-                  <GrFormPreviousLink />
+                  <p>Previous Duel</p>
+                  <FaUndoAlt />
                 </Button>
               </div>
             </div>
