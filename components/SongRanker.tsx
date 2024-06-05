@@ -64,9 +64,13 @@ const SongRanker: React.FC<SongRankerProps> = ({
     }
   }
 
-  const duels = songs.flatMap((songA, index) =>
-    songs.slice(index + 1).map((songB) => [songA, songB])
-  )
+  // On fait en sorte qu'on vois au moins tout les sons.
+  const duels: [Song, Song][] = []
+  for (let i = 0; i < songs.length - 1; i++) {
+    for (let j = i + 1; j < songs.length; j++) {
+      duels.push([songs[i], songs[j]])
+    }
+  }
 
   const [songA, songB] =
     currentDuelIndex === null ? [] : duels[currentDuelIndex]
@@ -116,33 +120,39 @@ const SongRanker: React.FC<SongRankerProps> = ({
                 {completionPercentage.toFixed(2)} %
               </p>
               <div className="w-4/5 flex flex-col justify-around items-center gap-16 sm:gap-20 sm:flex-row">
-                <SongButton
-                  key={songA.id}
-                  song={songA}
-                  onVote={() => handleVote(songA.id, songB.id)}
-                  animationProps={{
-                    initial: {
-                      opacity: 0,
-                      ...(window.innerWidth < 640 ? { x: 300 } : { y: 500 }),
-                    },
-                    animate: { opacity: 1, x: 0, y: 0 },
-                    transition: { duration: 0.5, ease: "easeInOut" },
-                  }}
-                />
+                {songB && songA && (
+                  <SongButton
+                    key={songA.id}
+                    song={songA}
+                    onVote={() => handleVote(songA.id, songB.id)}
+                    animationProps={{
+                      initial: {
+                        opacity: 0,
+                        ...(window.innerWidth < 640 ? { x: 300 } : { y: 500 }),
+                      },
+                      animate: { opacity: 1, x: 0, y: 0 },
+                      transition: { duration: 0.5, ease: "easeInOut" },
+                    }}
+                  />
+                )}
 
-                <SongButton
-                  key={songB.id}
-                  song={songB}
-                  onVote={() => handleVote(songB.id, songA.id)}
-                  animationProps={{
-                    initial: {
-                      opacity: 0,
-                      ...(window.innerWidth < 640 ? { x: -300 } : { y: -500 }),
-                    },
-                    animate: { opacity: 1, x: 0, y: 0 },
-                    transition: { duration: 0.5, ease: "easeInOut" },
-                  }}
-                />
+                {songB && songA && (
+                  <SongButton
+                    key={songB.id}
+                    song={songB}
+                    onVote={() => handleVote(songB.id, songA.id)}
+                    animationProps={{
+                      initial: {
+                        opacity: 0,
+                        ...(window.innerWidth < 640
+                          ? { x: -300 }
+                          : { y: -500 }),
+                      },
+                      animate: { opacity: 1, x: 0, y: 0 },
+                      transition: { duration: 0.5, ease: "easeInOut" },
+                    }}
+                  />
+                )}
               </div>
             </div>
           </>
