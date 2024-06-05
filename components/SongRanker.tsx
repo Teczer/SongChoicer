@@ -34,7 +34,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
 }) => {
   const [currentDuelIndex, setCurrentDuelIndex] = useState<number>(0)
   const [songsEloScores, setSongsEloScores] = useState(
-    Object.fromEntries(songs.map((song) => [song.id, 1000])),
+    Object.fromEntries(songs.map((song) => [song.id, 1000]))
   )
 
   const handleVote = (winnerId: number, loserId: number) => {
@@ -42,7 +42,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
     const loserElo = songsEloScores[loserId]
     const { newWinnerElo, newLoserElo } = calculateNewEloScore(
       winnerElo,
-      loserElo,
+      loserElo
     )
     setSongsEloScores((prevEloScores) => ({
       ...prevEloScores,
@@ -61,13 +61,13 @@ const SongRanker: React.FC<SongRankerProps> = ({
 
   const getRankings = (): Song[] => {
     return songs.sort(
-      (songA, songB) => songsEloScores[songB.id] - songsEloScores[songA.id],
+      (songA, songB) => songsEloScores[songB.id] - songsEloScores[songA.id]
     )
   }
 
   const completionPercentage =
-    currentDuelIndex === null ? 100 : (currentDuelIndex / songs.length) * 100
-  const isRankingFinished: boolean = currentDuelIndex === songs.length
+    currentDuelIndex === null ? 100 : (currentDuelIndex / duels.length) * 100
+  const isRankingFinished: boolean = currentDuelIndex === duels.length
 
   return (
     <AuroraBackground className="overflow-hidden">
@@ -88,10 +88,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
           ease: 'easeInOut',
         }}
         className={cn(
-          'w-full min-h-screen text-primary relative flex flex-col gap-4 sm:gap-20 items-center pt-6 justify-start',
-          {
-            'sm:justify-center': isRankingFinished,
-          },
+          'w-full min-h-screen text-primary relative flex flex-col gap-4 sm:gap-20 items-center pt-6 justify-start sm:justify-center'
         )}
       >
         {!isRankingFinished && (
@@ -101,7 +98,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
             </h1>
             <div className="w-full flex flex-col items-center gap-4">
               <p className="text-lg font-mono font-bold select-none">
-                {completionPercentage.toFixed(2)} %
+                {completionPercentage.toFixed(0)} %
               </p>
               <div className="w-4/5 flex flex-col justify-around items-center gap-16 sm:gap-20 sm:flex-row">
                 {songB && songA && (
