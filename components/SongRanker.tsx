@@ -1,29 +1,29 @@
-"use client";
+"use client"
 
-import { useState } from "react";
+import { useState } from "react"
 
-import { Song } from "@/app/lib/types";
+import { Song } from "@/app/lib/types"
 
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 
-import { ModeToggle } from "./theme-toggle-button";
+import { ModeToggle } from "./theme-toggle-button"
 
-import SongButton from "./SongButton";
+import SongButton from "./SongButton"
 
-import { Button } from "@/components/ui/button";
-import { AuroraBackground } from "./ui/aurora-background";
+import { Button } from "@/components/ui/button"
+import { AuroraBackground } from "./ui/aurora-background"
 
-import { calculateNewEloScore } from "@/lib/calculate-elo-score";
-import { cn } from "@/lib/utils";
-import { RxTrackPrevious } from "react-icons/rx";
-import SongResultCard from "./SongResultCard";
-import { MAX_DUEL } from "@/config";
+import { calculateNewEloScore } from "@/lib/calculate-elo-score"
+import { generateDuels } from "@/lib/duels"
+import { cn } from "@/lib/utils"
+import { RxTrackPrevious } from "react-icons/rx"
+import SongResultCard from "./SongResultCard"
 
 interface SongRankerProps {
-  songs: Song[];
-  albumCover: string;
-  albumName: string;
-  albumArtist: string;
+  songs: Song[]
+  albumCover: string
+  albumName: string
+  albumArtist: string
 }
 
 const SongRanker: React.FC<SongRankerProps> = ({
@@ -32,58 +32,42 @@ const SongRanker: React.FC<SongRankerProps> = ({
   albumName,
   albumArtist,
 }) => {
-  const [currentDuelIndex, setCurrentDuelIndex] = useState<number | null>(0);
+  const [currentDuelIndex, setCurrentDuelIndex] = useState<number>(0)
   const [songsEloScores, setSongsEloScores] = useState(
     Object.fromEntries(songs.map((song) => [song.id, 1000]))
-  );
-  const maxDuels = MAX_DUEL(songs.length);
+  )
 
   const handleVote = (winnerId: number, loserId: number) => {
-    if (currentDuelIndex === null) {
-      return;
-    }
-
-    if (currentDuelIndex + 1 === maxDuels) {
-      return setCurrentDuelIndex(null);
-    }
-
-    const winnerElo = songsEloScores[winnerId];
-    const loserElo = songsEloScores[loserId];
+    const winnerElo = songsEloScores[winnerId]
+    const loserElo = songsEloScores[loserId]
     const { newWinnerElo, newLoserElo } = calculateNewEloScore(
       winnerElo,
       loserElo
-    );
+    )
     setSongsEloScores((prevEloScores) => ({
       ...prevEloScores,
       [winnerId]: newWinnerElo,
       [loserId]: newLoserElo,
-    }));
+    }))
 
-    if (currentDuelIndex + 1 < maxDuels) {
-      setCurrentDuelIndex((prevIndex) => (prevIndex || 0) + 1);
-    }
-  };
-
-  // On fait en sorte qu'on vois au moins tout les sons.
-  const duels: [Song, Song][] = [];
-  for (let i = 0; i < songs.length - 1; i++) {
-    for (let j = i + 1; j < songs.length; j++) {
-      duels.push([songs[i], songs[j]]);
-    }
+    setCurrentDuelIndex((prevIndex) => (prevIndex || 0) + 1)
   }
 
+  // On fait en sorte qu'on vois au moins tout les sons.
+  const duels: [Song, Song][] = generateDuels(songs)
+
   const [songA, songB] =
-    currentDuelIndex === null ? [] : duels[currentDuelIndex];
+    currentDuelIndex === null ? [] : duels[currentDuelIndex]
 
   const getRankings = (): Song[] => {
     return songs.sort(
       (songA, songB) => songsEloScores[songB.id] - songsEloScores[songA.id]
-    );
-  };
+    )
+  }
 
   const completionPercentage =
-    currentDuelIndex === null ? 100 : (currentDuelIndex / maxDuels) * 100;
-  const isRankingFinished: boolean = currentDuelIndex === null;
+    currentDuelIndex === null ? 100 : (currentDuelIndex / songs.length) * 100
+  const isRankingFinished: boolean = currentDuelIndex === songs.length
 
   return (
     <AuroraBackground className="overflow-hidden">
@@ -168,7 +152,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
         )}
       </motion.div>
     </AuroraBackground>
-  );
-};
+  )
+}
 
-export default SongRanker;
+export default SongRanker
