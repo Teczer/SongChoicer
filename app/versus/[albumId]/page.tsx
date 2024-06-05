@@ -1,18 +1,18 @@
-"use client";
+"use client"
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query"
 
-import { AlbumResponse, getAlbum } from "@/app/api/album/methods";
-import { Song } from "@/app/lib/types";
+import { AlbumResponse, getAlbum } from "@/app/api/album/methods"
+import { Song } from "@/app/lib/types"
 
-import SongRanker from "@/components/SongRanker";
-import { useMemo } from "react";
-import { VersusSkeletonLoader } from "@/components/ui/loader/VersusSkeletonLoader";
+import SongRanker from "@/components/SongRanker"
+import { useMemo } from "react"
+import { VersusSkeletonLoader } from "@/components/ui/loader/VersusSkeletonLoader"
 
 interface Props {
   params: {
-    albumId: string;
-  };
+    albumId: string
+  }
 }
 
 export default function Home({ params }: Props) {
@@ -23,12 +23,10 @@ export default function Home({ params }: Props) {
   } = useQuery<AlbumResponse>({
     queryKey: ["album", params.albumId],
     queryFn: async () => {
-      const res = await getAlbum(params.albumId);
-      return res;
+      const res = await getAlbum(params.albumId)
+      return res
     },
-  });
-
-  console.log("Album from spotify", results);
+  })
 
   const data: Song[] | undefined = useMemo(
     () =>
@@ -37,14 +35,14 @@ export default function Home({ params }: Props) {
           id: index + 1,
           title: track.name,
           image: results.images[0],
-        };
+        }
       }),
     [results?.tracks.items.length]
-  );
+  )
 
-  if (isLoading || !results) return <VersusSkeletonLoader />;
+  if (isLoading || !results) return <VersusSkeletonLoader />
 
-  if (isError) return <div>An error occured</div>;
+  if (isError) return <div>An error occured</div>
 
   return (
     <SongRanker
@@ -53,5 +51,5 @@ export default function Home({ params }: Props) {
       albumName={results.name}
       albumArtist={results.artists[0].name}
     />
-  );
+  )
 }
