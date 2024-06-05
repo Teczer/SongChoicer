@@ -1,13 +1,13 @@
-"use client"
+'use client'
 
-import { useQuery } from "@tanstack/react-query"
+import { useQuery } from '@tanstack/react-query'
 
-import { AlbumResponse, getAlbum } from "@/app/api/album/methods"
-import { Song } from "@/app/lib/types"
+import { AlbumResponse, getAlbum } from '@/app/api/album/methods'
+import { Song } from '@/app/lib/types'
 
-import SongRanker from "@/components/SongRanker"
-import { useMemo } from "react"
-import { VersusSkeletonLoader } from "@/components/ui/loader/VersusSkeletonLoader"
+import SongRanker from '@/components/SongRanker'
+import { useMemo } from 'react'
+import { VersusSkeletonLoader } from '@/components/ui/loader/VersusSkeletonLoader'
 
 interface Props {
   params: {
@@ -21,7 +21,7 @@ export default function Home({ params }: Props) {
     isLoading,
     isError,
   } = useQuery<AlbumResponse>({
-    queryKey: ["album", params.albumId],
+    queryKey: ['album', params.albumId],
     queryFn: async () => {
       const res = await getAlbum(params.albumId)
       return res
@@ -37,7 +37,7 @@ export default function Home({ params }: Props) {
           image: results.images[0],
         }
       }),
-    [results?.tracks.items.length]
+    [results?.tracks.items.length],
   )
 
   if (isLoading || !results) return <VersusSkeletonLoader />

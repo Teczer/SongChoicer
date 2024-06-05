@@ -1,16 +1,16 @@
 /** @type {import('next').NextConfig} */
 
 const hosts = [
-  "coverartarchive.org",
-  "via.placeholder.com",
-  "images.genius.com",
-  "images.unsplash.com",
-  "musicbrainz.org",
-  "ia802204.us.archive.org",
-  "placehold.co",
-  "i.scdn.co",
-  "reflect.app",
-];
+  'coverartarchive.org',
+  'via.placeholder.com',
+  'images.genius.com',
+  'images.unsplash.com',
+  'musicbrainz.org',
+  'ia802204.us.archive.org',
+  'placehold.co',
+  'i.scdn.co',
+  'reflect.app',
+]
 
 const nextConfig = {
   images: {
@@ -18,5 +18,5 @@ const nextConfig = {
       hostname: host,
     })),
   },
-};
-export default nextConfig;
+}
+export default nextConfig

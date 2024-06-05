@@ -1,5 +1,5 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { AuroraBackground } from "../../aurora-background";
+import { Skeleton } from '@/components/ui/skeleton'
+import { AuroraBackground } from '../../aurora-background'
 
 export function VersusSkeletonLoader() {
   return (
@@ -20,5 +20,5 @@ export function VersusSkeletonLoader() {
         ))}
       </ul>
     </AuroraBackground>
-  );
+  )
 }

@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { Song } from "@/app/lib/types"
+import { Song } from '@/app/lib/types'
 
-import SongRanker from "@/components/SongRanker"
+import SongRanker from '@/components/SongRanker'
 
 export default function Home() {
   const songs: Song[] = Array.from({ length: 10 })
@@ -11,7 +11,7 @@ export default function Home() {
       id: index,
       title: `Titre ${index}`,
       image: {
-        url: "https://i.scdn.co/image/ab67616d0000b2732ac57e231c742bda1ef89d3c",
+        url: 'https://i.scdn.co/image/ab67616d0000b2732ac57e231c742bda1ef89d3c',
         width: 640,
         height: 640,
       },
@@ -21,10 +21,10 @@ export default function Home() {
     <SongRanker
       songs={songs}
       albumCover={
-        "https://i.scdn.co/image/ab67616d0000b2732ac57e231c742bda1ef89d3c"
+        'https://i.scdn.co/image/ab67616d0000b2732ac57e231c742bda1ef89d3c'
       }
-      albumName={"Que la famille"}
-      albumArtist={"PNL"}
+      albumName={'Que la famille'}
+      albumArtist={'PNL'}
     />
   )
 }

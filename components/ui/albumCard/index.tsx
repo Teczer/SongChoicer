@@ -1,16 +1,16 @@
 // Dans AlbumCard.js
 
-import Image from "next/image";
-import React from "react";
-import { CardBody, CardContainer, CardItem } from "../3d-card";
-import { Album } from "@/app/lib/types";
+import Image from 'next/image'
+import React from 'react'
+import { CardBody, CardContainer, CardItem } from '../3d-card'
+import { Album } from '@/app/lib/types'
 
 export function AlbumCard({ result }: { result: Album }) {
   return (
     <CardContainer className="group rounded-xl select-none">
       <CardBody className="bg-transparent h-auto border border-black/[0.1] relative group/card hover:shadow-2xl hover:shadow-yellow-500/[0.1] w-auto sm:w-[25rem] rounded-xl p-6 dark:border-white/[0.1]">
         <Image
-          src={result.images[0].url || "http://via.placeholder.com/500x500"}
+          src={result.images[0].url || 'http://via.placeholder.com/500x500'}
           height="1000"
           width="1000"
           className="absolute blur-sm top-0 left-0 h-[100%] w-full object-cover rounded-xl shadow-xl"
@@ -55,7 +55,7 @@ export function AlbumCard({ result }: { result: Album }) {
 
         <CardItem translateZ="100" className="w-full mt-4">
           <Image
-            src={result.images[0].url || "http://via.placeholder.com/500x500"}
+            src={result.images[0].url || 'http://via.placeholder.com/500x500'}
             alt={`Cover of ${result.name}`}
             width={500}
             height={500}
@@ -64,5 +64,5 @@ export function AlbumCard({ result }: { result: Album }) {
         </CardItem>
       </CardBody>
     </CardContainer>
-  );
+  )
 }

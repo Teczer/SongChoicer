@@ -1,9 +1,9 @@
-import React, { useRef } from "react"
-import * as htmlToImage from "html-to-image"
-import { RankCard } from "./ui/rankCard"
-import { Song } from "@/app/lib/types"
-import { FaShareAlt } from "react-icons/fa"
-import { Button } from "./ui/button"
+import React, { useRef } from 'react'
+import * as htmlToImage from 'html-to-image'
+import { RankCard } from './ui/rankCard'
+import { Song } from '@/app/lib/types'
+import { FaShareAlt } from 'react-icons/fa'
+import { Button } from './ui/button'
 
 type SongResultCardProps = {
   albumArtist: string
@@ -24,7 +24,7 @@ export default function SongResultCard({
       htmlToImage
         .toPng(rankCardRef.current)
         .then((dataUrl) => {
-          const link = document.createElement("a")
+          const link = document.createElement('a')
           link.download = `${albumArtist}_${albumName}_Card.png`
           link.href = dataUrl
           link.click()
@@ -46,10 +46,10 @@ export default function SongResultCard({
         />
       </div>
       <div className="hidden sm:flex items-center justify-center gap-2">
-        <Button variant={"outline"} onClick={downloadRankCardAsPNG}>
+        <Button variant={'outline'} onClick={downloadRankCardAsPNG}>
           Download Card
         </Button>
-        <Button size={"icon"} variant={"outline"}>
+        <Button size={'icon'} variant={'outline'}>
           <FaShareAlt />
         </Button>
       </div>

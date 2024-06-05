@@ -1,12 +1,12 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image'
+import Link from 'next/link'
 
 const FooterCopyrights: React.FC = () => {
   return (
     <p className="text-primary font-mono flex items-center justify-start gap-1 absolute text-xs bottom-4">
       <span className="mr-1">Made with ❤️ by </span>
       <Link
-        href={"https://github.com/Teczer"}
+        href={'https://github.com/Teczer'}
         target="_blank"
         className="block font-bold transition-all tracking-wide underline hover:scale-110"
       >
@@ -28,7 +28,7 @@ const FooterCopyrights: React.FC = () => {
         />
       </Link>
     </p>
-  );
-};
+  )
+}
 
-export default FooterCopyrights;
+export default FooterCopyrights

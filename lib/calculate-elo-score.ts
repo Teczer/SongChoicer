@@ -1,6 +1,6 @@
 export function calculateNewEloScore(
   winnerElo: number,
-  loserElo: number
+  loserElo: number,
 ): {
   newWinnerElo: number
   newLoserElo: number

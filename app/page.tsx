@@ -1,41 +1,41 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import useDebounce from "@/hooks/useDebounce";
+import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import useDebounce from '@/hooks/useDebounce'
 
-import { searchFromApi } from "./api/search/methods";
+import { searchFromApi } from './api/search/methods'
 
-import Link from "next/link";
+import Link from 'next/link'
 
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion'
 
-import { Album } from "./lib/types";
+import { Album } from './lib/types'
 
-import { ModeToggle } from "@/components/theme-toggle-button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { AuroraBackground } from "@/components/ui/aurora-background";
-import { AlbumCard } from "@/components/ui/albumCard";
-import { AlbumCardSkeleton } from "@/components/ui/loader/AlbumCardSkeleton";
-import FooterCopyrights from "@/components/footercopyrights";
-import HeroSectionImage from "@/components/heroSectionImage";
-import Image from "next/image";
+import { ModeToggle } from '@/components/theme-toggle-button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { AuroraBackground } from '@/components/ui/aurora-background'
+import { AlbumCard } from '@/components/ui/albumCard'
+import { AlbumCardSkeleton } from '@/components/ui/loader/AlbumCardSkeleton'
+import FooterCopyrights from '@/components/footercopyrights'
+import HeroSectionImage from '@/components/heroSectionImage'
+import Image from 'next/image'
 
 export default function Home() {
-  const [artist, setArtist] = useState<string>("");
-  const [album, setAlbum] = useState<string>("");
-  const debouncedQuery = useDebounce([artist, album], 500);
+  const [artist, setArtist] = useState<string>('')
+  const [album, setAlbum] = useState<string>('')
+  const debouncedQuery = useDebounce([artist, album], 500)
 
   const {
     data: results,
     isLoading,
     isError,
   } = useQuery<Album[] | undefined>({
-    queryKey: ["albums", ...debouncedQuery],
+    queryKey: ['albums', ...debouncedQuery],
     queryFn: () => searchFromApi(`${debouncedQuery[0]} ${debouncedQuery[1]}`),
     enabled: Boolean(debouncedQuery[0]) || Boolean(debouncedQuery[1]),
-  });
+  })
 
   return (
     <AuroraBackground>
@@ -48,7 +48,7 @@ export default function Home() {
         transition={{
           delay: 0.3,
           duration: 0.8,
-          ease: "easeInOut",
+          ease: 'easeInOut',
         }}
         className="relative w-full min-h-screen flex flex-col gap-4 items-center justify-start py-16 px-4"
       >
@@ -114,5 +114,5 @@ export default function Home() {
         <FooterCopyrights />
       </motion.div>
     </AuroraBackground>
-  );
+  )
 }

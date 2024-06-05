@@ -1,6 +1,6 @@
-import { Song } from "@/app/lib/types"
-import { MAX_DUEL } from "@/config"
-import { shuffleArray } from "./utils"
+import { Song } from '@/app/lib/types'
+import { MAX_DUEL } from '@/config'
+import { shuffleArray } from './utils'
 
 // Must generate duels with at least all song
 export function generateDuels(songs: Song[]): [Song, Song][] {

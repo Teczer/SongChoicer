@@ -1,71 +1,71 @@
-import type { Metadata } from "next";
-import type { Viewport } from "next";
+import type { Metadata } from 'next'
+import type { Viewport } from 'next'
 
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
+import { GeistMono } from 'geist/font/mono'
+import { GeistSans } from 'geist/font/sans'
 
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from '@/components/theme-provider'
 
-import "./globals.css";
-import QueryProvider from "@/components/QueryProvider";
+import './globals.css'
+import QueryProvider from '@/components/QueryProvider'
 
 export const metadata: Metadata = {
-  title: "Song Choicer • Rank your albums",
+  title: 'Song Choicer • Rank your albums',
   description:
-    "Song Choicer allows you to vote for your favorite albums and see the final ranking.",
+    'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
   icons: {
-    icon: ["/favicon.ico"],
-    apple: ["/apple-touch-icon.png"],
-    shortcut: ["/apple-touch-icon.png"],
-    host: "songchoicer.com",
+    icon: ['/favicon.ico'],
+    apple: ['/apple-touch-icon.png'],
+    shortcut: ['/apple-touch-icon.png'],
+    host: 'songchoicer.com',
   },
   robots: { index: true, follow: true },
   appleWebApp: {
     capable: true,
-    title: "Song Choicer • Song Ranking",
-    statusBarStyle: "black-translucent",
+    title: 'Song Choicer • Song Ranking',
+    statusBarStyle: 'black-translucent',
   },
   keywords: [
-    "music",
-    "ranker",
-    "musique",
-    "ranking",
-    "songs",
-    "vote",
-    "MusicRanker",
-    "Song Choicer",
+    'music',
+    'ranker',
+    'musique',
+    'ranking',
+    'songs',
+    'vote',
+    'MusicRanker',
+    'Song Choicer',
   ],
   openGraph: {
-    type: "website",
-    url: "https://songchoicer.com",
-    title: "Song Choicer • Song Ranking",
+    type: 'website',
+    url: 'https://songchoicer.com',
+    title: 'Song Choicer • Song Ranking',
     description:
-      "Song Choicer allows you to vote for your favorite albums and see the final ranking.",
-    siteName: "Song Choicer • Rank your albums",
-    images: ["https://songchoicer.com/android-chrome-512x512.png"],
+      'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
+    siteName: 'Song Choicer • Rank your albums',
+    images: ['https://songchoicer.com/android-chrome-512x512.png'],
   },
   twitter: {
-    card: "summary_large_image",
-    site: "https://songchoicer.com/",
-    creator: "@Teczer_",
-    images: "https://songchoicer.com/android-chrome-512x512.png",
-    title: "Song Choicer • Rank your albums",
+    card: 'summary_large_image',
+    site: 'https://songchoicer.com/',
+    creator: '@Teczer_',
+    images: 'https://songchoicer.com/android-chrome-512x512.png',
+    title: 'Song Choicer • Rank your albums',
     description:
-      "Song Choicer allows you to vote for your favorite albums and see the final ranking.",
+      'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
   },
-};
+}
 
 export const viewport: Viewport = {
-  width: "device-width",
+  width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
@@ -82,5 +82,5 @@ export default function RootLayout({
         </QueryProvider>
       </body>
     </html>
-  );
+  )
 }

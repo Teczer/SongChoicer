@@ -1,10 +1,10 @@
 // Dans AlbumCard.js
 
-import Image from "next/image"
-import React from "react"
-import { CardBody, CardContainer, CardItem } from "../3d-card"
-import { Song } from "@/app/lib/types"
-import { cn } from "@/lib/utils"
+import Image from 'next/image'
+import React from 'react'
+import { CardBody, CardContainer, CardItem } from '../3d-card'
+import { Song } from '@/app/lib/types'
+import { cn } from '@/lib/utils'
 
 interface RankCardProps {
   songRanked: Song[]
@@ -52,7 +52,7 @@ export function RankCard({
           {songRanked.map((song, index) => {
             // Définit la largeur à 10% pour les indices supérieurs à 8
             const widthPercentage =
-              index > 4 ? "60%" : `${Math.max(100 - (index % 10) * 10, 10)}%`
+              index > 4 ? '60%' : `${Math.max(100 - (index % 10) * 10, 10)}%`
 
             return (
               <CardItem
