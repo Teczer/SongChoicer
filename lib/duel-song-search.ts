@@ -1,6 +1,6 @@
 export function findFirstDuelsOfASong(
   versus: Versus,
-  songIdToFind: number
+  songIdToFind: number,
 ): boolean {
   const [songA, songB] = versus
   return songA.id === songIdToFind || songB.id === songIdToFind
@@ -37,7 +37,7 @@ function containsDesiredId(desiredIds: number[], song: Song): boolean {
 // const duels.find()
 export function findPairWithOnlyDesiredIds(
   desiredIds: number[],
-  allDuels: Versus[]
+  allDuels: Versus[],
 ): Versus | undefined {
   return allDuels.find((versus: Versus) => {
     const [songA, songB] = versus
@@ -50,7 +50,7 @@ export function findPairWithOnlyDesiredIds(
 
 export function findPairWithNoAvoidIds(
   avoidIds: number[],
-  allDuels: Versus[]
+  allDuels: Versus[],
 ): Versus | undefined {
   return allDuels.find((versus: Versus) => {
     const [songA, songB] = versus
@@ -63,7 +63,7 @@ export function findPairWithNoAvoidIds(
 export function findPairWithDesiredIdsAndNoAvoidIds(
   desiredIds: number[],
   avoidIds: number[],
-  allDuels: Versus[]
+  allDuels: Versus[],
 ): Versus | undefined {
   return allDuels.find(([songA, songB]) => {
     const includesDesiredId =
@@ -79,7 +79,7 @@ export function findPairWithDesiredIdsAndNoAvoidIds(
 export function findFirstDuelsOfASongWithoutAnotherSongId(
   desiredIds: number[],
   avoidIds: number[],
-  allDuels: Versus[]
+  allDuels: Versus[],
 ): Versus | undefined {
   let pair = findPairWithDesiredIdsAndNoAvoidIds(desiredIds, avoidIds, allDuels)
   if (pair) return pair

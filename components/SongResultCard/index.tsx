@@ -1,11 +1,9 @@
 import React, { useRef } from 'react'
 
 import * as htmlToImage from 'html-to-image'
-import { RankCard } from './ui/rankCard'
-import { Song } from '@/app/lib/types'
 import { FaShareAlt } from 'react-icons/fa'
-import { RankCard } from '../RankCard'
 import { Button } from '../ui/button'
+import { RankCard } from '../RankCard'
 
 type SongResultCardProps = {
   albumArtist: string
@@ -22,17 +20,17 @@ export default function SongResultCard({
   const rankCardRef = useRef<HTMLDivElement>(null)
 
   const generateImg = async (rankCardRef: any) => {
-    let dataUrl = '';
-    const minDataLength = 2000000;
-    let i = 0;
-    const maxAttempts = 10;
+    let dataUrl = ''
+    const minDataLength = 2000000
+    let i = 0
+    const maxAttempts = 10
 
     while (dataUrl.length < minDataLength && i < maxAttempts) {
-      dataUrl =await htmlToImage.toPng(rankCardRef);
-      i += 1;
+      dataUrl = await htmlToImage.toPng(rankCardRef)
+      i += 1
     }
 
-    return dataUrl;
+    return dataUrl
   }
 
   const downloadRankCardAsPNG = async () => {

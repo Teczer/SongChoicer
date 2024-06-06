@@ -26,13 +26,13 @@ export function generateDuels(songs: Song[]): Versus[] {
     const { min: songThatAppearTheLeast, max: songThatAppearTheMost } =
       getTheMinAndMostSongThatAppear(duels)
     const remainingDuels = allDuelsPossible.filter(
-      (possibleDuel) => !isDuelInList(possibleDuel, duels)
+      (possibleDuel) => !isDuelInList(possibleDuel, duels),
     )
 
     const nextDuel = findFirstDuelsOfASongWithoutAnotherSongId(
       songThatAppearTheLeast,
       songThatAppearTheMost,
-      remainingDuels
+      remainingDuels,
     )
 
     if (nextDuel) {
@@ -44,7 +44,7 @@ export function generateDuels(songs: Song[]): Versus[] {
 }
 
 export function generateAllPossiblePairWithoutDuplicate(
-  songs: Song[]
+  songs: Song[],
 ): Versus[] {
   const pairs: Versus[] = []
 
@@ -66,14 +66,16 @@ function getTheMinAndMostSongThatAppear(duels: Versus[]): {
   const songIdsThatAppearTheLeast: number[] = Object.keys(trackSongUsed)
     .filter(
       (key) =>
-        trackSongUsed[key as unknown as keyof typeof trackSongUsed] === minCount
+        trackSongUsed[key as unknown as keyof typeof trackSongUsed] ===
+        minCount,
     )
     .map(Number)
 
   const songIdsThatAppearTheMost: number[] = Object.keys(trackSongUsed)
     .filter(
       (key) =>
-        trackSongUsed[key as unknown as keyof typeof trackSongUsed] === maxCount
+        trackSongUsed[key as unknown as keyof typeof trackSongUsed] ===
+        maxCount,
     )
     .map(Number)
 

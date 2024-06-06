@@ -36,7 +36,7 @@ export default function Home({ params }: Props) {
           image: results.images[0],
         }
       }),
-    [results?.tracks.items.length]
+    [results?.tracks.items.length],
   )
 
   if (isLoading || !results) return <VersusSkeletonLoader />

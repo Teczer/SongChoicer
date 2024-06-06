@@ -11,8 +11,6 @@ import Image from 'next/image'
 
 import { motion } from 'framer-motion'
 
-import { Album } from './lib/types'
-
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { AuroraBackground } from '@/components/ui/aurora-background'
@@ -39,7 +37,7 @@ export default function Home() {
 
   const filteredAlbums = useMemo(() => {
     return results?.filter((item) =>
-      item.name.toLowerCase().includes(album.toLowerCase())
+      item.name.toLowerCase().includes(album.toLowerCase()),
     )
   }, [results, album])
 

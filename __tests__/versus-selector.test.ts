@@ -73,13 +73,13 @@ describe('songFunctions', () => {
   describe('findPairWithDesiredIdsAndNoAvoidIds', () => {
     it('should return a pair with desired ids and no avoid ids', () => {
       expect(
-        findPairWithDesiredIdsAndNoAvoidIds([1], [3, 4], allDuels)
+        findPairWithDesiredIdsAndNoAvoidIds([1], [3, 4], allDuels),
       ).toEqual(versus1)
     })
 
     it('should return undefined if no pair with desired ids and no avoid ids exists', () => {
       expect(
-        findPairWithDesiredIdsAndNoAvoidIds([1, 2], [1, 2], allDuels)
+        findPairWithDesiredIdsAndNoAvoidIds([1, 2], [1, 2], allDuels),
       ).toBeUndefined()
     })
   })
@@ -87,25 +87,25 @@ describe('songFunctions', () => {
   describe('findFirstDuelsOfASongWithoutAnotherSongId', () => {
     it('should return a pair with desired ids and no avoid ids', () => {
       expect(
-        findFirstDuelsOfASongWithoutAnotherSongId([1], [3, 4], allDuels)
+        findFirstDuelsOfASongWithoutAnotherSongId([1], [3, 4], allDuels),
       ).toEqual(versus1)
     })
 
     it('should return a pair with only desired ids if no pair with desired ids and no avoid ids exists', () => {
       expect(
-        findFirstDuelsOfASongWithoutAnotherSongId([3, 4], [1, 2], allDuels)
+        findFirstDuelsOfASongWithoutAnotherSongId([3, 4], [1, 2], allDuels),
       ).toEqual(versus2)
     })
 
     it('should return a pair with no avoid ids if no pair with desired ids exists', () => {
       expect(
-        findFirstDuelsOfASongWithoutAnotherSongId([], [1, 2], allDuels)
+        findFirstDuelsOfASongWithoutAnotherSongId([], [1, 2], allDuels),
       ).toEqual(versus2)
     })
 
     it('should return the first pair if no other criteria are met', () => {
       expect(
-        findFirstDuelsOfASongWithoutAnotherSongId([], [], allDuels)
+        findFirstDuelsOfASongWithoutAnotherSongId([], [], allDuels),
       ).toEqual(versus1)
     })
   })
