@@ -1,17 +1,21 @@
 'use client'
 
 import { useState } from 'react'
-import { Song } from '@/app/lib/types'
+
 import { motion } from 'framer-motion'
-import { ModeToggle } from './theme-toggle-button'
-import SongButton from './SongButton'
-import { Button } from '@/components/ui/button'
-import { AuroraBackground } from './ui/aurora-background'
+
+import { Song } from '@/app/lib/types'
 import { calculateNewEloScore } from '@/lib/calculate-elo-score'
 import { generateDuels } from '@/lib/duels'
 import { cn } from '@/lib/utils'
+
 import { RxTrackPrevious } from 'react-icons/rx'
-import SongResultCard from './SongResultCard'
+
+import { AuroraBackground } from '../ui/aurora-background'
+import { Button } from '@/components/ui/button'
+import SongButton from '../SongButton'
+import SongResultCard from '../SongResultCard'
+import ThemeToggleButton from '../ThemeToggleButton'
 
 const isBrowser = typeof window !== 'undefined'
 
@@ -71,7 +75,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
   return (
     <AuroraBackground className="overflow-hidden">
       <div className="hidden sm:block z-50 absolute top-4 right-4 sm:top-10 sm:right-10">
-        <ModeToggle />
+        <ThemeToggleButton />
       </div>
       <a className="z-50 absolute top-4 left-4 sm:top-10 sm:left-20" href={'/'}>
         <Button variant="outline" size="icon">

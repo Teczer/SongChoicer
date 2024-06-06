@@ -9,7 +9,7 @@ interface SongButtonProps {
   animationProps: any
 }
 
-const SongButton: React.FC<SongButtonProps> = ({
+export const SongButton: React.FC<SongButtonProps> = ({
   song,
   onVote,
   animationProps,

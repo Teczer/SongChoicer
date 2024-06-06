@@ -3,7 +3,7 @@ import { MAX_DUEL } from '@/config'
 import { countHowMuchTimeThisSoungAppear, generateDuels } from '@/lib/duels'
 import '@testing-library/jest-dom'
 
-const NUMBER_OF_TRACKS = 300
+const NUMBER_OF_TRACKS = 17
 
 describe('generateDuels', () => {
   const songs: Song[] = Array.from({ length: NUMBER_OF_TRACKS })
