@@ -2,15 +2,20 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ModeToggle } from './theme-toggle-button'
-import SongButton from './SongButton'
-import { Button } from '@/components/ui/button'
-import { AuroraBackground } from './ui/aurora-background'
+
+import { Song } from '@/app/lib/types'
 import { calculateNewEloScore } from '@/lib/calculate-elo-score'
 import { generateDuels } from '@/lib/duels'
 import { cn } from '@/lib/utils'
 import { RxTrackPrevious } from 'react-icons/rx'
-import SongResultCard from './SongResultCard'
+
+import { AuroraBackground } from '../ui/aurora-background'
+import { Button } from '@/components/ui/button'
+import SongButton from '../SongButton'
+import SongResultCard from '../SongResultCard'
+import ThemeToggleButton from '../ThemeToggleButton'
+
+const isBrowser = typeof window !== 'undefined'
 
 interface SongRankerProps {
   songs: Song[]
@@ -63,7 +68,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
   return (
     <AuroraBackground className="overflow-hidden">
       <div className="hidden sm:block z-50 absolute top-4 right-4 sm:top-10 sm:right-10">
-        <ModeToggle />
+        <ThemeToggleButton />
       </div>
       <a className="z-50 absolute top-4 left-4 sm:top-10 sm:left-20" href={'/'}>
         <Button variant="outline" size="icon">
@@ -84,7 +89,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
       >
         {!isRankingFinished && (
           <>
-            <h1 className="text-lg w-4/6 font-mono font-bold max-h-[40px] text-nowrap overflow-hidden text-ellipsis sm:text-2xl sm:w-auto">
+            <h1 className="text-lg w-4/6 font-mono font-bold max-h-[40px] text-nowrap text-center overflow-hidden text-ellipsis sm:text-2xl sm:w-auto">
               {albumArtist} • {albumName}
             </h1>
             <div className="w-full flex flex-col items-center gap-4">
@@ -100,7 +105,9 @@ const SongRanker: React.FC<SongRankerProps> = ({
                     animationProps={{
                       initial: {
                         opacity: 0,
-                        ...(window.innerWidth < 640 ? { x: 300 } : { y: 500 }),
+                        ...(isBrowser && window.innerWidth < 640
+                          ? { x: 300 }
+                          : { y: 500 }),
                       },
                       animate: { opacity: 1, x: 0, y: 0 },
                       transition: { duration: 0.5, ease: 'easeInOut' },
@@ -116,7 +123,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
                     animationProps={{
                       initial: {
                         opacity: 0,
-                        ...(window.innerWidth < 640
+                        ...(isBrowser && window.innerWidth < 640
                           ? { x: -300 }
                           : { y: -500 }),
                       },

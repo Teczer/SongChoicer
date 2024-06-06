@@ -4,10 +4,9 @@ import type { Viewport } from 'next'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
 
-import { ThemeProvider } from '@/components/theme-provider'
-
 import './globals.css'
 import QueryProvider from '@/components/QueryProvider'
+import ThemeProvider from '@/components/ThemeProvider'
 
 export const metadata: Metadata = {
   title: 'Song Choicer • Rank your albums',

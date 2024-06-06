@@ -6,7 +6,7 @@ import { AlbumResponse, getAlbum } from '@/app/api/album/methods'
 
 import SongRanker from '@/components/SongRanker'
 import { useMemo } from 'react'
-import { VersusSkeletonLoader } from '@/components/ui/loader/VersusSkeletonLoader'
+import { VersusSkeletonLoader } from '@/components/VersusSkeletonLoader'
 
 interface Props {
   params: {

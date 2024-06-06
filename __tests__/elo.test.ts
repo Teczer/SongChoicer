@@ -6,7 +6,7 @@ import {
 import { countHowMuchTimeThisSoungAppear } from '@/lib/utils'
 import '@testing-library/jest-dom'
 
-const NUMBER_OF_TRACKS = 19
+const NUMBER_OF_TRACKS = 17
 
 describe('generateDuels', () => {
   const songs: Song[] = Array.from({ length: NUMBER_OF_TRACKS })
