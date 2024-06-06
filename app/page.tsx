@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import useDebounce from '@/hooks/useDebounce'
 
@@ -36,6 +36,12 @@ export default function Home() {
     queryFn: () => searchFromApi(`${debouncedQuery[0]} ${debouncedQuery[1]}`),
     enabled: Boolean(debouncedQuery[0]) || Boolean(debouncedQuery[1]),
   })
+
+  const filteredAlbums = useMemo(() => {
+    return results?.filter((item) =>
+      item.name.toLowerCase().includes(album.toLowerCase())
+    )
+  }, [results, album])
 
   return (
     <AuroraBackground>
@@ -102,11 +108,11 @@ export default function Home() {
         )}
         {!isLoading && !results && <HeroSectionImage />}
         <ul className="w-full flex flex-wrap justify-center items-center gap-6">
-          {results &&
-            results.map((result) => (
-              <li key={result.id}>
-                <Link href={`/versus/${result.id}`}>
-                  <AlbumCard result={result} />
+          {filteredAlbums &&
+            filteredAlbums.map((album) => (
+              <li key={album.id}>
+                <Link href={`/versus/${album.id}`}>
+                  <AlbumCard album={album} />
                 </Link>
               </li>
             ))}

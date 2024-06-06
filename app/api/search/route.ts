@@ -13,5 +13,8 @@ export async function GET(req: Request) {
   const search = await spotifyApi.search(query, ['album'], { limit: 8 })
 
   const response = search.body.albums?.items
-  return NextResponse.json(response)
+
+  // Filter out albums with less than 3 tracks
+  const filteredResponse = response?.filter((item) => item.total_tracks >= 3)
+  return NextResponse.json(filteredResponse)
 }
