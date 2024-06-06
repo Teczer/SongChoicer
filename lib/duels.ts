@@ -6,6 +6,10 @@ import {
   isSongInVersus,
 } from './duel-song-search'
 
+// - On part d'un tableau vide et on ajoute des duels jusqu'à atteindre le nombre max de duels
+// - Si le nombre MAX_POSSIBLE_DUEL est inférieur ou égale au nombre MAX_DUEL on renvoi directement la liste
+// - Si le nombre MAX_POSSIBLE_DUEL est supérieur au nombre MAX_DUEL, alors on commence à alimenter la liste avec TOUS les sons présent au moins 1 fois.
+// - On comble le reste par des pair de sons qui sont le moins présent
 export function generateDuels(songs: Song[]): Versus[] {
   const songCount = songs.length
 
@@ -13,6 +17,10 @@ export function generateDuels(songs: Song[]): Versus[] {
     generateAllPossiblePairWithoutDuplicate(songs)
 
   shuffleArray(allDuelsPossible)
+
+  if (allDuelsPossible.length <= MAX_DUEL(songCount)) {
+    return allDuelsPossible
+  }
 
   const duels: Versus[] = []
   const seenPairs = new Set<string>()
