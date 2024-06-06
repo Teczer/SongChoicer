@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import * as htmlToImage from 'html-to-image'
 import { RankCard } from './ui/rankCard'
-import { Song } from '@/app/lib/types'
 import { FaShareAlt } from 'react-icons/fa'
 import { Button } from './ui/button'
 

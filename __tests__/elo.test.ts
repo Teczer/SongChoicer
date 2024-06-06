@@ -1,4 +1,3 @@
-import { Song } from '@/app/lib/types'
 import { MAX_DUEL } from '@/config'
 import { generateDuels } from '@/lib/duels'
 import { countHowMuchTimeThisSoungAppear } from '@/lib/utils'

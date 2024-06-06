@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import React from 'react'
 import { CardBody, CardContainer, CardItem } from '../3d-card'
-import { Song } from '@/app/lib/types'
 import { cn } from '@/lib/utils'
 
 interface RankCardProps {

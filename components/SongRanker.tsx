@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Song } from '@/app/lib/types'
 import { motion } from 'framer-motion'
 import { ModeToggle } from './theme-toggle-button'
 import SongButton from './SongButton'

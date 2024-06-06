@@ -3,7 +3,6 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { AlbumResponse, getAlbum } from '@/app/api/album/methods'
-import { Song } from '@/app/lib/types'
 
 import SongRanker from '@/components/SongRanker'
 import { useMemo } from 'react'
@@ -37,7 +36,7 @@ export default function Home({ params }: Props) {
           image: results.images[0],
         }
       }),
-    [results?.tracks.items.length],
+    [results?.tracks.items.length]
   )
 
   if (isLoading || !results) return <VersusSkeletonLoader />

@@ -1,7 +1,5 @@
 'use client'
 
-import { Song } from '@/app/lib/types'
-
 import SongRanker from '@/components/SongRanker'
 
 export default function Home() {
