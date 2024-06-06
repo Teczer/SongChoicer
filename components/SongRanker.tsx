@@ -1,18 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react'
 import { Song } from '@/app/lib/types'
-
 import { motion } from 'framer-motion'
-
 import { ModeToggle } from './theme-toggle-button'
-
 import SongButton from './SongButton'
-
 import { Button } from '@/components/ui/button'
 import { AuroraBackground } from './ui/aurora-background'
-
 import { calculateNewEloScore } from '@/lib/calculate-elo-score'
 import { generateDuels } from '@/lib/duels'
 import { cn } from '@/lib/utils'
@@ -36,6 +30,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
   const [songsEloScores, setSongsEloScores] = useState(
     Object.fromEntries(songs.map((song) => [song.id, 1000]))
   )
+  const [duels, setDuels] = useState<[Song, Song][]>(() => generateDuels(songs))
 
   const handleVote = (winnerId: number, loserId: number) => {
     const winnerElo = songsEloScores[winnerId]
@@ -50,14 +45,13 @@ const SongRanker: React.FC<SongRankerProps> = ({
       [loserId]: newLoserElo,
     }))
 
-    setCurrentDuelIndex((prevIndex) => (prevIndex || 0) + 1)
+    setCurrentDuelIndex((prevIndex) => prevIndex + 1)
   }
 
-  // On fait en sorte qu'on vois au moins tout les sons.
-  const duels: [Song, Song][] = generateDuels(songs)
-
-  const [songA, songB] =
-    currentDuelIndex === null ? [] : duels[currentDuelIndex]
+  const isRankingFinished: boolean = currentDuelIndex >= duels.length
+  const [songA, songB] = isRankingFinished
+    ? [null, null]
+    : duels[currentDuelIndex]
 
   const getRankings = (): Song[] => {
     return songs.sort(
@@ -65,10 +59,14 @@ const SongRanker: React.FC<SongRankerProps> = ({
     )
   }
 
-  const completionPercentage =
-    currentDuelIndex === null ? 100 : (currentDuelIndex / duels.length) * 100
-  const isRankingFinished: boolean = currentDuelIndex === duels.length
+  const completionPercentage = (currentDuelIndex / duels.length) * 100
 
+  const formattedDuels = duels.reduce((acc, duel, index) => {
+    acc[`Duel ${index + 1}`] = `${duel[0].title} | ${duel[1].title}`
+    return acc
+  }, {} as Record<string, string>)
+
+  console.log('duelsCOMPO', formattedDuels)
   return (
     <AuroraBackground className="overflow-hidden">
       <div className="hidden sm:block z-50 absolute top-4 right-4 sm:top-10 sm:right-10">
@@ -138,7 +136,6 @@ const SongRanker: React.FC<SongRankerProps> = ({
             </div>
           </>
         )}
-
         {isRankingFinished && (
           <SongResultCard
             albumArtist={albumArtist}

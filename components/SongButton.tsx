@@ -34,6 +34,7 @@ const SongButton: React.FC<SongButtonProps> = ({
       {...animationProps}
     >
       <Image
+        priority
         className="rounded-sm filter w-full h-[150px] object-cover sm:w-full sm:h-auto"
         src={song.image.url}
         alt={song.title}

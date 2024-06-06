@@ -8,6 +8,7 @@ const HeroSectionImage: React.FC = () => {
       <div className="hidden items-center justify-center flex-col gap-5 md:gap-20 dark:flex md:flex-row">
         <div className="hero-video">
           <Image
+            priority
             quality={100}
             className="w-[600px] rounded-lg border border-white border-opacity-10"
             width={1728}

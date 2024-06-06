@@ -3,10 +3,9 @@
 import { Song } from '@/app/lib/types'
 
 import SongRanker from '@/components/SongRanker'
-import { generateDuels } from '@/lib/duels'
 
 export default function Home() {
-  const songs: Song[] = Array.from({ length: 10 })
+  const songs: Song[] = Array.from({ length: 31 })
     .fill(null)
     .map((_, index) => ({
       id: index,
