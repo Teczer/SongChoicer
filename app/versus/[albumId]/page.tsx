@@ -3,7 +3,6 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { AlbumResponse, getAlbum } from '@/app/api/album/methods'
-import { Song } from '@/app/lib/types'
 
 import SongRanker from '@/components/SongRanker'
 import { useMemo } from 'react'

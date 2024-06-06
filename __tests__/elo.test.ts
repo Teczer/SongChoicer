@@ -1,9 +1,12 @@
-import { Song } from '@/app/lib/types'
 import { MAX_DUEL } from '@/config'
-import { countHowMuchTimeThisSoungAppear, generateDuels } from '@/lib/duels'
+import {
+  generateAllPossiblePairWithoutDuplicate,
+  generateDuels,
+} from '@/lib/duels'
+import { countHowMuchTimeThisSoungAppear } from '@/lib/utils'
 import '@testing-library/jest-dom'
 
-const NUMBER_OF_TRACKS = 17
+const NUMBER_OF_TRACKS = 5
 
 describe('generateDuels', () => {
   const songs: Song[] = Array.from({ length: NUMBER_OF_TRACKS })
@@ -17,6 +20,14 @@ describe('generateDuels', () => {
         height: 640,
       },
     }))
+
+  it(`should have all unique possible pair`, () => {
+    const allUniqueDuelsPossible =
+      generateAllPossiblePairWithoutDuplicate(songs)
+    const allUniqueDuelsPossibleCount = (songs.length * (songs.length - 1)) / 2
+
+    expect(allUniqueDuelsPossible.length).toBe(allUniqueDuelsPossibleCount)
+  })
 
   it(`should have ${NUMBER_OF_TRACKS} songs`, () => {
     expect(songs.length).toBe(NUMBER_OF_TRACKS)

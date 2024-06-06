@@ -1,5 +1,4 @@
 import React from 'react'
-import { Song } from '@/app/lib/types'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 

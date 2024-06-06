@@ -1,14 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 import { Song } from '@/app/lib/types'
 import { calculateNewEloScore } from '@/lib/calculate-elo-score'
 import { generateDuels } from '@/lib/duels'
 import { cn } from '@/lib/utils'
-
 import { RxTrackPrevious } from 'react-icons/rx'
 
 import { AuroraBackground } from '../ui/aurora-background'
@@ -66,11 +64,6 @@ const SongRanker: React.FC<SongRankerProps> = ({
   }
 
   const completionPercentage = (currentDuelIndex / duels.length) * 100
-
-  const formattedDuels = duels.reduce((acc, duel, index) => {
-    acc[`Duel ${index + 1}`] = `${duel[0].title} | ${duel[1].title}`
-    return acc
-  }, {} as Record<string, string>)
 
   return (
     <AuroraBackground className="overflow-hidden">
