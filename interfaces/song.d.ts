@@ -8,4 +8,6 @@ interface Song {
   }
 }
 
+type Versus = [Song, Song]
+
 type Album = SpotifyApi.AlbumObjectSimplified
