@@ -12,7 +12,7 @@ export function shuffleArray(array: any[]) {
   }
 }
 
-export const countHowMuchTimeThisSoungAppear = (songs: [Song, Song][]) => {
+export const countHowMuchTimeThisSoungAppear = (songs: Versus[]) => {
   let idCount: Record<number, number> = {}
   songs.forEach((subArr) => {
     subArr.forEach((obj) => {

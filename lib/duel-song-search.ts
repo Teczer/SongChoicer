@@ -4,17 +4,24 @@ export function findFirstDuelsOfASong(
 ): boolean {
   const [songA, songB] = versus
   return songA.id === songIdToFind || songB.id === songIdToFind
-  //   allDuelsPossible.find(
-  //     ([songA, songB]) =>
-  //       (songA.id === songIdToFind || songB.id === songIdToFind) &&
-  //       !seenPairs.has(`${songA.id}-${songB.id}`) &&
-  //       !seenPairs.has(`${songB.id}-${songA.id}`)
-  //   )
 }
 
 export function isSongInVersus(songId: number, versus: Versus): boolean {
   const [songA, songB] = versus
   return songA.id === songId || songB.id === songId
+}
+
+export function isSameDuel(duel1: Versus, duel2: Versus): boolean {
+  const [song1a, song1b] = duel1
+  const [song2a, song2b] = duel2
+  return (
+    (song1a.id === song2a.id && song1b.id === song2b.id) ||
+    (song1a.id === song2b.id && song1b.id === song2a.id)
+  )
+}
+
+export function isDuelInList(duel: Versus, list: Versus[]): boolean {
+  return list.some((d) => isSameDuel(d, duel))
 }
 
 export function isSongIdSameAsSong(songId: number, song: Song): boolean {
