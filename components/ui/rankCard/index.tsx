@@ -19,7 +19,7 @@ export function RankCard({
   albumArtist,
 }: RankCardProps) {
   return (
-    <CardContainer className="w-full group rounded-xl select-none">
+    <CardContainer className="w-full group rounded-xl select-none sm:w-auto">
       <CardBody className="bg-transparent h-auto border border-black/[0.1] relative group/card hover:shadow-2xl hover:shadow-yellow-500/[0.1] w-full sm:w-[35rem] rounded-xl p-6 dark:border-white/[0.1]">
         <Image
           src={albumCover}
