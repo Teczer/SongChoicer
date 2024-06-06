@@ -19,7 +19,7 @@ export const MAX_DUEL = (songsLength: number): number => {
   for (let i = 20; i <= songsLength; i += 5) {
     maxDuels += 20
   }
-  console.log('maxDuels', maxDuels)
+
   // Retourne le minimum entre le nombre total de duels possibles (s * (s - 1) / 2) et le nombre maximal de duels calculé
   return Math.min((songsLength * (songsLength - 1)) / 2, maxDuels)
 }

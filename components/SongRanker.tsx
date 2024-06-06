@@ -61,12 +61,6 @@ const SongRanker: React.FC<SongRankerProps> = ({
 
   const completionPercentage = (currentDuelIndex / duels.length) * 100
 
-  const formattedDuels = duels.reduce((acc, duel, index) => {
-    acc[`Duel ${index + 1}`] = `${duel[0].title} | ${duel[1].title}`
-    return acc
-  }, {} as Record<string, string>)
-
-  console.log('duelsCOMPO', formattedDuels)
   return (
     <AuroraBackground className="overflow-hidden">
       <div className="hidden sm:block z-50 absolute top-4 right-4 sm:top-10 sm:right-10">

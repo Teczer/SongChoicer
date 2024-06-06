@@ -160,28 +160,6 @@ export function generateDuels(songs: Song[]): [Song, Song][] {
     }
   }
 
-  const formattedDuels = duels.reduce((acc, duel, index) => {
-    acc[`Duel ${index + 1}`] = `${duel[0].title} | ${duel[1].title}`
-    return acc
-  }, {} as Record<string, string>)
-
-  console.log('duels', formattedDuels)
-
-  function hasDuplicateDuels(duels: [Song, Song][]): boolean {
-    const seen = new Set<string>()
-    for (const [songA, songB] of duels) {
-      const duel1 = `${songA.id}-${songB.id}`
-      const duel2 = `${songB.id}-${songA.id}`
-      if (seen.has(duel1) || seen.has(duel2)) {
-        return true
-      }
-      seen.add(duel1)
-    }
-    return false
-  }
-
-  console.log('Has duplicate duels:', hasDuplicateDuels(duels))
-
   return duels
 }
 
