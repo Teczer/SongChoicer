@@ -1,20 +1,6 @@
 import { Song } from '@/app/lib/types'
 import { MAX_DUEL } from '@/config'
-import { shuffleArray } from './utils'
-
-export const countHowMuchTimeThisSoungAppear = (songs: [Song, Song][]) => {
-  let idCount: Record<number, number> = {}
-  songs.forEach((subArr) => {
-    subArr.forEach((obj) => {
-      if (idCount[obj.id]) {
-        idCount[obj.id]++
-      } else {
-        idCount[obj.id] = 1
-      }
-    })
-  })
-  return idCount
-}
+import { countHowMuchTimeThisSoungAppear, shuffleArray } from './utils'
 
 export function generateDuels(songs: Song[]): [Song, Song][] {
   const songCount = songs.length

@@ -1,6 +1,7 @@
 import { Song } from '@/app/lib/types'
 import { MAX_DUEL } from '@/config'
-import { countHowMuchTimeThisSoungAppear, generateDuels } from '@/lib/duels'
+import { generateDuels } from '@/lib/duels'
+import { countHowMuchTimeThisSoungAppear } from '@/lib/utils'
 import '@testing-library/jest-dom'
 
 const NUMBER_OF_TRACKS = 19
