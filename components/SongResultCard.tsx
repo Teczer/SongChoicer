@@ -19,19 +19,27 @@ export default function SongResultCard({
 }: SongResultCardProps) {
   const rankCardRef = useRef<HTMLDivElement>(null)
 
-  const downloadRankCardAsPNG = () => {
+  const generateImg = async (rankCardRef: any) => {
+    let dataUrl = '';
+    const minDataLength = 2000000;
+    let i = 0;
+    const maxAttempts = 10;
+
+    while (dataUrl.length < minDataLength && i < maxAttempts) {
+      dataUrl =await htmlToImage.toPng(rankCardRef);
+      i += 1;
+    }
+
+    return dataUrl;
+  }
+
+  const downloadRankCardAsPNG = async () => {
     if (rankCardRef.current) {
-      htmlToImage
-        .toPng(rankCardRef.current)
-        .then((dataUrl) => {
-          const link = document.createElement('a')
-          link.download = `${albumArtist}_${albumName}_Card.png`
-          link.href = dataUrl
-          link.click()
-        })
-        .catch((error) => {
-          console.error("Erreur lors de la création de l'image PNG:", error)
-        })
+      const dataUrl = await generateImg(rankCardRef.current)
+      const link = document.createElement('a')
+      link.download = `${albumArtist}_${albumName}_Card.png`
+      link.href = dataUrl
+      link.click()
     }
   }
 
@@ -45,7 +53,7 @@ export default function SongResultCard({
           albumCover={`${albumCover}?v=${new Date().getTime()}`}
         />
       </div>
-      <div className="hidden sm:flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center gap-2">
         <Button variant={'outline'} onClick={downloadRankCardAsPNG}>
           Download Card
         </Button>
