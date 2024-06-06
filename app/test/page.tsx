@@ -5,7 +5,7 @@ import { Song } from '@/app/lib/types'
 import SongRanker from '@/components/SongRanker'
 
 export default function Home() {
-  const songs: Song[] = Array.from({ length: 31 })
+  const songs: Song[] = Array.from({ length: 9 })
     .fill(null)
     .map((_, index) => ({
       id: index,

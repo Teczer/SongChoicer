@@ -4,7 +4,6 @@ import Image from 'next/image'
 import React from 'react'
 import { CardBody, CardContainer, CardItem } from '../3d-card'
 import { Song } from '@/app/lib/types'
-import { cn } from '@/lib/utils'
 
 interface RankCardProps {
   songRanked: Song[]
@@ -20,8 +19,8 @@ export function RankCard({
   albumArtist,
 }: RankCardProps) {
   return (
-    <CardContainer className="group rounded-xl select-none">
-      <CardBody className="bg-transparent h-auto border border-black/[0.1] relative group/card hover:shadow-2xl hover:shadow-yellow-500/[0.1] w-auto sm:w-[35rem] rounded-xl p-6 dark:border-white/[0.1]">
+    <CardContainer className="w-full group rounded-xl select-none">
+      <CardBody className="bg-transparent h-auto border border-black/[0.1] relative group/card hover:shadow-2xl hover:shadow-yellow-500/[0.1] w-full sm:w-[35rem] rounded-xl p-6 dark:border-white/[0.1]">
         <Image
           src={albumCover}
           height="1000"
@@ -68,7 +67,7 @@ export function RankCard({
             )
           })}
         </ul>
-        <p className="rounded-sm p-1 bg-black bg-opacity-30 font-mono text-sm absolute bottom-14 right-5  text-white text-opacity-70 text-wrap">
+        <p className="rounded-sm p-1 bg-black bg-opacity-30 font-mono absolute bottom-8 right-3 text-white text-opacity-70 text-wrap text-xs sm:text-sm">
           songchoicer.com
         </p>
       </CardBody>

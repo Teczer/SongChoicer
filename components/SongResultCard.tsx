@@ -36,8 +36,8 @@ export default function SongResultCard({
   }
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center gap-4 p-10">
-      <div key={albumName} ref={rankCardRef}>
+    <div className="w-full min-h-screen flex flex-col items-center justify-start gap-4 pt-14 px-2 sm:justify-center">
+      <div className="w-full" key={albumName} ref={rankCardRef}>
         <RankCard
           albumName={albumName}
           albumArtist={albumArtist}

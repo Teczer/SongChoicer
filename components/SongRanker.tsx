@@ -66,7 +66,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
     return acc
   }, {} as Record<string, string>)
 
-  console.log('duelsCOMPO', formattedDuels)
+  // console.log('duelsCOMPO', formattedDuels)
   return (
     <AuroraBackground className="overflow-hidden">
       <div className="hidden sm:block z-50 absolute top-4 right-4 sm:top-10 sm:right-10">
@@ -91,7 +91,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
       >
         {!isRankingFinished && (
           <>
-            <h1 className="text-lg w-4/6 font-mono font-bold max-h-[40px] text-nowrap overflow-hidden text-ellipsis sm:text-2xl sm:w-auto">
+            <h1 className="text-lg w-4/6 font-mono font-bold max-h-[40px] text-nowrap text-center overflow-hidden text-ellipsis sm:text-2xl sm:w-auto">
               {albumArtist} • {albumName}
             </h1>
             <div className="w-full flex flex-col items-center gap-4">
@@ -107,7 +107,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
                     animationProps={{
                       initial: {
                         opacity: 0,
-                        ...(window.innerWidth < 640 ? { x: 300 } : { y: 500 }),
+                        ...(window?.innerWidth < 640 ? { x: 300 } : { y: 500 }),
                       },
                       animate: { opacity: 1, x: 0, y: 0 },
                       transition: { duration: 0.5, ease: 'easeInOut' },
@@ -123,7 +123,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
                     animationProps={{
                       initial: {
                         opacity: 0,
-                        ...(window.innerWidth < 640
+                        ...(window?.innerWidth < 640
                           ? { x: -300 }
                           : { y: -500 }),
                       },

@@ -165,7 +165,7 @@ export function generateDuels(songs: Song[]): [Song, Song][] {
     return acc
   }, {} as Record<string, string>)
 
-  console.log('duels', formattedDuels)
+  // console.log('duels', formattedDuels)
 
   function hasDuplicateDuels(duels: [Song, Song][]): boolean {
     const seen = new Set<string>()
@@ -180,7 +180,7 @@ export function generateDuels(songs: Song[]): [Song, Song][] {
     return false
   }
 
-  console.log('Has duplicate duels:', hasDuplicateDuels(duels))
+  // console.log('Has duplicate duels:', hasDuplicateDuels(duels))
 
   return duels
 }
