@@ -7,7 +7,7 @@ import { Song } from '@/app/lib/types'
 
 import SongRanker from '@/components/SongRanker'
 import { useMemo } from 'react'
-import { VersusSkeletonLoader } from '@/components/ui/loader/VersusSkeletonLoader'
+import { VersusSkeletonLoader } from '@/components/VersusSkeletonLoader'
 
 interface Props {
   params: {
@@ -37,7 +37,7 @@ export default function Home({ params }: Props) {
           image: results.images[0],
         }
       }),
-    [results?.tracks.items.length],
+    [results?.tracks.items.length]
   )
 
   if (isLoading || !results) return <VersusSkeletonLoader />

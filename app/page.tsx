@@ -7,20 +7,20 @@ import useDebounce from '@/hooks/useDebounce'
 import { searchFromApi } from './api/search/methods'
 
 import Link from 'next/link'
+import Image from 'next/image'
 
 import { motion } from 'framer-motion'
 
 import { Album } from './lib/types'
 
-import { ModeToggle } from '@/components/theme-toggle-button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { AuroraBackground } from '@/components/ui/aurora-background'
-import { AlbumCard } from '@/components/ui/albumCard'
-import { AlbumCardSkeleton } from '@/components/ui/loader/AlbumCardSkeleton'
-import FooterCopyrights from '@/components/footercopyrights'
-import HeroSectionImage from '@/components/heroSectionImage'
-import Image from 'next/image'
+import { AlbumCard } from '@/components/AlbumCard'
+import { AlbumCardSkeleton } from '@/components/AlbumCardSkeleton'
+import HeroSectionImage from '@/components/HeroSectionImage'
+import FooterCopyrights from '@/components/FooterCopyrights'
+import ThemeToggleButton from '@/components/ThemeToggleButton'
 
 export default function Home() {
   const [artist, setArtist] = useState<string>('')
@@ -46,7 +46,7 @@ export default function Home() {
   return (
     <AuroraBackground>
       <div className="z-50 absolute top-4 left-4 sm:top-10 sm:right-10 sm:left-auto">
-        <ModeToggle />
+        <ThemeToggleButton />
       </div>
       <motion.div
         initial={{ opacity: 0.0, y: 40 }}
