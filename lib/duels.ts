@@ -9,14 +9,9 @@ import {
 export function generateDuels(songs: Song[]): Versus[] {
   const songCount = songs.length
 
-  const allDuelsPossible: Versus[] = Array.from({
-    length: songCount,
-  }).flatMap((_, i) =>
-    Array.from({ length: songCount - i - 1 }, (_, j) => [
-      songs[i],
-      songs[i + j + 1],
-    ])
-  ) as Versus[]
+  const allDuelsPossible: Versus[] =
+    generateAllPossiblePairWithoutDuplicate(songs)
+
   shuffleArray(allDuelsPossible)
 
   const duels: Versus[] = []
@@ -75,6 +70,19 @@ export function generateDuels(songs: Song[]): Versus[] {
   }
 
   return duels
+}
+
+export function generateAllPossiblePairWithoutDuplicate(
+  songs: Song[]
+): Versus[] {
+  const pairs: Versus[] = []
+
+  for (let i = 0; i < songs.length; i++) {
+    for (let j = i + 1; j < songs.length; j++) {
+      pairs.push([songs[i], songs[j]])
+    }
+  }
+  return pairs
 }
 
 // Gonna be implement in v2 when we take account of precedent rank
