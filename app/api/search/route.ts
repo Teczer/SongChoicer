@@ -14,7 +14,18 @@ export async function GET(req: Request) {
 
   const response = search.body.albums?.items
 
-  // Filter out albums with less than 3 tracks
-  const filteredResponse = response?.filter((item) => item.total_tracks >= 3)
+  // Créer un Set pour stocker des identifiants uniques d'albums
+  const uniqueAlbums = new Set()
+
+  // Filtrer les albums avec au moins 3 pistes et éviter les doublons
+  const filteredResponse = response?.filter((item) => {
+    const uniqueId = `${item.name}-${item.release_date}-${item.total_tracks}`
+    if (item.total_tracks >= 3 && !uniqueAlbums.has(uniqueId)) {
+      uniqueAlbums.add(uniqueId)
+      return true
+    }
+    return false
+  })
+
   return NextResponse.json(filteredResponse)
 }
