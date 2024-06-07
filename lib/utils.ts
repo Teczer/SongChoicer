@@ -25,3 +25,10 @@ export const countHowMuchTimeThisSoungAppear = (songs: Versus[]) => {
   })
   return idCount
 }
+
+// used for display console logs duels readeable
+export const formattedDuels = (duels: Versus[]) =>
+  duels.reduce((acc, duel, index) => {
+    acc[`Duel ${index + 1}`] = `${duel[0].title} | ${duel[1].title}`
+    return acc
+  }, {} as Record<string, string>)

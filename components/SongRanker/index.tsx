@@ -3,10 +3,12 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 
-import { calculateNewEloScore } from '@/lib/calculate-elo-score'
+import { calculateNewEloScore, revertEloScore } from '@/lib/calculate-elo-score'
 import { generateDuels } from '@/lib/duels'
 import { cn } from '@/lib/utils'
+
 import { RxTrackPrevious } from 'react-icons/rx'
+import { FaUndoAlt } from 'react-icons/fa'
 
 import { AuroraBackground } from '../ui/aurora-background'
 import { Button } from '@/components/ui/button'
@@ -30,25 +32,62 @@ const SongRanker: React.FC<SongRankerProps> = ({
   albumArtist,
 }) => {
   const [currentDuelIndex, setCurrentDuelIndex] = useState<number>(0)
+  console.log('currentDuelIndex', currentDuelIndex)
   const [songsEloScores, setSongsEloScores] = useState(
     Object.fromEntries(songs.map((song) => [song.id, 1000]))
   )
+  console.log('songsEloScores', songsEloScores)
   const [duels, setDuels] = useState<[Song, Song][]>(() => generateDuels(songs))
+  const [voteHistory, setVoteHistory] = useState<
+    {
+      winnerId: number
+      loserId: number
+      previousWinnerElo: number
+      previousLoserElo: number
+    }[]
+  >([])
 
   const handleVote = (winnerId: number, loserId: number) => {
-    const winnerElo = songsEloScores[winnerId]
-    const loserElo = songsEloScores[loserId]
+    const previousWinnerElo = songsEloScores[winnerId]
+    const previousLoserElo = songsEloScores[loserId]
     const { newWinnerElo, newLoserElo } = calculateNewEloScore(
-      winnerElo,
-      loserElo
+      previousWinnerElo,
+      previousLoserElo
     )
     setSongsEloScores((prevEloScores) => ({
       ...prevEloScores,
       [winnerId]: newWinnerElo,
       [loserId]: newLoserElo,
     }))
-
+    setVoteHistory((prevHistory) => [
+      ...prevHistory,
+      { winnerId, loserId, previousWinnerElo, previousLoserElo },
+    ])
     setCurrentDuelIndex((prevIndex) => prevIndex + 1)
+  }
+
+  const handleUndo = () => {
+    if (currentDuelIndex > 0) {
+      const lastVote = voteHistory[voteHistory.length - 1]
+      const { winnerId, loserId, previousWinnerElo, previousLoserElo } =
+        lastVote
+
+      const { revertedWinnerElo, revertedLoserElo } = revertEloScore(
+        previousWinnerElo,
+        previousLoserElo
+      )
+
+      // Restaurer les scores ELO précédents en utilisant revertEloScore
+      setSongsEloScores((prevEloScores) => ({
+        ...prevEloScores,
+        [winnerId]: revertedWinnerElo,
+        [loserId]: revertedLoserElo,
+      }))
+      // Supprimer le dernier vote de l'historique
+      setVoteHistory((prevHistory) => prevHistory.slice(0, -1))
+      // Décrémenter l'index du duel
+      setCurrentDuelIndex((prevIndex) => prevIndex - 1)
+    }
   }
 
   const isRankingFinished: boolean = currentDuelIndex >= duels.length
@@ -113,7 +152,15 @@ const SongRanker: React.FC<SongRankerProps> = ({
                     }}
                   />
                 )}
-
+                <Button
+                  disabled={voteHistory.length === 0}
+                  variant="outline"
+                  onClick={handleUndo}
+                  className="absolute flex items-center justify-start gap-3"
+                >
+                  <span>Previous Duel</span>
+                  <FaUndoAlt />
+                </Button>
                 {songB && songA && (
                   <SongButton
                     key={songB.id}

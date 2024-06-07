@@ -1,6 +1,6 @@
 export function calculateNewEloScore(
   winnerElo: number,
-  loserElo: number,
+  loserElo: number
 ): {
   newWinnerElo: number
   newLoserElo: number
@@ -11,4 +11,17 @@ export function calculateNewEloScore(
   const newWinnerElo = winnerElo + kFactor * (1 - expectedScoreWinner)
   const newLoserElo = loserElo + kFactor * (0 - expectedScoreLoser)
   return { newWinnerElo, newLoserElo }
+}
+
+export function revertEloScore(
+  previousWinnerElo: number,
+  previousLoserElo: number
+): {
+  revertedWinnerElo: number
+  revertedLoserElo: number
+} {
+  return {
+    revertedWinnerElo: previousWinnerElo,
+    revertedLoserElo: previousLoserElo,
+  }
 }
