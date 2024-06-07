@@ -31,7 +31,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
 }) => {
   const [currentDuelIndex, setCurrentDuelIndex] = useState<number>(0)
   const [songsEloScores, setSongsEloScores] = useState(
-    Object.fromEntries(songs.map((song) => [song.id, 1000])),
+    Object.fromEntries(songs.map((song) => [song.id, 1000]))
   )
   const [duels, setDuels] = useState<[Song, Song][]>(() => generateDuels(songs))
 
@@ -40,7 +40,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
     const loserElo = songsEloScores[loserId]
     const { newWinnerElo, newLoserElo } = calculateNewEloScore(
       winnerElo,
-      loserElo,
+      loserElo
     )
     setSongsEloScores((prevEloScores) => ({
       ...prevEloScores,
@@ -58,14 +58,14 @@ const SongRanker: React.FC<SongRankerProps> = ({
 
   const getRankings = (): Song[] => {
     return songs.sort(
-      (songA, songB) => songsEloScores[songB.id] - songsEloScores[songA.id],
+      (songA, songB) => songsEloScores[songB.id] - songsEloScores[songA.id]
     )
   }
 
   const completionPercentage = (currentDuelIndex / duels.length) * 100
 
   return (
-    <AuroraBackground className="overflow-hidden border border-red-500">
+    <AuroraBackground className="overflow-hidden">
       <div className="hidden sm:block z-50 absolute top-4 right-4 sm:top-10 sm:right-10">
         <ThemeToggleButton />
       </div>
@@ -83,7 +83,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
           ease: 'easeInOut',
         }}
         className={cn(
-          'w-full min-h-screen text-primary relative flex flex-col gap-4 sm:gap-20 items-center pt-6 justify-start sm:justify-center',
+          'w-full min-h-[100svh] text-primary relative flex flex-col gap-4 sm:gap-20 items-center pt-6 justify-start sm:justify-center'
         )}
       >
         {!isRankingFinished && (

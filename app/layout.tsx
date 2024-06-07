@@ -68,7 +68,7 @@ export default function RootLayout({
 }>) {
   return (
     <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
-      <body className="min-h-screen max-w-screen mx-auto">
+      <body className="min-h-[100svh] max-w-screen mx-auto">
         <QueryProvider>
           <ThemeProvider
             attribute="class"

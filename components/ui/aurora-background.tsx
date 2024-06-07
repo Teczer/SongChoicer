@@ -14,11 +14,11 @@ export const AuroraBackground = ({
   ...props
 }: AuroraBackgroundProps) => {
   return (
-    <main className="min-w-screen min-h-screen">
+    <main className="min-w-screen min-h-[100svh]">
       <div
         className={cn(
-          'relative min-h-screen bg-zinc-50 dark:bg-zinc-900 text-slate-950 transition-bg',
-          className,
+          'relative min-h-[100svh] bg-zinc-50 dark:bg-zinc-900 text-slate-950 transition-bg',
+          className
         )}
         {...props}
       >
@@ -43,7 +43,7 @@ export const AuroraBackground = ({
             absolute -inset-[10px] opacity-50 will-change-transform`,
 
               showRadialGradient &&
-                `[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,var(--transparent)_70%)]`,
+                `[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,var(--transparent)_70%)]`
             )}
           ></div>
         </div>
