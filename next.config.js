@@ -1,5 +1,3 @@
-/** @type {import('next').NextConfig} */
-
 const hosts = [
   'coverartarchive.org',
   'via.placeholder.com',
@@ -12,11 +10,18 @@ const hosts = [
   'reflect.app',
 ]
 
-const nextConfig = {
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+})
+
+const nextConfig = withPWA({
   images: {
     remotePatterns: hosts.map((host) => ({
       hostname: host,
     })),
   },
-}
-export default nextConfig
+})
+
+module.exports = nextConfig

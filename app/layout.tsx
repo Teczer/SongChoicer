@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import type { Viewport } from 'next'
+import { WithContext, Person } from 'schema-dts'
 
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
@@ -7,6 +8,25 @@ import { GeistSans } from 'geist/font/sans'
 import './globals.css'
 import QueryProvider from '@/components/QueryProvider'
 import ThemeProvider from '@/components/ThemeProvider'
+
+const jsonLd: WithContext<Person> = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Song Choicer',
+  jobTitle: 'Music Ranking Platform',
+  description:
+    'Song Choicer allows users to vote for their favorite albums and see the final rankings.',
+  image: 'https://songchoicer.com/android-chrome-512x512.png',
+  url: 'https://songchoicer.com',
+  sameAs: ['https://x.com/Mehdi_Hattou'],
+}
+
+const JSONLD = ({ data }: { data: WithContext<Person> }) => (
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+  />
+)
 
 export const metadata: Metadata = {
   title: 'Song Choicer • Rank your albums',
@@ -18,6 +38,7 @@ export const metadata: Metadata = {
     shortcut: ['/apple-touch-icon.png'],
     host: 'songchoicer.com',
   },
+  manifest: '/manifest.json',
   robots: { index: true, follow: true },
   appleWebApp: {
     capable: true,
@@ -57,8 +78,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  minimumScale: 1,
   maximumScale: 1,
   userScalable: false,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({
@@ -68,6 +91,7 @@ export default function RootLayout({
 }>) {
   return (
     <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
+      <JSONLD data={jsonLd} />
       <body className="min-h-[100svh] max-w-screen mx-auto">
         <QueryProvider>
           <ThemeProvider

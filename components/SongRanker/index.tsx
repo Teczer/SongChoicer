@@ -32,11 +32,9 @@ const SongRanker: React.FC<SongRankerProps> = ({
   albumArtist,
 }) => {
   const [currentDuelIndex, setCurrentDuelIndex] = useState<number>(0)
-  console.log('currentDuelIndex', currentDuelIndex)
   const [songsEloScores, setSongsEloScores] = useState(
     Object.fromEntries(songs.map((song) => [song.id, 1000]))
   )
-  console.log('songsEloScores', songsEloScores)
   const [duels, setDuels] = useState<[Song, Song][]>(() => generateDuels(songs))
   const [voteHistory, setVoteHistory] = useState<
     {

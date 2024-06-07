@@ -1,4 +1,9 @@
 {
+  "theme_color": "#ec0606",
+  "background_color": "#ec0606",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
   "name": "Song Choicer • Rank your albums",
   "short_name": "Song Choicer",
   "icons": [
@@ -12,8 +17,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  ]
 }

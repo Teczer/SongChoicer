@@ -37,7 +37,7 @@ export default function Home() {
 
   const filteredAlbums = useMemo(() => {
     return results?.filter((item) =>
-      item.name.toLowerCase().includes(album.toLowerCase()),
+      item.name.toLowerCase().includes(album.toLowerCase())
     )
   }, [results, album])
 
