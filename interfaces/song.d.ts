@@ -1,3 +1,8 @@
+interface SimpleSong {
+  id: number
+  title: string
+}
+
 interface Song {
   id: number
   title: string

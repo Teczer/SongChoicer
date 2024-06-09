@@ -13,7 +13,7 @@ export const MAX_DUEL = (songsLength: number): number => {
 
   // Si y a 15 sons ou moins alors on retourne : nombre de son = s : s * (s - 1) / 2, tant que ça ne dépasse pas 45
   if (songsLength <= 14) {
-    return Math.min(maxPossiblePair / 2, 45)
+    return Math.min(maxPossiblePair, 45)
   }
 
   // Problèmatique, faire un classement de 34 chansons avec 45 duels est impossible, on ne peut pas avoir un classement fiable avec aussi peu de duels, alors

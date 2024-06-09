@@ -1,22 +1,24 @@
-import React, { useRef } from 'react'
+'use client'
+
+import { useRef } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 import * as htmlToImage from 'html-to-image'
+
 import { FaShareAlt } from 'react-icons/fa'
+import { RxTrackPrevious } from 'react-icons/rx'
+
 import { Button } from '../ui/button'
 import { RankCard } from '../RankCard'
+import ThemeToggleButton from '../ThemeToggleButton'
 
-type SongResultCardProps = {
-  albumArtist: string
-  albumName: string
-  albumCover: string
-  songsRanked: Song[]
-}
-export default function SongResultCard({
-  albumArtist,
-  albumName,
-  songsRanked,
-  albumCover,
-}: SongResultCardProps) {
+export default function SongResultCard() {
+  const searchParams = useSearchParams()
+  const albumName = searchParams.get('albumName') || ''
+  const albumArtist = searchParams.get('albumArtist') || ''
+  const albumCover = searchParams.get('albumCover') || ''
+  const songsRanked = JSON.parse(searchParams.get('songsRanked') || '[]')
+
   const rankCardRef = useRef<HTMLDivElement>(null)
 
   const generateImg = async (rankCardRef: any) => {
@@ -43,14 +45,35 @@ export default function SongResultCard({
     }
   }
 
+  // STATIC DATA
+  // const albumname = 'W.A.R'
+  // const albumArtist = 'Roshi'
+  // const albumCover =
+  //   'https://i.scdn.co/image/ab67616d0000b2732ac57e231c742bda1ef89d3c'
+  // const songsRanked = [
+  //   { id: 0, title: 'Titre 1' },
+  //   { id: 1, title: 'Titre 2' },
+  //   { id: 2, title: 'Titre 3' },
+  // ]
+
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-start gap-4 pt-14 pb-6 px-2 sm:justify-center">
+    <div className="w-full min-h-screen flex flex-col items-center justify-start gap-4 px-2">
+      <div className="w-full flex justify-between items-center px-4">
+        <a className="sm:absolute sm:w-auto sm:top-10 sm:left-16" href={'/'}>
+          <Button variant="outline" size="icon">
+            <RxTrackPrevious className="h-4 w-4" />
+          </Button>
+        </a>
+        <div className="sm:z-50 sm:absolute sm:top-10 sm:right-10">
+          <ThemeToggleButton />
+        </div>
+      </div>
       <div className="w-full" key={albumName} ref={rankCardRef}>
         <RankCard
           albumName={albumName}
           albumArtist={albumArtist}
-          songRanked={songsRanked}
-          albumCover={`${albumCover}?v=${new Date().getTime()}`}
+          songsRanked={songsRanked}
+          albumCover={albumCover}
         />
       </div>
       <div className="flex items-center justify-center gap-2">

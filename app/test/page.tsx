@@ -3,7 +3,7 @@
 import SongRanker from '@/components/SongRanker'
 
 export default function Home() {
-  const songs: Song[] = Array.from({ length: 9 })
+  const songs: Song[] = Array.from({ length: 4 })
     .fill(null)
     .map((_, index) => ({
       id: index,

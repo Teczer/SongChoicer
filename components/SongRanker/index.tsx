@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 
 import { calculateNewEloScore, revertEloScore } from '@/lib/calculate-elo-score'
@@ -13,7 +14,6 @@ import { FaUndoAlt } from 'react-icons/fa'
 import { AuroraBackground } from '../ui/aurora-background'
 import { Button } from '@/components/ui/button'
 import SongButton from '../SongButton'
-import SongResultCard from '../SongResultCard'
 import ThemeToggleButton from '../ThemeToggleButton'
 
 const isBrowser = typeof window !== 'undefined'
@@ -31,11 +31,13 @@ const SongRanker: React.FC<SongRankerProps> = ({
   albumName,
   albumArtist,
 }) => {
+  const router = useRouter()
   const [currentDuelIndex, setCurrentDuelIndex] = useState<number>(0)
   const [songsEloScores, setSongsEloScores] = useState(
     Object.fromEntries(songs.map((song) => [song.id, 1000]))
   )
   const [duels, setDuels] = useState<[Song, Song][]>(() => generateDuels(songs))
+
   const [voteHistory, setVoteHistory] = useState<
     {
       winnerId: number
@@ -93,24 +95,32 @@ const SongRanker: React.FC<SongRankerProps> = ({
     ? [null, null]
     : duels[currentDuelIndex]
 
-  const getRankings = (): Song[] => {
-    return songs.sort(
-      (songA, songB) => songsEloScores[songB.id] - songsEloScores[songA.id]
-    )
-  }
-
   const completionPercentage = (currentDuelIndex / duels.length) * 100
 
+  const getSimpleSongsRankings = (): SimpleSong[] => {
+    return songs
+      .map((song) => ({
+        id: song.id,
+        title: song.title,
+      }))
+      .sort((a, b) => songsEloScores[b.id] - songsEloScores[a.id])
+  }
+
+  const simpleRankings = JSON.stringify(getSimpleSongsRankings())
+  const createParams = `albumName=${albumName}&albumArtist=${albumArtist}&albumCover=${albumCover}&songsRanked=${simpleRankings}`
+  // console.log('createParams', createParams)
+
+  useEffect(() => {
+    if (isRankingFinished) {
+      router.push(`/resultcard?${createParams}`)
+    }
+  }, [isRankingFinished, createParams, router, simpleRankings])
+
   return (
-    <AuroraBackground className="overflow-hidden">
-      <div className="hidden sm:block z-50 absolute top-4 right-4 sm:top-10 sm:right-10">
+    <AuroraBackground className="overflow-hidden pt-0">
+      <div className="hidden sm:block z-50 absolute top-10 right-20">
         <ThemeToggleButton />
       </div>
-      <a className="z-50 absolute top-4 left-4 sm:top-10 sm:left-20" href={'/'}>
-        <Button variant="outline" size="icon">
-          <RxTrackPrevious className="h-4 w-4" />
-        </Button>
-      </a>
       <motion.div
         initial={{ opacity: 0.0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -120,19 +130,26 @@ const SongRanker: React.FC<SongRankerProps> = ({
           ease: 'easeInOut',
         }}
         className={cn(
-          'w-full min-h-[100svh] text-primary relative flex flex-col gap-4 sm:gap-20 items-center pt-6 justify-start sm:justify-center'
+          'w-full h-[100svh] text-primary relative flex flex-col gap-4 sm:gap-20 items-center justify-center sm:justify-center'
         )}
       >
         {!isRankingFinished && (
           <>
-            <h1 className="text-lg w-4/6 font-mono font-bold max-h-[40px] text-nowrap text-center overflow-hidden text-ellipsis sm:text-2xl sm:w-auto">
-              {albumArtist} • {albumName}
-            </h1>
+            <div className="w-full flex justify-start items-center px-4 gap-4 sm:justify-center">
+              <a className="sm:absolute sm:top-10 sm:left-20" href={'/'}>
+                <Button variant="outline" size="icon">
+                  <RxTrackPrevious className="h-4 w-4" />
+                </Button>
+              </a>
+              <h1 className="text-lg w-4/6 font-mono font-bold max-h-[40px] text-nowrap text-center overflow-hidden text-ellipsis sm:text-2xl sm:w-auto">
+                {albumArtist} • {albumName}
+              </h1>
+            </div>
             <div className="w-full flex flex-col items-center gap-4">
               <p className="text-lg font-mono font-bold select-none">
                 {completionPercentage.toFixed(0)} %
               </p>
-              <div className="w-4/5 flex flex-col justify-around items-center gap-16 sm:gap-20 sm:flex-row">
+              <div className="w-4/5 flex flex-col justify-around items-center gap-20 sm:flex-row">
                 {songB && songA && (
                   <SongButton
                     key={songA.id}
@@ -179,14 +196,6 @@ const SongRanker: React.FC<SongRankerProps> = ({
               </div>
             </div>
           </>
-        )}
-        {isRankingFinished && (
-          <SongResultCard
-            albumArtist={albumArtist}
-            albumName={albumName}
-            albumCover={albumCover}
-            songsRanked={getRankings()}
-          />
         )}
       </motion.div>
     </AuroraBackground>

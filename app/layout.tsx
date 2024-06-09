@@ -83,7 +83,6 @@ export const viewport: Viewport = {
   userScalable: false,
   viewportFit: 'cover',
 }
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -92,7 +91,7 @@ export default function RootLayout({
   return (
     <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
       <JSONLD data={jsonLd} />
-      <body className="min-h-[100svh] max-w-screen mx-auto">
+      <body className="min-h-[100svh] max-w-screen mx-auto overflow-x-hidden">
         <QueryProvider>
           <ThemeProvider
             attribute="class"

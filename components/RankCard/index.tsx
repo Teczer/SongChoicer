@@ -3,14 +3,14 @@ import React from 'react'
 import { CardBody, CardContainer, CardItem } from '../ui/3d-card'
 
 interface RankCardProps {
-  songRanked: Song[]
+  songsRanked: SimpleSong[]
   albumCover: string
   albumName: string
   albumArtist: string
 }
 
 export function RankCard({
-  songRanked,
+  songsRanked,
   albumCover,
   albumName,
   albumArtist,
@@ -45,8 +45,7 @@ export function RankCard({
         </CardItem>
 
         <ul className="flex flex-col items-start justify-center w-full h-auto gap-2">
-          {songRanked.map((song, index) => {
-            // Définit la largeur à 10% pour les indices supérieurs à 8
+          {songsRanked.map((song, index) => {
             const widthPercentage =
               index > 4 ? '60%' : `${Math.max(100 - (index % 10) * 10, 10)}%`
 
@@ -55,7 +54,7 @@ export function RankCard({
                 className="text-white flex items-center justify-start gap-2 rounded-lg shadow-lg bg-black bg-opacity-50 border border-white/[0.2] py-1 px-2 sm:px-6"
                 as="li"
                 key={song.title}
-                style={{ width: widthPercentage }} // Utilise la propriété style pour appliquer les styles
+                style={{ width: widthPercentage }}
                 translateZ="50"
               >
                 <span>{index + 1}. </span>

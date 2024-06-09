@@ -42,10 +42,7 @@ export default function Home() {
   }, [results, album])
 
   return (
-    <AuroraBackground>
-      <div className="z-50 absolute top-4 left-4 sm:top-10 sm:right-10 sm:left-auto">
-        <ThemeToggleButton />
-      </div>
+    <AuroraBackground className="pt-10">
       <motion.div
         initial={{ opacity: 0.0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -56,6 +53,9 @@ export default function Home() {
         }}
         className="relative w-full min-h-screen flex flex-col gap-4 items-center justify-start py-16 px-4"
       >
+        <div className="z-50 absolute top-4 left-4 sm:top-10 sm:right-10 sm:left-auto">
+          <ThemeToggleButton />
+        </div>
         <Image
           src="/android-chrome-512x512.png"
           alt="Song Choicer Logo"
