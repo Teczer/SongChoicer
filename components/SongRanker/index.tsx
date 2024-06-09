@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 
@@ -63,7 +63,23 @@ const SongRanker: React.FC<SongRankerProps> = ({
       ...prevHistory,
       { winnerId, loserId, previousWinnerElo, previousLoserElo },
     ])
-    setCurrentDuelIndex((prevIndex) => prevIndex + 1)
+    const nextDuelIndex = currentDuelIndex + 1
+    setCurrentDuelIndex(nextDuelIndex)
+
+    // Vérifier si le classement est terminé et rediriger si nécessaire
+    if (nextDuelIndex >= duels.length) {
+      const simpleRankings = encodeURIComponent(
+        JSON.stringify(getSimpleSongsRankings())
+      )
+      const createParams = `albumName=${encodeURIComponent(
+        albumName
+      )}&albumArtist=${encodeURIComponent(
+        albumArtist
+      )}&albumCover=${encodeURIComponent(
+        albumCover
+      )}&songsRanked=${simpleRankings}`
+      router.push(`/resultcard?${createParams}`)
+    }
   }
 
   const handleUndo = () => {
@@ -105,16 +121,6 @@ const SongRanker: React.FC<SongRankerProps> = ({
       }))
       .sort((a, b) => songsEloScores[b.id] - songsEloScores[a.id])
   }
-
-  const simpleRankings = JSON.stringify(getSimpleSongsRankings())
-  const createParams = `albumName=${albumName}&albumArtist=${albumArtist}&albumCover=${albumCover}&songsRanked=${simpleRankings}`
-  // console.log('createParams', createParams)
-
-  useEffect(() => {
-    if (isRankingFinished) {
-      router.push(`/resultcard?${createParams}`)
-    }
-  }, [isRankingFinished, createParams, router, simpleRankings])
 
   return (
     <AuroraBackground className="overflow-hidden pt-0">

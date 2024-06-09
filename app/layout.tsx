@@ -91,7 +91,7 @@ export default function RootLayout({
   return (
     <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
       <JSONLD data={jsonLd} />
-      <body className="min-h-[100svh] max-w-screen mx-auto overflow-x-hidden">
+      <body className="min-h-[100svh] max-w-screen overflow-x-hidden">
         <QueryProvider>
           <ThemeProvider
             attribute="class"

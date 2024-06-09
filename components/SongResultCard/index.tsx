@@ -14,10 +14,12 @@ import ThemeToggleButton from '../ThemeToggleButton'
 
 export default function SongResultCard() {
   const searchParams = useSearchParams()
-  const albumName = searchParams.get('albumName') || ''
-  const albumArtist = searchParams.get('albumArtist') || ''
-  const albumCover = searchParams.get('albumCover') || ''
-  const songsRanked = JSON.parse(searchParams.get('songsRanked') || '[]')
+  const albumName = decodeURIComponent(searchParams.get('albumName') || '')
+  const albumArtist = decodeURIComponent(searchParams.get('albumArtist') || '')
+  const albumCover = decodeURIComponent(searchParams.get('albumCover') || '')
+  const songsRanked = JSON.parse(
+    decodeURIComponent(searchParams.get('songsRanked') || '[]')
+  )
 
   const rankCardRef = useRef<HTMLDivElement>(null)
 
