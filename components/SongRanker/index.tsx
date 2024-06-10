@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { compressToEncodedURIComponent } from 'lz-string'
 
 import { calculateNewEloScore, revertEloScore } from '@/lib/calculate-elo-score'
 import { generateDuels } from '@/lib/duels'
@@ -47,6 +48,15 @@ const SongRanker: React.FC<SongRankerProps> = ({
     }[]
   >([])
 
+  const getSimpleSongsRankings = (): SimpleSong[] => {
+    return songs
+      .map((song) => ({
+        id: song.id,
+        title: song.title,
+      }))
+      .sort((a, b) => songsEloScores[b.id] - songsEloScores[a.id])
+  }
+
   const handleVote = (winnerId: number, loserId: number) => {
     const previousWinnerElo = songsEloScores[winnerId]
     const previousLoserElo = songsEloScores[loserId]
@@ -68,14 +78,14 @@ const SongRanker: React.FC<SongRankerProps> = ({
 
     // Vérifier si le classement est terminé et rediriger si nécessaire
     if (nextDuelIndex >= duels.length) {
-      const simpleRankings = encodeURIComponent(
+      const simpleRankings = compressToEncodedURIComponent(
         JSON.stringify(getSimpleSongsRankings())
       )
-      const createParams = `albumName=${encodeURIComponent(
+      const createParams = `albumName=${compressToEncodedURIComponent(
         albumName
-      )}&albumArtist=${encodeURIComponent(
+      )}&albumArtist=${compressToEncodedURIComponent(
         albumArtist
-      )}&albumCover=${encodeURIComponent(
+      )}&albumCover=${compressToEncodedURIComponent(
         albumCover
       )}&songsRanked=${simpleRankings}`
       router.push(`/resultcard?${createParams}`)
@@ -112,15 +122,6 @@ const SongRanker: React.FC<SongRankerProps> = ({
     : duels[currentDuelIndex]
 
   const completionPercentage = (currentDuelIndex / duels.length) * 100
-
-  const getSimpleSongsRankings = (): SimpleSong[] => {
-    return songs
-      .map((song) => ({
-        id: song.id,
-        title: song.title,
-      }))
-      .sort((a, b) => songsEloScores[b.id] - songsEloScores[a.id])
-  }
 
   return (
     <AuroraBackground className="overflow-hidden pt-0">
@@ -179,7 +180,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
                   onClick={handleUndo}
                   className="absolute flex items-center justify-start gap-3"
                 >
-                  <span>Previous Duel</span>
+                  <span className="select-none">Previous Duel</span>
                   <FaUndoAlt />
                 </Button>
                 {songB && songA && (

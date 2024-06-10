@@ -42,7 +42,7 @@ export default function Home() {
   }, [results, album])
 
   return (
-    <AuroraBackground className="pt-10">
+    <AuroraBackground className="pt-10 sm:pt-4">
       <motion.div
         initial={{ opacity: 0.0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -51,7 +51,7 @@ export default function Home() {
           duration: 0.8,
           ease: 'easeInOut',
         }}
-        className="relative w-full min-h-screen flex flex-col gap-4 items-center justify-start py-16 px-4"
+        className="relative w-full min-h-screen flex flex-col gap-4 items-center justify-start py-16 px-4 sm:py-0 sm:justify-around"
       >
         <div className="z-50 absolute top-4 left-4 sm:top-10 sm:right-10 sm:left-auto">
           <ThemeToggleButton />

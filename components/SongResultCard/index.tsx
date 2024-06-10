@@ -2,6 +2,7 @@
 
 import { useRef } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { decompressFromEncodedURIComponent } from 'lz-string'
 
 import * as htmlToImage from 'html-to-image'
 
@@ -14,11 +15,17 @@ import ThemeToggleButton from '../ThemeToggleButton'
 
 export default function SongResultCard() {
   const searchParams = useSearchParams()
-  const albumName = decodeURIComponent(searchParams.get('albumName') || '')
-  const albumArtist = decodeURIComponent(searchParams.get('albumArtist') || '')
-  const albumCover = decodeURIComponent(searchParams.get('albumCover') || '')
+  const albumName =
+    decompressFromEncodedURIComponent(searchParams.get('albumName') || '') || ''
+  const albumArtist =
+    decompressFromEncodedURIComponent(searchParams.get('albumArtist') || '') ||
+    ''
+  const albumCover =
+    decompressFromEncodedURIComponent(searchParams.get('albumCover') || '') ||
+    ''
   const songsRanked = JSON.parse(
-    decodeURIComponent(searchParams.get('songsRanked') || '[]')
+    decompressFromEncodedURIComponent(searchParams.get('songsRanked') || '') ||
+      '[]'
   )
 
   const rankCardRef = useRef<HTMLDivElement>(null)

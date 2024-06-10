@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const FooterCopyrights: React.FC = () => {
   return (
-    <p className="text-primary font-mono flex items-center justify-start gap-1 absolute text-xs bottom-4">
+    <p className="text-primary font-mono flex items-center justify-start gap-1 text-xs pb-2">
       <span className="mr-1">Made with ❤️ by </span>
       <Link
         href={'https://github.com/Teczer'}
