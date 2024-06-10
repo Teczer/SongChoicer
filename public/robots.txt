@@ -1,5 +1,3 @@
 User-agent: *
 
-Disallow: /versus/
-
 Sitemap: https://songchoicer.com/sitemap.xml

@@ -6,8 +6,21 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://songchoicer.com/versus</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
+    <!-- URL dynamique pour les pages "versus" avec un identifiant variable -->
+    <loc>https://songchoicer.com/versus/:id</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <!-- URL dynamique pour les pages "resultcard" avec un identifiant variable ?albumImage=... -->
+    <loc>https://songchoicer.com/resultcard</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <!-- URL dynamique pour les pages "test" avec un identifiant variable -->
+    <loc>https://songchoicer.com/test</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.1</priority>
   </url>
 </urlset>
