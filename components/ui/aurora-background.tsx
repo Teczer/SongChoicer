@@ -15,7 +15,10 @@ export const AuroraBackground = ({
 }: AuroraBackgroundProps) => {
   return (
     <div
-      className={cn('min-h-[100svh] w-full absolute inset-0', className)}
+      className={cn(
+        'min-h-[100svh] w-full absolute inset-0 overflow-x-hidden',
+        className
+      )}
       {...props}
     >
       <div
