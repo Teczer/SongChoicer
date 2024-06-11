@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import type { Viewport } from 'next'
-import { WithContext, Person } from 'schema-dts'
+// import { WithContext, Person } from 'schema-dts'
 
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
@@ -9,24 +9,24 @@ import './globals.css'
 import QueryProvider from '@/components/QueryProvider'
 import ThemeProvider from '@/components/ThemeProvider'
 
-const jsonLd: WithContext<Person> = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Song Choicer',
-  jobTitle: 'Music Ranking Platform',
-  description:
-    'Song Choicer allows users to vote for their favorite albums and see the final rankings.',
-  image: 'https://songchoicer.com/android-chrome-512x512.png',
-  url: 'https://songchoicer.com',
-  sameAs: ['https://x.com/Mehdi_Hattou'],
-}
+// const jsonLd: WithContext<Person> = {
+//   '@context': 'https://schema.org',
+//   '@type': 'Person',
+//   name: 'Song Choicer',
+//   jobTitle: 'Music Ranking Platform',
+//   description:
+//     'Song Choicer allows users to vote for their favorite albums and see the final rankings.',
+//   image: 'https://songchoicer.com/android-chrome-512x512.png',
+//   url: 'Song Choicer',
+//   sameAs: ['https://x.com/Mehdi_Hattou'],
+// }
 
-const JSONLD = ({ data }: { data: WithContext<Person> }) => (
-  <script
-    type="application/ld+json"
-    dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-  />
-)
+// const JSONLD = ({ data }: { data: WithContext<Person> }) => (
+//   <script
+//     type="application/ld+json"
+//     dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+//   />
+// )
 
 export const metadata: Metadata = {
   title: 'Song Choicer • Rank your albums',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     icon: ['/favicon.ico'],
     apple: ['/apple-touch-icon.png'],
     shortcut: ['/apple-touch-icon.png'],
-    host: 'songchoicer.com',
+    host: 'Song Choicer',
   },
   manifest: '/manifest.json',
   robots: { index: true, follow: true },
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     type: 'website',
-    url: 'https://songchoicer.com',
+    url: 'Song Choicer',
     title: 'Song Choicer • Song Ranking',
     description:
       'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: 'https://songchoicer.com/',
+    site: 'Song Choicer',
     creator: '@Teczer_',
     images: 'https://songchoicer.com/android-chrome-512x512.png',
     title: 'Song Choicer • Rank your albums',
@@ -90,7 +90,7 @@ export default function RootLayout({
 }>) {
   return (
     <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
-      <JSONLD data={jsonLd} />
+      {/* <JSONLD data={jsonLd} /> */}
       <body className="min-h-[100svh] max-w-screen overflow-x-hidden">
         <QueryProvider>
           <ThemeProvider
