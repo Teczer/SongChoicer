@@ -1,17 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import CreatorHoverCard from '../CreatorHoverCard'
+
 const FooterCopyrights: React.FC = () => {
   return (
     <p className="text-primary font-mono flex items-center justify-start gap-1 text-xs pb-2">
-      <span className="mr-1">Made with ❤️ by </span>
-      <Link
-        href={'https://github.com/Teczer'}
-        target="_blank"
-        className="block font-bold transition-all tracking-wide underline hover:scale-110"
-      >
-        @Teczer_
-      </Link>
+      <span>Made with ❤️ by </span>
+      <CreatorHoverCard />
       <span className="text-lg">•</span>
       <span className="mr-1">Provided by</span>
       <Link
