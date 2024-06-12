@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { decompressFromEncodedURIComponent } from 'lz-string'
 
 import * as htmlToImage from 'html-to-image'
@@ -12,8 +12,10 @@ import { RxTrackPrevious } from 'react-icons/rx'
 import { Button } from '../ui/button'
 import { RankCard } from '../RankCard'
 import ThemeToggleButton from '../ThemeToggleButton'
+import ShareButton from '../ShareButton'
 
 export default function SongResultCard() {
+  const pathname = usePathname()
   const searchParams = useSearchParams()
   const albumName =
     decompressFromEncodedURIComponent(searchParams.get('albumName') || '') || ''
@@ -54,6 +56,8 @@ export default function SongResultCard() {
     }
   }
 
+  const shareableLink = pathname + searchParams.toString()
+
   // STATIC DATA
   // const albumname = 'W.A.R'
   // const albumArtist = 'Roshi'
@@ -89,9 +93,12 @@ export default function SongResultCard() {
         <Button variant={'outline'} onClick={downloadRankCardAsPNG}>
           Download Card
         </Button>
-        <Button size={'icon'} variant={'outline'}>
+        <ShareButton
+          title={`Look my ranking for ${albumName}`}
+          url={shareableLink}
+        >
           <FaShareAlt />
-        </Button>
+        </ShareButton>
       </div>
     </div>
   )
