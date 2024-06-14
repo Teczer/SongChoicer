@@ -42,7 +42,7 @@ export default function Home() {
   }, [results, album])
 
   return (
-    <AuroraBackground className="pt-10 sm:pt-4">
+    <AuroraBackground className="pt-4 homepagecontainer_pwa">
       <motion.div
         initial={{ opacity: 0.0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}

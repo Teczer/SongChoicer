@@ -124,7 +124,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
   const completionPercentage = (currentDuelIndex / duels.length) * 100
 
   return (
-    <AuroraBackground className="overflow-hidden pt-0">
+    <AuroraBackground className="overflow-hidden pt-0 versuscontainer_pwa">
       <div className="hidden sm:block z-50 absolute top-10 right-20">
         <ThemeToggleButton />
       </div>

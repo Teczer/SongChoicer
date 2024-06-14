@@ -34,7 +34,7 @@ export const SongButton: React.FC<SongButtonProps> = ({
     >
       <Image
         priority
-        className="rounded-sm filter w-full h-[150px] object-cover sm:w-full sm:h-auto"
+        className="rounded-sm filter w-full h-[150px] object-cover sm:w-full sm:h-auto versusimage_pwa"
         src={song.image.url}
         alt={song.title}
         width={song.image.width}

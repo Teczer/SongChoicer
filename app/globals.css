@@ -62,9 +62,20 @@
 
 /* Custom padding for iOS with translucent status bar */
 @media (display-mode: standalone) and (max-device-width: 812px) and (orientation: portrait) {
-  body {
-    padding-top: calc(env(safe-area-inset-top) + 50px);
-    border: 2px solid red;
+  .homepagecontainer_pwa {
+    padding-top: 2.5rem;
+  }
+
+  .versusimage_pwa {
+    height: 25svh !important;
+  }
+
+  .versuscontainer_pwa {
+    padding-top: 2.5rem;
+  }
+
+  .resultcardcontainer_pwa {
+    padding-top: 3.5rem;
   }
 }
 
