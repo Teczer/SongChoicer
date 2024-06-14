@@ -142,7 +142,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
       >
         {!isRankingFinished && (
           <>
-            <div className="w-full flex justify-start items-center px-4 gap-4 sm:justify-center">
+            <div className="w-full flex justify-start items-center px-4 pl-11 gap-4 sm:justify-center">
               <a className="sm:absolute sm:top-10 sm:left-20" href={'/'}>
                 <Button variant="outline" size="icon">
                   <RxTrackPrevious className="h-4 w-4" />

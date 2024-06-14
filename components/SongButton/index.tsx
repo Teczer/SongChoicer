@@ -25,7 +25,7 @@ export const SongButton: React.FC<SongButtonProps> = ({
 
   return (
     <motion.div
-      className="w-full sm:w-1/4 flex select-none flex-col items-center justify-center border rounded-lg p-2 sm:p-10 gap-5 cursor-pointer grayscale hover:grayscale-0 hover:scale-105 dark:border-white/[0.1]"
+      className="w-full sm:w-1/4 flex select-none flex-col items-center justify-center rounded-lg p-2 gap-5 cursor-pointer grayscale hover:grayscale-0 hover:scale-105"
       onClick={() => onVote(song.id)}
       whileHover={hoverAnimation}
       initial={initialAnimation}

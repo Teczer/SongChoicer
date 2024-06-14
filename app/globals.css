@@ -24,7 +24,7 @@
     --input: 240 5.9% 90%;
     --ring: 240 5% 64.9%;
     --radius: 0.5rem;
-    --pwabackground: #f8f8fb;
+    --pwabackground: #ffffff;
   }
 
   .dark {
@@ -47,7 +47,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    --pwabackground: #141416;
+    --pwabackground: #000000;
   }
 }
 
@@ -63,11 +63,14 @@
 /* Custom padding for iOS with translucent status bar */
 @media (display-mode: standalone) and (max-device-width: 812px) and (orientation: portrait) {
   body {
-    padding-top: env(safe-area-inset-top);
+    padding-top: calc(env(safe-area-inset-top) + 50px);
+    border: 2px solid red;
   }
 }
+
 @media (display-mode: standalone) and (max-device-width: 812px) and (orientation: landscape) {
   body {
+    padding-top: calc(env(safe-area-inset-top) + 50px);
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
   }
@@ -123,5 +126,11 @@ li {
 }
 
 body {
-  background-color: var(--pwabackground);
+  background-color: var(--background);
+}
+
+@media (max-width: 600px) {
+  body {
+    background-color: var(--pwabackground);
+  }
 }

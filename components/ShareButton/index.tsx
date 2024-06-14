@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button'
 import useClipboard from '@/hooks/useClipboard'
 import useWebShare from '@/hooks/useWebShare'
 import React from 'react'
-// import { toast } from 'sonner'
 
 export default function ShareButton({
   title,
@@ -36,7 +35,7 @@ export default function ShareButton({
   }
 
   if (!isSupported) {
-    return <p>{url}</p>
+    return <p className="hidden">Not Supported Device</p>
   }
 
   return (
