@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { compressToEncodedURIComponent } from 'lz-string'
 
 import { calculateNewEloScore, revertEloScore } from '@/lib/calculate-elo-score'
 import { generateDuels } from '@/lib/duels'
@@ -16,22 +15,20 @@ import { AuroraBackground } from '../ui/aurora-background'
 import { Button } from '@/components/ui/button'
 import SongButton from '../SongButton'
 import ThemeToggleButton from '../ThemeToggleButton'
+import { generateSongsRankingURI } from '@/lib/generate-ranking'
 
 const isBrowser = typeof window !== 'undefined'
 
 interface SongRankerProps {
   songs: Song[]
-  albumCover: string
-  albumName: string
-  albumArtist: string
+  album: {
+    albumName: string
+    albumArtist: string
+    albumCover: string
+  }
 }
 
-const SongRanker: React.FC<SongRankerProps> = ({
-  songs,
-  albumCover,
-  albumName,
-  albumArtist,
-}) => {
+const SongRanker: React.FC<SongRankerProps> = ({ songs, album }) => {
   const router = useRouter()
   const [currentDuelIndex, setCurrentDuelIndex] = useState<number>(0)
   const [songsEloScores, setSongsEloScores] = useState(
@@ -47,15 +44,6 @@ const SongRanker: React.FC<SongRankerProps> = ({
       previousLoserElo: number
     }[]
   >([])
-
-  const getSimpleSongsRankings = (): SimpleSong[] => {
-    return songs
-      .map((song) => ({
-        id: song.id,
-        title: song.title,
-      }))
-      .sort((a, b) => songsEloScores[b.id] - songsEloScores[a.id])
-  }
 
   const handleVote = (winnerId: number, loserId: number) => {
     const previousWinnerElo = songsEloScores[winnerId]
@@ -78,17 +66,15 @@ const SongRanker: React.FC<SongRankerProps> = ({
 
     // Vérifier si le classement est terminé et rediriger si nécessaire
     if (nextDuelIndex >= duels.length) {
-      const simpleRankings = compressToEncodedURIComponent(
-        JSON.stringify(getSimpleSongsRankings())
+      const songsWithEloScores = songs.map((song) => ({
+        song,
+        eloScore: songsEloScores[song.id],
+      }))
+      const songRankingParams = generateSongsRankingURI(
+        songsWithEloScores,
+        album
       )
-      const createParams = `albumName=${compressToEncodedURIComponent(
-        albumName
-      )}&albumArtist=${compressToEncodedURIComponent(
-        albumArtist
-      )}&albumCover=${compressToEncodedURIComponent(
-        albumCover
-      )}&songsRanked=${simpleRankings}`
-      router.push(`/resultcard?${createParams}`)
+      router.push(`/resultcard?${songRankingParams}`)
     }
   }
 
@@ -149,7 +135,7 @@ const SongRanker: React.FC<SongRankerProps> = ({
                 </Button>
               </a>
               <h1 className="text-lg w-4/6 font-mono font-bold max-h-[40px] text-nowrap text-center overflow-hidden text-ellipsis sm:text-2xl sm:w-auto">
-                {albumArtist} • {albumName}
+                {album.albumArtist} • {album.albumName}
               </h1>
             </div>
             <div className="w-full flex flex-col items-center gap-4">

@@ -14,7 +14,10 @@ function CreatorHoverCard() {
   return (
     <HoverCard openDelay={150}>
       <HoverCardTrigger asChild>
-        <Button className="px-1 transition-all hover:scale-105" variant="link">
+        <Button
+          className="underline px-1 transition-all hover:scale-105"
+          variant="link"
+        >
           @Teczer
         </Button>
       </HoverCardTrigger>

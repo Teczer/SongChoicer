@@ -36,19 +36,18 @@ export default function Home({ params }: Props) {
           image: results.images[0],
         }
       }),
-    [results?.tracks.items.length],
+    [results?.tracks.items.length]
   )
+
+  const album = {
+    albumName: results?.name ?? '',
+    albumArtist: results?.artists[0].name ?? '',
+    albumCover: results?.images[0].url ?? '',
+  }
 
   if (isLoading || !results) return <VersusSkeletonLoader />
 
   if (isError) return <div>An error occured</div>
 
-  return (
-    <SongRanker
-      songs={data ?? []}
-      albumCover={results.images[0].url}
-      albumName={results.name}
-      albumArtist={results.artists[0].name}
-    />
-  )
+  return <SongRanker songs={data ?? []} album={album} />
 }

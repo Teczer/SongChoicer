@@ -19,6 +19,7 @@ import { AlbumCardSkeleton } from '@/components/AlbumCardSkeleton'
 import HeroSectionImage from '@/components/HeroSectionImage'
 import FooterCopyrights from '@/components/FooterCopyrights'
 import ThemeToggleButton from '@/components/ThemeToggleButton'
+import { cn } from '@/lib/utils'
 
 export default function Home() {
   const [artist, setArtist] = useState<string>('')
@@ -51,7 +52,7 @@ export default function Home() {
           duration: 0.8,
           ease: 'easeInOut',
         }}
-        className="relative w-full min-h-screen flex flex-col gap-4 items-center justify-start py-16 px-4 sm:py-0 sm:justify-around sm:gap-0"
+        className="relative w-full min-h-screen flex flex-col gap-4 items-center justify-start py-16 px-4 sm:py-0 sm:justify-center sm:gap-6"
       >
         <div className="z-50 absolute top-4 left-4 sm:top-10 sm:right-10 sm:left-auto">
           <ThemeToggleButton />
@@ -105,7 +106,13 @@ export default function Home() {
           </p>
         )}
         {!isLoading && !results && <HeroSectionImage />}
-        <ul className="w-full flex flex-wrap justify-center items-center gap-6">
+        <ul
+          className={cn(
+            `w-full flex flex-wrap justify-center items-center gap-6 ${
+              filteredAlbums ? '' : 'hidden'
+            }`
+          )}
+        >
           {filteredAlbums &&
             filteredAlbums.map((album) => (
               <li key={album.id}>

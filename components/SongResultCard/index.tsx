@@ -70,9 +70,12 @@ export default function SongResultCard() {
   // ]
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-start gap-4 px-2">
+    <div className="w-full min-h-screen flex flex-col items-center justify-start gap-4 px-2 sm:py-6">
       <div className="w-full flex justify-between items-center px-4">
-        <a className="sm:absolute sm:w-auto sm:top-10 sm:left-16" href={'/'}>
+        <a
+          className="z-50 sm:absolute sm:w-auto sm:top-10 sm:left-16"
+          href={'/'}
+        >
           <Button variant="outline" size="icon">
             <RxTrackPrevious className="h-4 w-4" />
           </Button>

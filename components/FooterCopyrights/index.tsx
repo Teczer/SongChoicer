@@ -7,7 +7,9 @@ const FooterCopyrights: React.FC = () => {
   return (
     <p className="text-primary font-mono flex items-center justify-start gap-1 text-xs pb-2">
       <span>Made with ❤️ by </span>
-      <CreatorHoverCard />
+      <Link target="_blank" href={'https://github.com/Teczer'}>
+        <CreatorHoverCard />
+      </Link>
       <span className="text-lg">•</span>
       <span className="mr-1">Provided by</span>
       <Link
