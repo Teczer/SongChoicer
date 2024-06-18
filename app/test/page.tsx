@@ -15,14 +15,12 @@ export default function Home() {
       },
     }))
 
-  return (
-    <SongRanker
-      songs={songs}
-      albumCover={
-        'https://i.scdn.co/image/ab67616d0000b2732ac57e231c742bda1ef89d3c'
-      }
-      albumName={'Que la famille'}
-      albumArtist={'PNL'}
-    />
-  )
+  const album = {
+    albumName: 'Que la famille',
+    albumArtist: 'PNL',
+    albumCover:
+      'https://i.scdn.co/image/ab67616d0000b2732ac57e231c742bda1ef89d3c',
+  }
+
+  return <SongRanker songs={songs} album={album} />
 }
