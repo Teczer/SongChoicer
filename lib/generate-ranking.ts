@@ -32,5 +32,5 @@ export const generateSongsRankingURI = (
   )
   const createParams = `albumName=${albumNameCompress}&albumArtist=${albumArtistCompress}&albumCover=${albumCoverCompress}&songsRanked=${simpleRankings}`
 
-  return `/resultcard?${createParams}`
+  return createParams
 }
