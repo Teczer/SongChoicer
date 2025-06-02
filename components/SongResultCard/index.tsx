@@ -1,62 +1,52 @@
-'use client'
+'use client';
 
-import { useRef } from 'react'
-import { usePathname, useSearchParams } from 'next/navigation'
-import { decompressFromEncodedURIComponent } from 'lz-string'
+import * as htmlToImage from 'html-to-image';
+import { decompressFromEncodedURIComponent } from 'lz-string';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useRef } from 'react';
+import { FaShareAlt } from 'react-icons/fa';
+import { RxTrackPrevious } from 'react-icons/rx';
 
-import * as htmlToImage from 'html-to-image'
-
-import { FaShareAlt } from 'react-icons/fa'
-import { RxTrackPrevious } from 'react-icons/rx'
-
-import { Button } from '../ui/button'
-import { RankCard } from '../RankCard'
-import ThemeToggleButton from '../ThemeToggleButton'
-import ShareButton from '../ShareButton'
+import { RankCard } from '../RankCard';
+import ShareButton from '../ShareButton';
+import ThemeToggleButton from '../ThemeToggleButton';
+import { Button } from '../ui/button';
 
 export default function SongResultCard() {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const albumName =
-    decompressFromEncodedURIComponent(searchParams.get('albumName') || '') || ''
-  const albumArtist =
-    decompressFromEncodedURIComponent(searchParams.get('albumArtist') || '') ||
-    ''
-  const albumCover =
-    decompressFromEncodedURIComponent(searchParams.get('albumCover') || '') ||
-    ''
-  const songsRanked = JSON.parse(
-    decompressFromEncodedURIComponent(searchParams.get('songsRanked') || '') ||
-      '[]'
-  )
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const albumName = decompressFromEncodedURIComponent(searchParams.get('albumName') || '') || '';
+  const albumArtist = decompressFromEncodedURIComponent(searchParams.get('albumArtist') || '') || '';
+  const albumCover = decompressFromEncodedURIComponent(searchParams.get('albumCover') || '') || '';
+  const songsRanked = JSON.parse(decompressFromEncodedURIComponent(searchParams.get('songsRanked') || '') || '[]');
 
-  const rankCardRef = useRef<HTMLDivElement>(null)
+  const rankCardRef = useRef<HTMLDivElement>(null);
 
   const generateImg = async (rankCardRef: any) => {
-    let dataUrl = ''
-    const minDataLength = 2000000
-    let i = 0
-    const maxAttempts = 10
+    let dataUrl = '';
+    const minDataLength = 2000000;
+    let i = 0;
+    const maxAttempts = 10;
 
     while (dataUrl.length < minDataLength && i < maxAttempts) {
-      dataUrl = await htmlToImage.toPng(rankCardRef)
-      i += 1
+      dataUrl = await htmlToImage.toPng(rankCardRef);
+      i += 1;
     }
 
-    return dataUrl
-  }
+    return dataUrl;
+  };
 
   const downloadRankCardAsPNG = async () => {
     if (rankCardRef.current) {
-      const dataUrl = await generateImg(rankCardRef.current)
-      const link = document.createElement('a')
-      link.download = `${albumArtist}_${albumName}_Card.png`
-      link.href = dataUrl
-      link.click()
+      const dataUrl = await generateImg(rankCardRef.current);
+      const link = document.createElement('a');
+      link.download = `${albumArtist}_${albumName}_Card.png`;
+      link.href = dataUrl;
+      link.click();
     }
-  }
+  };
 
-  const shareableLink = pathname + searchParams.toString()
+  const shareableLink = pathname + searchParams.toString();
 
   // STATIC DATA
   // const albumname = 'W.A.R'
@@ -72,10 +62,7 @@ export default function SongResultCard() {
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-start gap-4 px-2 sm:py-6">
       <div className="w-full flex justify-between items-center px-4">
-        <a
-          className="z-50 sm:absolute sm:w-auto sm:top-10 sm:left-16"
-          href={'/'}
-        >
+        <a className="z-50 sm:absolute sm:w-auto sm:top-10 sm:left-16" href={'/'}>
           <Button variant="outline" size="icon">
             <RxTrackPrevious className="h-4 w-4" />
           </Button>
@@ -85,24 +72,16 @@ export default function SongResultCard() {
         </div>
       </div>
       <div className="w-full" key={albumName} ref={rankCardRef}>
-        <RankCard
-          albumName={albumName}
-          albumArtist={albumArtist}
-          songsRanked={songsRanked}
-          albumCover={albumCover}
-        />
+        <RankCard albumName={albumName} albumArtist={albumArtist} songsRanked={songsRanked} albumCover={albumCover} />
       </div>
       <div className="flex items-center justify-center gap-2">
         <Button variant={'outline'} onClick={downloadRankCardAsPNG}>
           Download Card
         </Button>
-        <ShareButton
-          title={`Look my ranking for ${albumName}`}
-          url={shareableLink}
-        >
+        <ShareButton title={`Look my ranking for ${albumName}`} url={shareableLink}>
           <FaShareAlt />
         </ShareButton>
       </div>
     </div>
-  )
+  );
 }

@@ -1,113 +1,96 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { FaUndoAlt } from 'react-icons/fa';
+import { RxTrackPrevious } from 'react-icons/rx';
 
-import { calculateNewEloScore, revertEloScore } from '@/lib/calculate-elo-score'
-import { generateDuels } from '@/lib/duels'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { Song } from '@/interfaces/song';
+import { calculateNewEloScore, revertEloScore } from '@/lib/calculate-elo-score';
+import { generateDuels } from '@/lib/duels';
+import { generateSongsRankingURI } from '@/lib/generate-ranking';
+import { cn } from '@/lib/utils';
 
-import { RxTrackPrevious } from 'react-icons/rx'
-import { FaUndoAlt } from 'react-icons/fa'
+import SongButton from '../SongButton';
+import ThemeToggleButton from '../ThemeToggleButton';
+import { AuroraBackground } from '../ui/aurora-background';
 
-import { AuroraBackground } from '../ui/aurora-background'
-import { Button } from '@/components/ui/button'
-import SongButton from '../SongButton'
-import ThemeToggleButton from '../ThemeToggleButton'
-import { generateSongsRankingURI } from '@/lib/generate-ranking'
-
-const isBrowser = typeof window !== 'undefined'
+const isBrowser = typeof window !== 'undefined';
 
 interface SongRankerProps {
-  songs: Song[]
+  songs: Song[];
   album: {
-    albumName: string
-    albumArtist: string
-    albumCover: string
-  }
+    albumName: string;
+    albumArtist: string;
+    albumCover: string;
+  };
 }
 
-const SongRanker: React.FC<SongRankerProps> = ({ songs, album }) => {
-  const router = useRouter()
-  const [currentDuelIndex, setCurrentDuelIndex] = useState<number>(0)
-  const [songsEloScores, setSongsEloScores] = useState(
-    Object.fromEntries(songs.map((song) => [song.id, 1000]))
-  )
-  const [duels, setDuels] = useState<[Song, Song][]>(() => generateDuels(songs))
+const SongRanker: React.FC<SongRankerProps> = ({ album, songs }) => {
+  const router = useRouter();
+  const [currentDuelIndex, setCurrentDuelIndex] = useState<number>(0);
+  const [songsEloScores, setSongsEloScores] = useState(Object.fromEntries(songs.map(song => [song.id, 1000])));
+  const [duels, setDuels] = useState<[Song, Song][]>(() => generateDuels(songs));
 
   const [voteHistory, setVoteHistory] = useState<
     {
-      winnerId: number
-      loserId: number
-      previousWinnerElo: number
-      previousLoserElo: number
+      winnerId: number;
+      loserId: number;
+      previousWinnerElo: number;
+      previousLoserElo: number;
     }[]
-  >([])
+  >([]);
 
   const handleVote = (winnerId: number, loserId: number) => {
-    const previousWinnerElo = songsEloScores[winnerId]
-    const previousLoserElo = songsEloScores[loserId]
-    const { newWinnerElo, newLoserElo } = calculateNewEloScore(
-      previousWinnerElo,
-      previousLoserElo
-    )
-    setSongsEloScores((prevEloScores) => ({
+    const previousWinnerElo = songsEloScores[winnerId];
+    const previousLoserElo = songsEloScores[loserId];
+    const { newLoserElo, newWinnerElo } = calculateNewEloScore(previousWinnerElo, previousLoserElo);
+    setSongsEloScores(prevEloScores => ({
       ...prevEloScores,
-      [winnerId]: newWinnerElo,
       [loserId]: newLoserElo,
-    }))
-    setVoteHistory((prevHistory) => [
-      ...prevHistory,
-      { winnerId, loserId, previousWinnerElo, previousLoserElo },
-    ])
-    const nextDuelIndex = currentDuelIndex + 1
-    setCurrentDuelIndex(nextDuelIndex)
+      [winnerId]: newWinnerElo,
+    }));
+    setVoteHistory(prevHistory => [...prevHistory, { loserId, previousLoserElo, previousWinnerElo, winnerId }]);
+    const nextDuelIndex = currentDuelIndex + 1;
+    setCurrentDuelIndex(nextDuelIndex);
 
     // Vérifier si le classement est terminé et rediriger si nécessaire
     if (nextDuelIndex >= duels.length) {
-      const songsWithEloScores = songs.map((song) => ({
-        song,
+      const songsWithEloScores = songs.map(song => ({
         eloScore: songsEloScores[song.id],
-      }))
-      const songRankingParams = generateSongsRankingURI(
-        songsWithEloScores,
-        album
-      )
-      router.push(`/resultcard?${songRankingParams}`)
+        song,
+      }));
+      const songRankingParams = generateSongsRankingURI(songsWithEloScores, album);
+      router.push(`/resultcard?${songRankingParams}`);
     }
-  }
+  };
 
   const handleUndo = () => {
     if (currentDuelIndex > 0) {
-      const lastVote = voteHistory[voteHistory.length - 1]
-      const { winnerId, loserId, previousWinnerElo, previousLoserElo } =
-        lastVote
+      const lastVote = voteHistory[voteHistory.length - 1];
+      const { loserId, previousLoserElo, previousWinnerElo, winnerId } = lastVote;
 
-      const { revertedWinnerElo, revertedLoserElo } = revertEloScore(
-        previousWinnerElo,
-        previousLoserElo
-      )
+      const { revertedLoserElo, revertedWinnerElo } = revertEloScore(previousWinnerElo, previousLoserElo);
 
       // Restaurer les scores ELO précédents en utilisant revertEloScore
-      setSongsEloScores((prevEloScores) => ({
+      setSongsEloScores(prevEloScores => ({
         ...prevEloScores,
-        [winnerId]: revertedWinnerElo,
         [loserId]: revertedLoserElo,
-      }))
+        [winnerId]: revertedWinnerElo,
+      }));
       // Supprimer le dernier vote de l'historique
-      setVoteHistory((prevHistory) => prevHistory.slice(0, -1))
+      setVoteHistory(prevHistory => prevHistory.slice(0, -1));
       // Décrémenter l'index du duel
-      setCurrentDuelIndex((prevIndex) => prevIndex - 1)
+      setCurrentDuelIndex(prevIndex => prevIndex - 1);
     }
-  }
+  };
 
-  const isRankingFinished: boolean = currentDuelIndex >= duels.length
-  const [songA, songB] = isRankingFinished
-    ? [null, null]
-    : duels[currentDuelIndex]
+  const isRankingFinished: boolean = currentDuelIndex >= duels.length;
+  const [songA, songB] = isRankingFinished ? [null, null] : duels[currentDuelIndex];
 
-  const completionPercentage = (currentDuelIndex / duels.length) * 100
+  const completionPercentage = (currentDuelIndex / duels.length) * 100;
 
   return (
     <AuroraBackground className="overflow-hidden pt-0 versuscontainer_pwa">
@@ -123,7 +106,7 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs, album }) => {
           ease: 'easeInOut',
         }}
         className={cn(
-          'w-full h-[100svh] text-primary relative flex flex-col gap-4 sm:gap-20 items-center justify-center sm:justify-center'
+          'w-full h-[100svh] text-primary relative flex flex-col gap-4 sm:gap-20 items-center justify-center sm:justify-center',
         )}
       >
         {!isRankingFinished && (
@@ -139,9 +122,7 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs, album }) => {
               </h1>
             </div>
             <div className="w-full flex flex-col items-center gap-4">
-              <p className="text-lg font-mono font-bold select-none">
-                {completionPercentage.toFixed(0)} %
-              </p>
+              <p className="text-lg font-mono font-bold select-none">{completionPercentage.toFixed(0)} %</p>
               <div className="w-4/5 flex flex-col justify-around items-center gap-20 sm:flex-row">
                 {songB && songA && (
                   <SongButton
@@ -149,13 +130,11 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs, album }) => {
                     song={songA}
                     onVote={() => handleVote(songA.id, songB.id)}
                     animationProps={{
+                      animate: { opacity: 1, x: 0, y: 0 },
                       initial: {
                         opacity: 0,
-                        ...(isBrowser && window.innerWidth < 640
-                          ? { x: 300 }
-                          : { y: 500 }),
+                        ...(isBrowser && window.innerWidth < 640 ? { x: 300 } : { y: 500 }),
                       },
-                      animate: { opacity: 1, x: 0, y: 0 },
                       transition: { duration: 0.5, ease: 'easeInOut' },
                     }}
                   />
@@ -175,13 +154,11 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs, album }) => {
                     song={songB}
                     onVote={() => handleVote(songB.id, songA.id)}
                     animationProps={{
+                      animate: { opacity: 1, x: 0, y: 0 },
                       initial: {
                         opacity: 0,
-                        ...(isBrowser && window.innerWidth < 640
-                          ? { x: -300 }
-                          : { y: -500 }),
+                        ...(isBrowser && window.innerWidth < 640 ? { x: -300 } : { y: -500 }),
                       },
-                      animate: { opacity: 1, x: 0, y: 0 },
                       transition: { duration: 0.5, ease: 'easeInOut' },
                     }}
                   />
@@ -192,7 +169,7 @@ const SongRanker: React.FC<SongRankerProps> = ({ songs, album }) => {
         )}
       </motion.div>
     </AuroraBackground>
-  )
-}
+  );
+};
 
-export default SongRanker
+export default SongRanker;

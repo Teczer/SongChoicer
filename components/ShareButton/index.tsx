@@ -1,32 +1,28 @@
-'use client'
-import { Button } from '@/components/ui/button'
-import useClipboard from '@/hooks/useClipboard'
-import useWebShare from '@/hooks/useWebShare'
-import React from 'react'
+'use client';
+import React from 'react';
 
-export default function ShareButton({
-  title,
-  text,
-  url,
-  children,
-}: ShareData & { children: React.ReactNode }) {
-  const { isSupported, share, error } = useWebShare()
-  const { copyToClipboard, clipboardSuccess, clipboardError } = useClipboard()
+import { Button } from '@/components/ui/button';
+import useClipboard from '@/hooks/useClipboard';
+import useWebShare from '@/hooks/useWebShare';
+
+export default function ShareButton({ children, text, title, url }: ShareData & { children: React.ReactNode }) {
+  const { error, isSupported, share } = useWebShare();
+  const { clipboardError, clipboardSuccess, copyToClipboard } = useClipboard();
 
   const handleShare = async () => {
     share({
-      title,
       text,
+      title,
       url,
-    })
+    });
 
     if (url) {
-      await copyToClipboard(url)
+      await copyToClipboard(url);
     }
-  }
+  };
 
   if (error) {
-    console.log(error)
+    console.log(error);
     // toast.error(`Une erreur est survenu pour le partage de ${url}, : ${error}`)
   }
 
@@ -35,12 +31,12 @@ export default function ShareButton({
   }
 
   if (!isSupported) {
-    return <p className="hidden">Not Supported Device</p>
+    return <p className="hidden">Not Supported Device</p>;
   }
 
   return (
     <Button size={'icon'} variant={'outline'} onClick={handleShare}>
       {children}
     </Button>
-  )
+  );
 }

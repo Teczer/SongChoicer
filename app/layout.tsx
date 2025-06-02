@@ -1,13 +1,13 @@
-import type { Metadata } from 'next'
-import type { Viewport } from 'next'
+import './globals.css';
+
+import { GeistMono } from 'geist/font/mono';
+import { GeistSans } from 'geist/font/sans';
 // import { WithContext, Person } from 'schema-dts'
+import type { Metadata } from 'next';
+import type { Viewport } from 'next';
 
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
-
-import './globals.css'
-import QueryProvider from '@/components/QueryProvider'
-import ThemeProvider from '@/components/ThemeProvider'
+import QueryProvider from '@/components/QueryProvider';
+import ThemeProvider from '@/components/ThemeProvider';
 
 // const jsonLd: WithContext<Person> = {
 //   '@context': 'https://schema.org',
@@ -29,80 +29,63 @@ import ThemeProvider from '@/components/ThemeProvider'
 // )
 
 export const metadata: Metadata = {
-  title: 'Song Choicer • Rank your albums',
-  description:
-    'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
-  icons: {
-    icon: ['/favicon.ico'],
-    apple: ['/apple-touch-icon.png'],
-    shortcut: ['/apple-touch-icon.png'],
-    host: 'Song Choicer',
-  },
-  manifest: '/manifest.json',
-  robots: { index: true, follow: true },
   appleWebApp: {
     capable: true,
-    title: 'Song Choicer • Song Ranking',
     statusBarStyle: 'black-translucent',
+    title: 'Song Choicer • Song Ranking',
   },
-  keywords: [
-    'music',
-    'ranker',
-    'musique',
-    'ranking',
-    'songs',
-    'vote',
-    'MusicRanker',
-    'Song Choicer',
-  ],
+  description: 'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
+  icons: {
+    apple: ['/apple-touch-icon.png'],
+    host: 'Song Choicer',
+    icon: ['/favicon.ico'],
+    shortcut: ['/apple-touch-icon.png'],
+  },
+  keywords: ['music', 'ranker', 'musique', 'ranking', 'songs', 'vote', 'MusicRanker', 'Song Choicer'],
+  manifest: '/manifest.json',
   openGraph: {
+    description: 'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
+    images: ['https://songchoicer.com/android-chrome-512x512.png'],
+    siteName: 'Song Choicer • Rank your albums',
+    title: 'Song Choicer • Song Ranking',
     type: 'website',
     url: 'Song Choicer',
-    title: 'Song Choicer • Song Ranking',
-    description:
-      'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
-    siteName: 'Song Choicer • Rank your albums',
-    images: ['https://songchoicer.com/android-chrome-512x512.png'],
   },
+  robots: { follow: true, index: true },
+  title: 'Song Choicer • Rank your albums',
   twitter: {
     card: 'summary_large_image',
-    site: 'Song Choicer',
     creator: '@Teczer_',
+    description: 'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
     images: 'https://songchoicer.com/android-chrome-512x512.png',
+    site: 'Song Choicer',
     title: 'Song Choicer • Rank your albums',
-    description:
-      'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
   },
-}
+};
 
 export const viewport: Viewport = {
-  width: 'device-width',
   initialScale: 1,
-  minimumScale: 1,
   maximumScale: 1,
+  minimumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
-}
+  width: 'device-width',
+};
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
       {/* <JSONLD data={jsonLd} /> */}
       <body className="min-h-[100svh] max-w-screen overflow-x-hidden">
         <QueryProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
             {children}
           </ThemeProvider>
         </QueryProvider>
       </body>
     </html>
-  )
+  );
 }

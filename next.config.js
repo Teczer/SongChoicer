@@ -8,20 +8,21 @@ const hosts = [
   'placehold.co',
   'i.scdn.co',
   'reflect.app',
-]
+  'lh3.googleusercontent.com',
+];
 
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
   skipWaiting: true,
-})
+});
 
 const nextConfig = withPWA({
   images: {
-    remotePatterns: hosts.map((host) => ({
+    remotePatterns: hosts.map(host => ({
       hostname: host,
     })),
   },
-})
+});
 
-module.exports = nextConfig
+module.exports = nextConfig;

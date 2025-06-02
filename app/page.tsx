@@ -1,46 +1,39 @@
-'use client'
+'use client';
 
-import { useMemo, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import useDebounce from '@/hooks/useDebounce'
+import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
+import { AlbumDetailed } from 'ytmusic-api';
 
-import { searchFromApi } from './api/search/methods'
+import { AlbumCard } from '@/components/AlbumCard';
+import { AlbumCardSkeleton } from '@/components/AlbumCardSkeleton';
+import FooterCopyrights from '@/components/FooterCopyrights';
+import HeroSectionImage from '@/components/HeroSectionImage';
+import ThemeToggleButton from '@/components/ThemeToggleButton';
+import { AuroraBackground } from '@/components/ui/aurora-background';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import useDebounce from '@/hooks/useDebounce';
+import { cn } from '@/lib/utils';
 
-import Link from 'next/link'
-import Image from 'next/image'
-
-import { motion } from 'framer-motion'
-
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { AuroraBackground } from '@/components/ui/aurora-background'
-import { AlbumCard } from '@/components/AlbumCard'
-import { AlbumCardSkeleton } from '@/components/AlbumCardSkeleton'
-import HeroSectionImage from '@/components/HeroSectionImage'
-import FooterCopyrights from '@/components/FooterCopyrights'
-import ThemeToggleButton from '@/components/ThemeToggleButton'
-import { cn } from '@/lib/utils'
+import { searchFromYtbmusicApi } from './api/ytbmusic/search/method';
 
 export default function Home() {
-  const [artist, setArtist] = useState<string>('')
-  const [album, setAlbum] = useState<string>('')
-  const debouncedQuery = useDebounce([artist, album], 500)
+  const [artist, setArtist] = useState<string>('');
+  const [album, setAlbum] = useState<string>('');
+  const debouncedQuery = useDebounce([artist, album], 500);
 
   const {
-    data: results,
-    isLoading,
+    data: albums,
     isError,
-  } = useQuery<Album[] | undefined>({
-    queryKey: ['albums', ...debouncedQuery],
-    queryFn: () => searchFromApi(`${debouncedQuery[0]} ${debouncedQuery[1]}`),
+    isLoading,
+  } = useQuery<AlbumDetailed[] | undefined>({
     enabled: Boolean(debouncedQuery[0]) || Boolean(debouncedQuery[1]),
-  })
-
-  const filteredAlbums = useMemo(() => {
-    return results?.filter((item) =>
-      item.name.toLowerCase().includes(album.toLowerCase())
-    )
-  }, [results, album])
+    queryFn: () => searchFromYtbmusicApi(`${debouncedQuery[0]} ${debouncedQuery[1]}`),
+    queryKey: ['albums', ...debouncedQuery],
+  });
 
   return (
     <AuroraBackground className="pt-4 homepagecontainer_pwa">
@@ -64,9 +57,7 @@ export default function Home() {
           height={512}
           className="absolute top-4 right-4 sm:top-10 sm:left-10 w-10 border border-black border-opacity-10 drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)] rounded-sm dark:border-white dark:border-opacity-10 dark:drop-shadow-[0_1px_4px_rgba(255,255,255,0.1)]"
         />
-        <h1 className="text-3xl md:text-7xl font-bold dark:text-white text-center mb-2">
-          Welcome to Song Choicer!
-        </h1>
+        <h1 className="text-3xl md:text-7xl font-bold dark:text-white text-center mb-2">Welcome to Song Choicer!</h1>
         <p className="text-md md:text-lg text-center dark:text-white">
           Make a ranking of songs of an album easily and share it !
         </p>
@@ -78,7 +69,7 @@ export default function Home() {
               placeholder="Taylor Swift, Drake, etc..."
               type="text"
               value={artist}
-              onChange={(e) => setArtist(e.target.value)}
+              onChange={e => setArtist(e.target.value)}
             />
           </div>
           <div className="text-primary flex flex-col justify-center items-start gap-2">
@@ -88,7 +79,7 @@ export default function Home() {
               placeholder="Lover, Scorpion, etc..."
               type="text"
               value={album}
-              onChange={(e) => setAlbum(e.target.value)}
+              onChange={e => setAlbum(e.target.value)}
             />
           </div>
         </form>
@@ -101,22 +92,15 @@ export default function Home() {
         )}
         {isError && (
           <p className="text-red-600 font-bold">
-            No album found. Please check if the artist name or album title is
-            correct.
+            No album found. Please check if the artist name or album title is correct.
           </p>
         )}
-        {!isLoading && !results && <HeroSectionImage />}
-        <ul
-          className={cn(
-            `w-full flex flex-wrap justify-center items-center gap-6 ${
-              filteredAlbums ? '' : 'hidden'
-            }`
-          )}
-        >
-          {filteredAlbums &&
-            filteredAlbums.map((album) => (
-              <li key={album.id}>
-                <Link href={`/versus/${album.id}`}>
+        {!isLoading && !albums && <HeroSectionImage />}
+        <ul className={cn(`w-full flex flex-wrap justify-center items-center gap-6 ${albums ? '' : 'hidden'}`)}>
+          {albums &&
+            albums.map(album => (
+              <li key={album.albumId}>
+                <Link href={`/versus/${album.albumId}`}>
                   <AlbumCard album={album} />
                 </Link>
               </li>
@@ -125,5 +109,5 @@ export default function Home() {
         <FooterCopyrights />
       </motion.div>
     </AuroraBackground>
-  )
+  );
 }

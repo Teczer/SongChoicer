@@ -1,23 +1,15 @@
-import Link from 'next/link'
+import Link from 'next/link';
+import { FaGithub } from 'react-icons/fa6';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '@/components/ui/hover-card'
-
-import { FaGithub } from 'react-icons/fa6'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 
 function CreatorHoverCard() {
   return (
     <HoverCard openDelay={150}>
       <HoverCardTrigger asChild>
-        <Button
-          className="underline px-1 transition-all hover:scale-105"
-          variant="link"
-        >
+        <Button className="underline px-1 transition-all hover:scale-105" variant="link">
           @Teczer
         </Button>
       </HoverCardTrigger>
@@ -44,7 +36,7 @@ function CreatorHoverCard() {
         </div>
       </HoverCardContent>
     </HoverCard>
-  )
+  );
 }
 
-export default CreatorHoverCard
+export default CreatorHoverCard;

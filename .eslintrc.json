@@ -1,3 +1,33 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals", "prettier"],
+  "plugins": ["prettier", "simple-import-sort", "unused-imports", "perfectionist", "sort-keys"],
+  "rules": {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "perfectionist/sort-interfaces": ["error"],
+    "perfectionist/sort-objects": [
+      "error",
+      {
+        "type": "alphabetical"
+      }
+    ],
+    "prettier/prettier": "error",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+        "vars": "all",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "sort-keys/sort-keys-fix": "warn"
+  },
+  "settings": {
+    "perfectionist": {
+      "partitionByComment": true,
+      "type": "line-length"
+    }
+  }
 }

@@ -1,27 +1,25 @@
-import React from 'react'
-import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import React from 'react';
+
+import { Song } from '@/interfaces/song';
 
 interface SongButtonProps {
-  song: Song
-  onVote: (id: number) => void
-  animationProps: any
+  song: Song;
+  animationProps: any;
+  onVote: (id: number) => void;
 }
 
-export const SongButton: React.FC<SongButtonProps> = ({
-  song,
-  onVote,
-  animationProps,
-}) => {
+export const SongButton: React.FC<SongButtonProps> = ({ animationProps, onVote, song }) => {
   const hoverAnimation = {
-    y: -50,
     transition: { duration: 0.2 }, // Animation plus rapide
-  }
+    y: -50,
+  };
 
   const initialAnimation = {
-    y: 0,
     transition: { duration: 0.02 }, // Retour plus rapide
-  }
+    y: 0,
+  };
 
   return (
     <motion.div
@@ -42,7 +40,7 @@ export const SongButton: React.FC<SongButtonProps> = ({
       />
       <p className="font-bold text-lg">{song.title}</p>
     </motion.div>
-  )
-}
+  );
+};
 
-export default SongButton
+export default SongButton;

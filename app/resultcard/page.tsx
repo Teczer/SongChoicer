@@ -1,8 +1,8 @@
-import { Suspense } from 'react'
+import { Suspense } from 'react';
 
-import SongResultCard from '@/components/SongResultCard'
-import { AuroraBackground } from '@/components/ui/aurora-background'
-import { AlbumCardSkeleton } from '@/components/AlbumCardSkeleton'
+import { AlbumCardSkeleton } from '@/components/AlbumCardSkeleton';
+import SongResultCard from '@/components/SongResultCard';
+import { AuroraBackground } from '@/components/ui/aurora-background';
 
 export default function Home() {
   return (
@@ -17,5 +17,5 @@ export default function Home() {
         <SongResultCard />
       </Suspense>
     </AuroraBackground>
-  )
+  );
 }

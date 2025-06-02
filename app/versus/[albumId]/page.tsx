@@ -1,53 +1,55 @@
-'use client'
+'use client';
 
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
+import { AlbumFull } from 'ytmusic-api';
 
-import { AlbumResponse, getAlbum } from '@/app/api/album/methods'
-
-import SongRanker from '@/components/SongRanker'
-import { useMemo } from 'react'
-import { VersusSkeletonLoader } from '@/components/VersusSkeletonLoader'
+import { getAlbumFromYtbmusicApi } from '@/app/api/ytbmusic/album/method';
+import SongRanker from '@/components/SongRanker';
+import { VersusSkeletonLoader } from '@/components/VersusSkeletonLoader';
+import { Song } from '@/interfaces/song';
 
 interface Props {
   params: {
-    albumId: string
-  }
+    albumId: string;
+  };
 }
 
 export default function Home({ params }: Props) {
   const {
-    data: results,
-    isLoading,
+    data: albumData,
     isError,
-  } = useQuery<AlbumResponse>({
-    queryKey: ['album', params.albumId],
+    isLoading,
+  } = useQuery<AlbumFull | undefined>({
     queryFn: async () => {
-      const res = await getAlbum(params.albumId)
-      return res
+      const res = await getAlbumFromYtbmusicApi(params.albumId);
+      return res;
     },
-  })
+    queryKey: ['album', params.albumId],
+  });
 
-  const data: Song[] | undefined = useMemo(
+  console.log('albumData', albumData);
+  const songs: Song[] | undefined = useMemo(
     () =>
-      results?.tracks.items.map((track, index) => {
+      albumData?.songs.map((track, index) => {
         return {
           id: index + 1,
+          image: track?.thumbnails[3] ?? '',
           title: track.name,
-          image: results.images[0],
-        }
+        };
       }),
-    [results?.tracks.items.length]
-  )
+    [albumData?.songs, albumData?.thumbnails],
+  );
 
   const album = {
-    albumName: results?.name ?? '',
-    albumArtist: results?.artists[0].name ?? '',
-    albumCover: results?.images[0].url ?? '',
-  }
+    albumArtist: albumData?.artist.name ?? '',
+    albumCover: albumData?.thumbnails[3].url ?? '',
+    albumName: albumData?.name ?? '',
+  };
 
-  if (isLoading || !results) return <VersusSkeletonLoader />
+  if (isLoading || !albumData) return <VersusSkeletonLoader />;
 
-  if (isError) return <div>An error occured</div>
+  if (isError) return <div>An error occured</div>;
 
-  return <SongRanker songs={data ?? []} album={album} />
+  return <SongRanker songs={songs ?? []} album={album} />;
 }

@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import { FaArrowDownLong, FaArrowRightLong } from 'react-icons/fa6'
+import Image from 'next/image';
+import { FaArrowDownLong, FaArrowRightLong } from 'react-icons/fa6';
 
 const HeroSectionImage: React.FC = () => {
   return (
@@ -56,7 +56,7 @@ const HeroSectionImage: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HeroSectionImage
+export default HeroSectionImage;

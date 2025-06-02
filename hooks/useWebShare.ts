@@ -1,38 +1,38 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
 export interface ShareData {
-  title?: string
-  text?: string
-  url?: string
+  url?: string;
+  text?: string;
+  title?: string;
 }
 
 function useWebShare() {
-  const [isSupported, setIsSupported] = useState<boolean>(false)
-  const [error, setError] = useState<string | null>(null)
+  const [isSupported, setIsSupported] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Check if navigator share is supported
   useEffect(() => {
     // @ts-ignore
     if (navigator?.share) {
-      setIsSupported(true)
+      setIsSupported(true);
     }
-  }, [])
+  }, []);
 
-  const share = async ({ title, text, url }: ShareData) => {
+  const share = async ({ text, title, url }: ShareData) => {
     if (isSupported) {
       try {
-        await navigator.share({ title, text, url })
-        setError(null)
+        await navigator.share({ text, title, url });
+        setError(null);
       } catch (err) {
-        console.log(err)
-        setError((err as Error).message)
+        console.log(err);
+        setError((err as Error).message);
       }
     } else {
-      setError('Web Share API not supported in this browser.')
+      setError('Web Share API not supported in this browser.');
     }
-  }
+  };
 
-  return { isSupported, share, error }
+  return { error, isSupported, share };
 }
 
-export default useWebShare
+export default useWebShare;

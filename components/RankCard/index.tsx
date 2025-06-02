@@ -1,20 +1,18 @@
-import Image from 'next/image'
-import React from 'react'
-import { CardBody, CardContainer, CardItem } from '../ui/3d-card'
+import Image from 'next/image';
+import React from 'react';
+
+import { SimpleSong } from '@/interfaces/song';
+
+import { CardBody, CardContainer, CardItem } from '../ui/3d-card';
 
 interface RankCardProps {
-  songsRanked: SimpleSong[]
-  albumCover: string
-  albumName: string
-  albumArtist: string
+  albumName: string;
+  albumCover: string;
+  albumArtist: string;
+  songsRanked: SimpleSong[];
 }
 
-export function RankCard({
-  songsRanked,
-  albumCover,
-  albumName,
-  albumArtist,
-}: RankCardProps) {
+export function RankCard({ albumArtist, albumCover, albumName, songsRanked }: RankCardProps) {
   return (
     <CardContainer className="w-full group rounded-xl select-none sm:w-auto">
       <CardBody className="bg-transparent h-auto border border-black/[0.1] relative group/card hover:shadow-2xl hover:shadow-yellow-500/[0.1] w-full sm:w-[35rem] rounded-xl p-6 dark:border-white/[0.1]">
@@ -46,8 +44,7 @@ export function RankCard({
 
         <ul className="flex flex-col items-start justify-center w-full h-auto gap-2">
           {songsRanked.map((song, index) => {
-            const widthPercentage =
-              index > 4 ? '60%' : `${Math.max(100 - (index % 10) * 10, 10)}%`
+            const widthPercentage = index > 4 ? '60%' : `${Math.max(100 - (index % 10) * 10, 10)}%`;
 
             return (
               <CardItem
@@ -60,7 +57,7 @@ export function RankCard({
                 <span>{index + 1}. </span>
                 <p>{song.title}</p>
               </CardItem>
-            )
+            );
           })}
         </ul>
         <p className="rounded-sm p-1 bg-black bg-opacity-30 font-mono absolute bottom-8 right-3 text-white text-opacity-70 text-wrap text-xs sm:text-sm">
@@ -68,5 +65,5 @@ export function RankCard({
         </p>
       </CardBody>
     </CardContainer>
-  )
+  );
 }

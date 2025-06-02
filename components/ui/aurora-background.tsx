@@ -1,15 +1,16 @@
-'use client'
-import { cn } from '@/lib/utils'
-import React, { ReactNode } from 'react'
+'use client';
+import React, { ReactNode } from 'react';
+
+import { cn } from '@/lib/utils';
 
 interface AuroraBackgroundProps extends React.HTMLProps<HTMLDivElement> {
-  children: ReactNode
-  showRadialGradient?: boolean
+  children: ReactNode;
+  showRadialGradient?: boolean;
 }
 
 export const AuroraBackground = ({
-  className,
   children,
+  className,
   showRadialGradient = true,
   ...props
 }: AuroraBackgroundProps) => {
@@ -18,7 +19,7 @@ export const AuroraBackground = ({
       className={cn(
         'pt-20 min-h-[100svh] w-full absolute inset-0 sm:dark:bg-grid-small-transparent sm:bg-grid-small-transparent',
         'sm:absolute sm:min-h-[100svh] sm:w-full sm:inset-0 sm:overflow-x-hidden',
-        className
+        className,
       )}
       {...props}
     >
@@ -41,12 +42,11 @@ export const AuroraBackground = ({
           'sm:after:[background-size:200%,_100%]',
           'sm:after:animate-aurora sm:after:[background-attachment:fixed] sm:after:mix-blend-difference',
           'sm:pointer-events-none sm:absolute sm:-inset-[10px] sm:opacity-50 sm:will-change-transform',
-          showRadialGradient &&
-            'sm:[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,var(--transparent)_70%)]',
-          '[mask-image:radial-gradient(ellipse_at_center,transparent_10%,black)]'
+          showRadialGradient && 'sm:[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,var(--transparent)_70%)]',
+          '[mask-image:radial-gradient(ellipse_at_center,transparent_10%,black)]',
         )}
       ></div>
       {children}
     </div>
-  )
-}
+  );
+};
