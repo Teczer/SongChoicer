@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://songchoicer.com/</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <!-- URL dynamique pour les pages "versus" avec un identifiant variable -->
-    <loc>https://songchoicer.com/versus/:id</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <!-- URL dynamique pour les pages "resultcard" avec un identifiant variable ?albumImage=... -->
-    <loc>https://songchoicer.com/resultcard</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <!-- URL dynamique pour les pages "test" avec un identifiant variable -->
-    <loc>https://songchoicer.com/test</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.1</priority>
-  </url>
-</urlset>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<sitemap><loc>https://songchoicer.com/sitemap-0.xml</loc></sitemap>
+</sitemapindex>

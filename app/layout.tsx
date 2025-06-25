@@ -6,10 +6,11 @@ import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 import type { Viewport } from 'next';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { Suspense } from 'react';
 
+import { PostHogProvider } from '@/components/PostHogProvider';
 import QueryProvider from '@/components/QueryProvider';
 import ThemeProvider from '@/components/ThemeProvider';
-import { PostHogProvider } from '@/components/PostHogProvider';
 
 // const jsonLd: WithContext<Person> = {
 //   '@context': 'https://schema.org',
@@ -31,6 +32,9 @@ import { PostHogProvider } from '@/components/PostHogProvider';
 // )
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://songchoicer.com',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
@@ -87,7 +91,7 @@ export default function RootLayout({
           <NuqsAdapter>
             <QueryProvider>
               <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                {children}
+                <Suspense>{children}</Suspense>
               </ThemeProvider>
             </QueryProvider>
           </NuqsAdapter>
