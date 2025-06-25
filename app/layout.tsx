@@ -5,6 +5,7 @@ import { GeistSans } from 'geist/font/sans';
 // import { WithContext, Person } from 'schema-dts'
 import type { Metadata } from 'next';
 import type { Viewport } from 'next';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import QueryProvider from '@/components/QueryProvider';
 import ThemeProvider from '@/components/ThemeProvider';
@@ -80,11 +81,13 @@ export default function RootLayout({
     <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
       {/* <JSONLD data={jsonLd} /> */}
       <body className="min-h-[100svh] max-w-screen overflow-x-hidden">
-        <QueryProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            {children}
-          </ThemeProvider>
-        </QueryProvider>
+        <NuqsAdapter>
+          <QueryProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+              {children}
+            </ThemeProvider>
+          </QueryProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

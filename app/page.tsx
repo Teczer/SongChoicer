@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { parseAsString, useQueryStates } from 'nuqs';
 import { AlbumDetailed } from 'ytmusic-api';
 
 import { AlbumCard } from '@/components/AlbumCard';
@@ -21,8 +21,17 @@ import { cn } from '@/lib/utils';
 import { searchFromYtbmusicApi } from './api/ytbmusic/search/method';
 
 export default function Home() {
-  const [artist, setArtist] = useState<string>('');
-  const [album, setAlbum] = useState<string>('');
+  const [{ album, artist }, setSearchParams] = useQueryStates(
+    {
+      album: parseAsString.withDefault(''),
+      artist: parseAsString.withDefault(''),
+    },
+    {
+      history: 'push',
+      shallow: false,
+    },
+  );
+
   const debouncedQuery = useDebounce([artist, album], 500);
 
   const {
@@ -34,6 +43,14 @@ export default function Home() {
     queryFn: () => searchFromYtbmusicApi(`${debouncedQuery[0]} ${debouncedQuery[1]}`),
     queryKey: ['albums', ...debouncedQuery],
   });
+
+  const handleArtistChange = (value: string) => {
+    setSearchParams({ artist: value });
+  };
+
+  const handleAlbumChange = (value: string) => {
+    setSearchParams({ album: value });
+  };
 
   return (
     <AuroraBackground className="pt-4 homepagecontainer_pwa">
@@ -69,7 +86,7 @@ export default function Home() {
               placeholder="Taylor Swift, Drake, etc..."
               type="text"
               value={artist}
-              onChange={e => setArtist(e.target.value)}
+              onChange={e => handleArtistChange(e.target.value)}
             />
           </div>
           <div className="text-primary flex flex-col justify-center items-start gap-2">
@@ -79,7 +96,7 @@ export default function Home() {
               placeholder="Lover, Scorpion, etc..."
               type="text"
               value={album}
-              onChange={e => setAlbum(e.target.value)}
+              onChange={e => handleAlbumChange(e.target.value)}
             />
           </div>
         </form>
