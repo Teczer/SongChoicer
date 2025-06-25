@@ -9,6 +9,7 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import QueryProvider from '@/components/QueryProvider';
 import ThemeProvider from '@/components/ThemeProvider';
+import { PostHogProvider } from '@/components/PostHogProvider';
 
 // const jsonLd: WithContext<Person> = {
 //   '@context': 'https://schema.org',
@@ -72,6 +73,7 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
   width: 'device-width',
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -81,13 +83,15 @@ export default function RootLayout({
     <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
       {/* <JSONLD data={jsonLd} /> */}
       <body className="min-h-[100svh] max-w-screen overflow-x-hidden">
-        <NuqsAdapter>
-          <QueryProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-              {children}
-            </ThemeProvider>
-          </QueryProvider>
-        </NuqsAdapter>
+        <PostHogProvider>
+          <NuqsAdapter>
+            <QueryProvider>
+              <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                {children}
+              </ThemeProvider>
+            </QueryProvider>
+          </NuqsAdapter>
+        </PostHogProvider>
       </body>
     </html>
   );

@@ -3,7 +3,8 @@
 import * as htmlToImage from 'html-to-image';
 import { decompressFromEncodedURIComponent } from 'lz-string';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useRef } from 'react';
+import posthog from 'posthog-js';
+import { useEffect, useRef } from 'react';
 import { FaShareAlt } from 'react-icons/fa';
 import { RxTrackPrevious } from 'react-icons/rx';
 
@@ -58,6 +59,16 @@ export default function SongResultCard() {
   //   { id: 1, title: 'Titre 2' },
   //   { id: 2, title: 'Titre 3' },
   // ]
+
+  useEffect(() => {
+    posthog.capture('versus_result.viewed', {
+      album_artist: albumArtist,
+      album_cover: albumCover,
+      album_name: albumName,
+      songs_ranked: songsRanked.map((song: any) => song.title).join(', '),
+      total_track: songsRanked.length,
+    });
+  }, []);
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-start gap-4 px-2 sm:py-6">

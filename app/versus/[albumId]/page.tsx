@@ -1,7 +1,8 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import posthog from 'posthog-js';
+import { useEffect, useMemo } from 'react';
 import { AlbumFull } from 'ytmusic-api';
 
 import { getAlbumFromYtbmusicApi } from '@/app/api/ytbmusic/album/method';
@@ -46,6 +47,17 @@ export default function Home({ params }: Props) {
     albumCover: albumData?.thumbnails[3].url ?? '',
     albumName: albumData?.name ?? '',
   };
+
+  useEffect(() => {
+    if (!isLoading && !isError && albumData) {
+      posthog.capture('versus.viewed', {
+        album_artist: albumData.artist.name,
+        album_id: params.albumId,
+        album_name: albumData.name,
+        total_track: albumData.songs.length,
+      });
+    }
+  }, [albumData, isError, isLoading, params.albumId]);
 
   if (isLoading || !albumData) return <VersusSkeletonLoader />;
 
