@@ -16,7 +16,6 @@ COPY . .
 
 # Construisez l'application Next.js
 RUN pnpm run build
-RUN pnpm run postbuild
 
 # Exposez le port sur lequel l'application sera en cours d'exécution
 EXPOSE 5555

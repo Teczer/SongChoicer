@@ -1,4 +1,3 @@
-version: '3'
 services:
   songchoicer:
     container_name: songchoicer
