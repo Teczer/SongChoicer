@@ -11,13 +11,7 @@ const hosts = [
   'lh3.googleusercontent.com',
 ];
 
-const withPWA = require('next-pwa')({
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-});
-
-const nextConfig = withPWA({
+const nextConfig = {
   images: {
     remotePatterns: hosts.map(host => ({
       hostname: host,
@@ -41,6 +35,6 @@ const nextConfig = withPWA({
   },
   // This is required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
-});
+};
 
 module.exports = nextConfig;

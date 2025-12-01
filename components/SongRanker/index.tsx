@@ -32,7 +32,7 @@ const SongRanker: React.FC<SongRankerProps> = ({ album, songs }) => {
   const router = useRouter();
   const [currentDuelIndex, setCurrentDuelIndex] = useState<number>(0);
   const [songsEloScores, setSongsEloScores] = useState(Object.fromEntries(songs.map(song => [song.id, 1000])));
-  const [duels, setDuels] = useState<[Song, Song][]>(() => generateDuels(songs));
+  const [duels] = useState<[Song, Song][]>(() => generateDuels(songs));
 
   const [voteHistory, setVoteHistory] = useState<
     {

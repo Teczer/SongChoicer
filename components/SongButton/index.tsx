@@ -6,8 +6,8 @@ import { Song } from '@/interfaces/song';
 
 interface SongButtonProps {
   song: Song;
+  onVote: () => void;
   animationProps: any;
-  onVote: (id: number) => void;
 }
 
 export const SongButton: React.FC<SongButtonProps> = ({ animationProps, onVote, song }) => {
@@ -24,7 +24,7 @@ export const SongButton: React.FC<SongButtonProps> = ({ animationProps, onVote, 
   return (
     <motion.div
       className="w-full sm:w-1/4 flex select-none flex-col items-center justify-center rounded-lg p-2 gap-5 cursor-pointer grayscale hover:grayscale-0 hover:scale-105"
-      onClick={() => onVote(song.id)}
+      onClick={onVote}
       whileHover={hoverAnimation}
       initial={initialAnimation}
       animate={initialAnimation}

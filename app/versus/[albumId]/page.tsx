@@ -29,7 +29,6 @@ export default function Home({ params }: Props) {
     queryKey: ['album', params.albumId],
   });
 
-  console.log('albumData', albumData);
   const songs: Song[] | undefined = useMemo(
     () =>
       albumData?.songs.map((track, index) => {
@@ -39,7 +38,7 @@ export default function Home({ params }: Props) {
           title: track.name,
         };
       }),
-    [albumData?.songs, albumData?.thumbnails],
+    [albumData?.songs],
   );
 
   const album = {

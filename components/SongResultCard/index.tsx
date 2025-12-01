@@ -68,7 +68,7 @@ export default function SongResultCard() {
       songs_ranked: songsRanked.map((song: any) => song.title).join(', '),
       total_track: songsRanked.length,
     });
-  }, []);
+  }, [albumArtist, albumCover, albumName, songsRanked]);
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-start gap-4 px-2 sm:py-6">

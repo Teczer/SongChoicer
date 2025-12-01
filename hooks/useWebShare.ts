@@ -24,7 +24,6 @@ function useWebShare() {
         await navigator.share({ text, title, url });
         setError(null);
       } catch (err) {
-        console.log(err);
         setError((err as Error).message);
       }
     } else {

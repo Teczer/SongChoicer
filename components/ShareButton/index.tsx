@@ -6,8 +6,8 @@ import useClipboard from '@/hooks/useClipboard';
 import useWebShare from '@/hooks/useWebShare';
 
 export default function ShareButton({ children, text, title, url }: ShareData & { children: React.ReactNode }) {
-  const { error, isSupported, share } = useWebShare();
-  const { clipboardError, clipboardSuccess, copyToClipboard } = useClipboard();
+  const { isSupported, share } = useWebShare();
+  const { clipboardSuccess, copyToClipboard } = useClipboard();
 
   const handleShare = async () => {
     share({
@@ -20,11 +20,6 @@ export default function ShareButton({ children, text, title, url }: ShareData & 
       await copyToClipboard(url);
     }
   };
-
-  if (error) {
-    console.log(error);
-    // toast.error(`Une erreur est survenu pour le partage de ${url}, : ${error}`)
-  }
 
   if (clipboardSuccess) {
     // toast.success(`Copie de ${url}`)
