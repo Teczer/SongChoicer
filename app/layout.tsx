@@ -8,7 +8,6 @@ import type { Viewport } from 'next';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Suspense } from 'react';
 
-import { PostHogProvider } from '@/components/PostHogProvider';
 import QueryProvider from '@/components/QueryProvider';
 import ThemeProvider from '@/components/ThemeProvider';
 
@@ -85,17 +84,14 @@ export default function RootLayout({
 }>) {
   return (
     <html className={`${GeistSans.variable} ${GeistMono.variable}`} lang="en">
-      {/* <JSONLD data={jsonLd} /> */}
       <body className="min-h-[100svh] max-w-screen overflow-x-hidden">
-        <PostHogProvider>
-          <NuqsAdapter>
-            <QueryProvider>
-              <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                <Suspense>{children}</Suspense>
-              </ThemeProvider>
-            </QueryProvider>
-          </NuqsAdapter>
-        </PostHogProvider>
+        <NuqsAdapter>
+          <QueryProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+              <Suspense>{children}</Suspense>
+            </ThemeProvider>
+          </QueryProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

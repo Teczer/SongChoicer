@@ -17,24 +17,6 @@ const nextConfig = {
       hostname: host,
     })),
   },
-  async rewrites() {
-    return [
-      {
-        destination: 'https://eu-assets.i.posthog.com/static/:path*',
-        source: '/ingest/static/:path*',
-      },
-      {
-        destination: 'https://eu.i.posthog.com/:path*',
-        source: '/ingest/:path*',
-      },
-      {
-        destination: 'https://eu.i.posthog.com/decide',
-        source: '/ingest/decide',
-      },
-    ];
-  },
-  // This is required to support PostHog trailing slash API requests
-  skipTrailingSlashRedirect: true,
 };
 
 module.exports = nextConfig;

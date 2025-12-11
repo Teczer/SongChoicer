@@ -3,8 +3,7 @@
 import * as htmlToImage from 'html-to-image';
 import { decompressFromEncodedURIComponent } from 'lz-string';
 import { usePathname, useSearchParams } from 'next/navigation';
-import posthog from 'posthog-js';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { FaShareAlt } from 'react-icons/fa';
 import { RxTrackPrevious } from 'react-icons/rx';
 
@@ -48,27 +47,6 @@ export default function SongResultCard() {
   };
 
   const shareableLink = pathname + searchParams.toString();
-
-  // STATIC DATA
-  // const albumname = 'W.A.R'
-  // const albumArtist = 'Roshi'
-  // const albumCover =
-  //   'https://i.scdn.co/image/ab67616d0000b2732ac57e231c742bda1ef89d3c'
-  // const songsRanked = [
-  //   { id: 0, title: 'Titre 1' },
-  //   { id: 1, title: 'Titre 2' },
-  //   { id: 2, title: 'Titre 3' },
-  // ]
-
-  useEffect(() => {
-    posthog.capture('versus_result.viewed', {
-      album_artist: albumArtist,
-      album_cover: albumCover,
-      album_name: albumName,
-      songs_ranked: songsRanked.map((song: any) => song.title).join(', '),
-      total_track: songsRanked.length,
-    });
-  }, [albumArtist, albumCover, albumName, songsRanked]);
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-start gap-4 px-2 sm:py-6">
