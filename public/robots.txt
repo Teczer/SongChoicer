@@ -11,7 +11,7 @@ User-agent: *
 Disallow: /api/*
 
 # Host
-Host: https://songchoicer.com
+Host: https://songchoicer.mehdihattou.com
 
 # Sitemaps
-Sitemap: https://songchoicer.com/sitemap.xml
+Sitemap: https://songchoicer.mehdihattou.com/sitemap.xml

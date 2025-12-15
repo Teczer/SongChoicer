@@ -18,7 +18,7 @@ import ThemeProvider from '@/components/ThemeProvider';
 //   jobTitle: 'Music Ranking Platform',
 //   description:
 //     'Song Choicer allows users to vote for their favorite albums and see the final rankings.',
-//   image: 'https://songchoicer.com/android-chrome-512x512.png',
+//   image: 'https://songchoicer.mehdihattou.com/android-chrome-512x512.png',
 //   url: 'Song Choicer',
 //   sameAs: ['https://x.com/Mehdi_Hattou'],
 // }
@@ -32,7 +32,7 @@ import ThemeProvider from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
   alternates: {
-    canonical: 'https://songchoicer.com',
+    canonical: 'https://songchoicer.mehdihattou.com',
   },
   appleWebApp: {
     capable: true,
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   openGraph: {
     description: 'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
-    images: ['https://songchoicer.com/android-chrome-512x512.png'],
+    images: ['https://songchoicer.mehdihattou.com/android-chrome-512x512.png'],
     siteName: 'Song Choicer • Rank your albums',
     title: 'Song Choicer • Song Ranking',
     type: 'website',
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     creator: '@Teczer_',
     description: 'Song Choicer allows you to vote for your favorite albums and see the final ranking.',
-    images: 'https://songchoicer.com/android-chrome-512x512.png',
+    images: 'https://songchoicer.mehdihattou.com/android-chrome-512x512.png',
     site: 'Song Choicer',
     title: 'Song Choicer • Rank your albums',
   },

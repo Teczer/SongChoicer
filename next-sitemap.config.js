@@ -7,7 +7,7 @@ const NEXT_SSG_FILES = [
   '/*.js$',
 ];
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://songchoicer.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://songchoicer.mehdihattou.com';
 
 const BLACK_LIST_PATHS = ['api', 'test'];
 
